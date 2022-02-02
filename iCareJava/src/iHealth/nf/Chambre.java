@@ -7,5 +7,5 @@ public class Chambre {
 
     @objid ("fccc8e49-6abf-410f-94bb-2f98a65850f1")
     private int numeroChambre;
-
+    /* coucou */
 }
