@@ -1,5 +1,8 @@
-import com.modeliosoft.modelio.javadesigner.annotations.objid;
+package iHealth.nf;
 
-@objid ("dd630737-cc87-46b4-b785-b4d544447fe6")
+/**
+ *
+ * @author cleme
+ */
 public class ServicesSpeciaux {
 }
