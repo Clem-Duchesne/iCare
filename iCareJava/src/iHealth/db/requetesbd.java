@@ -1,7 +1,5 @@
 package iHealth.db;
-
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -145,25 +143,66 @@ public class requetesbd {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
 
-        String num, date;
+        String num, date_j, date_m, date_a, date_java, date_sql;
         Scanner sc = new Scanner(System.in);
         System.out.println("Veuillez saisir un spectacle : ");
         num = sc.nextLine();
         
+        
+// Détaille de la date
+        System.out.println("Veuillez saisir une date de représentation du spectacle n°" + num + " : ");
+        System.out.println("Le jour : ");
+        date_j = sc.nextLine();
+        System.out.println("Le mois : ");
+        date_m = sc.nextLine();
+        System.out.println("L'année : ");
+        date_a = sc.nextLine();
+        date_java = date_j +"-"+ date_m +"-"+ date_a;
+        date_sql = date_a +"-"+ date_m +"-"+ date_j;
+        
 // Execute the query
         ResultSet rs = stmt.executeQuery("SELECT * FROM LesSpectacles LEFT OUTER JOIN LesRepresentations USING (numS) WHERE numS=" + num);
-        
-        if (rs.next()){
-            System.out.println("Veuillez saisir la date de la représentation de la forme : ");
-            date = sc.nextLine();
-            if(rs.getString(3)!=date){
-                while(rs.getString(3)!=date){
-                    
-                }
-                
-            }else{
-                System.out.println("Cette représentation existe déjà.");
-            }
+        if (rs.next() && rs.getString(3)!=date_sql) {
+                stmt.executeUpdate("INSERT INTO LesRepresentations VALUES (" + num + ",'" + date_java + "')");
+                System.out.println("La représentation a été ajoutée avec succès !");
+        }else{
+            System.out.println("Erreur, la représentation n'a pas été insérée. Cette représentation existe déjà."); // Le else ne fonctionne pas
         }
+// Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+    }
+    
+    public static void suppR(Connection conn) throws SQLException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+
+        String num, date_j, date_m, date_a, date_java, date_sql;
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez saisir un spectacle : ");
+        num = sc.nextLine();
+
+// Détaille de la date
+        System.out.println("Veuillez saisir une date de représentation du spectacle n°" + num + " : ");
+        System.out.println("Le jour : ");
+        date_j = sc.nextLine();
+        System.out.println("Le mois : ");
+        date_m = sc.nextLine();
+        System.out.println("L'année : ");
+        date_a = sc.nextLine();
+        date_java = date_j +"-"+ date_m +"-"+ date_a;
+        date_sql = date_a +"-"+ date_m +"-"+ date_j;
+        
+// Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM LesSpectacles LEFT OUTER JOIN LesRepresentations USING (numS) WHERE numS=" + num);
+        if (rs.next() && rs.getString(3)==date_sql) {
+                stmt.executeUpdate("DELETE FROM LesRepresentations WHERE numS=" + num + " AND dateRep='" + date_java + "'");
+                System.out.println("La représentation a été supprimée avec succès !");
+        }else{
+            System.out.println("Erreur, la représentation n'a pas été supprimée. Cette représentation n'existe."); // Le else ne fonctionne pas
+        }
+// Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
     }
 }

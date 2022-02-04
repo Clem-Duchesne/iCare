@@ -25,6 +25,9 @@ class ConnexionSGBD {
             //requetesbd.employes(conn);
             //requetesbd.numSpec(conn);
             //requetesbd.nomSpec(conn);
+            //requetesbd.repres(conn);
+            //requetesbd.ajoutR(conn);
+            requetesbd.suppR(conn);
             requetesbd.repres(conn);
             
 // Print information about connection warnings
