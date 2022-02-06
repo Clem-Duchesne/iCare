@@ -7,4 +7,6 @@ package iHealth.nf;
 public class Chambre {
     private String service;
     private int numeroChambre;
+    
+    
 }
