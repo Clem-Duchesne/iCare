@@ -139,6 +139,9 @@ public class requetesbd {
 
     }
     
+// 5. Ajouter une représentation à un spectacle existant. Le spectacle sera donné par son
+//    numéro. Si la date de la représentation est déjà existante, un message spécial sera
+//    affiché.
     public static void ajoutR(Connection conn) throws SQLException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -162,7 +165,7 @@ public class requetesbd {
         
 // Execute the query
         ResultSet rs = stmt.executeQuery("SELECT * FROM LesSpectacles LEFT OUTER JOIN LesRepresentations USING (numS) WHERE numS=" + num);
-        if (rs.next() && rs.getString(3)!=date_sql) {
+        if (rs.next()) { // Il faut ajouter une condition --> ajouter ssi la date n'existe pas dans la BD
                 stmt.executeUpdate("INSERT INTO LesRepresentations VALUES (" + num + ",'" + date_java + "')");
                 System.out.println("La représentation a été ajoutée avec succès !");
         }else{
@@ -173,6 +176,8 @@ public class requetesbd {
         stmt.close();
     }
     
+// 6. Enlever une représentation à un spectacle existant. Le spectacle sera donné par son
+//    numéro. Si la date de la représentation n'existe pas, un message spécial sera affiché.
     public static void suppR(Connection conn) throws SQLException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -195,7 +200,7 @@ public class requetesbd {
         
 // Execute the query
         ResultSet rs = stmt.executeQuery("SELECT * FROM LesSpectacles LEFT OUTER JOIN LesRepresentations USING (numS) WHERE numS=" + num);
-        if (rs.next() && rs.getString(3)==date_sql) {
+        if (rs.next()) { // Il faut ajouter une condition --> effacer ssi la date existe dans la BD
                 stmt.executeUpdate("DELETE FROM LesRepresentations WHERE numS=" + num + " AND dateRep='" + date_java + "'");
                 System.out.println("La représentation a été supprimée avec succès !");
         }else{
