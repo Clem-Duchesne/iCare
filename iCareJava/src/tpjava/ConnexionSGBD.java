@@ -1,5 +1,8 @@
-package iHealth.db;
+package tpjava;
 
+import iHealth.db.DatabaseAccessProperties;
+import iHealth.db.SQLWarningsExceptions;
+import tpjava.requetesbd;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
