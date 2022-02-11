@@ -301,12 +301,13 @@ public class Connexion extends javax.swing.JFrame {
                         this.setVisible(false);
                         interfaceSecretaireA.setVisible(true);
                         break;
+                    
+                    case SECRETAIREM:
+                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        this.setVisible(false);
+                        interfaceSecretaireM.setVisible(true);
+                    break;
                     /*
-                        case SECRETAIREM:
-                            Creation_DM interfaceSecretaireM = new Creation_DM();
-                            interfaceSecretaireM.setVisible(true);
-                        break;
-
                         //à compléter
                         default:
                             new Connexion().setVisible(true);
