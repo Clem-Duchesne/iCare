@@ -247,7 +247,7 @@ public class Connexion extends javax.swing.JFrame {
             Poste poste = new Authentification().definirPoste(id);
             switch (poste) {
                 case SECRETAIREA:
-                    Creation_DMA interfaceSecretaireA = new Creation_DMA();
+                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
                     this.setVisible(false);
                     interfaceSecretaireA.setVisible(true);
                     break;
@@ -297,7 +297,7 @@ public class Connexion extends javax.swing.JFrame {
                 Poste poste = new Authentification().definirPoste(id);
                 switch (poste) {
                     case SECRETAIREA:
-                        Creation_DMA interfaceSecretaireA = new Creation_DMA();
+                        Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
                         this.setVisible(false);
                         interfaceSecretaireA.setVisible(true);
                         break;
