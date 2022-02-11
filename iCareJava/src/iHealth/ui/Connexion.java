@@ -7,6 +7,7 @@ package iHealth.ui;
 
 import iHealth.db.DatabaseAccessProperties;
 import iHealth.db.SQLWarningsExceptions;
+import iHealth.db.requetes;
 import iHealth.nf.Authentification;
 import iHealth.nf.Poste;
 import java.awt.event.KeyEvent;
@@ -23,18 +24,18 @@ import java.util.logging.Logger;
  * @author cleme
  */
 public class Connexion extends javax.swing.JFrame {
+
     private static final String configurationFile = "src/iHealth/db/database.properties";
     private Connection conn = null;
-    private Statement statement = null;
+    //private Statement statement = null;
     private ResultSet resultat = null;
     private String jdbcDriver, dbUrl, username, password;
-    Authentification authentification = new Authentification();
 
     /**
      * Creates new form Connexion
      */
     public Connexion() throws ClassNotFoundException, SQLException {
-        
+
         initComponents();
         errorMessage.setVisible(false);
         nullMessage.setVisible(false);
@@ -45,23 +46,23 @@ public class Connexion extends javax.swing.JFrame {
         dbUrl = dap.getDatabaseUrl();
         username = dap.getUsername();
         password = dap.getPassword();
-        try{
 
-       // Load the database driver
+        try {
+
+            // Load the database driver
             Class.forName(jdbcDriver);
-       // Get a connection to the database
-            Connection conn = DriverManager.getConnection(dbUrl, username, password);
-            statement = conn.createStatement();
-         }
-         catch (SQLException se) {
-   // Print information about SQL exceptions
-               SQLWarningsExceptions.printExceptions(se);
-           } catch (Exception e) {
-               System.err.println("Exception: " + e.getMessage());
-               e.printStackTrace();
-            }
+            // Get a connection to the database
+            this.conn = DriverManager.getConnection(dbUrl, username, password);
+            //statement = conn.createStatement();
+        } catch (SQLException se) {
+            // Print information about SQL exceptions
+            SQLWarningsExceptions.printExceptions(se);
+        } catch (Exception e) {
+            System.err.println("Exception: " + e.getMessage());
+            e.printStackTrace();
+        }
         //this.setResizable(false);
-        
+
     }
 
     /**
@@ -142,7 +143,7 @@ public class Connexion extends javax.swing.JFrame {
 
         nullMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
         nullMessage.setForeground(new java.awt.Color(0, 51, 51));
-        nullMessage.setText("Veuillez identiquer un identifiant et un mot de passe");
+        nullMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
         nullMessage.setEnabled(false);
 
         errorMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
@@ -233,48 +234,24 @@ public class Connexion extends javax.swing.JFrame {
 
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         String id = identifiantField.getText();
-            String password = motDePasseField.getText();
-            boolean reponse = false;
-               
-                try {
-                   ResultSet rs = statement.executeQuery("SELECT * FROM Comptes WHERE identifiant = '" + id + "'");
-                    
-                    if (rs != null) {
-                        try {
-                            if (!rs.isBeforeFirst()) {
-                                 nullMessage.setVisible(true);
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        try {
-                            while (rs.next()) {
-                                if (rs.getString("identifiant").equals(id) && rs.getString("motdepasse").equals(password)) {
-                                    reponse = true;
-                                } else {
-                                    errorMessage.setVisible(true);
-                                    reponse = false;
-                                }
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                } catch (SQLException ex) {
-                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
-                
-            if(reponse){
-                Poste poste = authentification.definirPoste(id);
-                switch(poste){
-                    case SECRETAIREA:
-                        Creation_DMA interfaceSecretaireA = new Creation_DMA();
-                        this.setVisible(false);
-                        interfaceSecretaireA.setVisible(true);
+        String password = motDePasseField.getText();
+        boolean reponse = false;
+
+        try {
+            reponse = new requetes().connection(this.conn, id, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (reponse) {
+            Poste poste = new Authentification().definirPoste(id);
+            switch (poste) {
+                case SECRETAIREA:
+                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
+                    this.setVisible(false);
+                    interfaceSecretaireA.setVisible(true);
                     break;
-                    /*
+                /*
                     case SECRETAIREM:
                         Creation_DM interfaceSecretaireM = new Creation_DM();
                         interfaceSecretaireM.setVisible(true);
@@ -284,68 +261,71 @@ public class Connexion extends javax.swing.JFrame {
                     default:
                         new Connexion().setVisible(true);
                     break;
-                    */
-                }
+                 */
             }
+        }
+        else{
+            switch(id){
+                case "":
+                    nullMessage.setVisible(true);
+                break;
+                case " ":
+                    nullMessage.setVisible(true);
+                break;
+                default :
+                    errorMessage.setVisible(true);
+                break;
+                
+            }
+        }
     }//GEN-LAST:event_connectButtonActionPerformed
 
     private void motDePasseFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_motDePasseFieldKeyPressed
 
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String id = identifiantField.getText();
             String password = motDePasseField.getText();
             boolean reponse = false;
-               
-                try {
-                   ResultSet rs = statement.executeQuery("SELECT * FROM Comptes WHERE identifiant = '" + id + "'");
-                    
-                    if (rs != null) {
-                        try {
-                            if (!rs.isBeforeFirst()) {
-                                 nullMessage.setVisible(true);
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        try {
-                            while (rs.next()) {
-                                if (rs.getString("identifiant").equals(id) && rs.getString("motdepasse").equals(password)) {
-                                    reponse = true;
-                                } else {
-                                    errorMessage.setVisible(true);
-                                    reponse = false;
-                                }
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    
-                } catch (SQLException ex) {
-                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
-                
-            if(reponse){
-                Poste poste = authentification.definirPoste(id);
-                switch(poste){
+
+            try {
+                reponse = new requetes().connection(this.conn, id, password);
+            } catch (SQLException ex) {
+                Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            if (reponse) {
+                Poste poste = new Authentification().definirPoste(id);
+                switch (poste) {
                     case SECRETAIREA:
-                        Creation_DMA interfaceSecretaireA = new Creation_DMA();
+                        Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
                         this.setVisible(false);
                         interfaceSecretaireA.setVisible(true);
-                    break;
+                        break;
                     /*
-                    case SECRETAIREM:
-                        Creation_DM interfaceSecretaireM = new Creation_DM();
-                        interfaceSecretaireM.setVisible(true);
+                        case SECRETAIREM:
+                            Creation_DM interfaceSecretaireM = new Creation_DM();
+                            interfaceSecretaireM.setVisible(true);
+                        break;
+
+                        //à compléter
+                        default:
+                            new Connexion().setVisible(true);
+                        break;
+                     */
+                }
+            }
+            else{
+                switch(id){
+                    case "":
+                        nullMessage.setVisible(true);
                     break;
-                    
-                    //à compléter
-                    default:
-                        new Connexion().setVisible(true);
+                    case " ":
+                        nullMessage.setVisible(true);
                     break;
-                    */
+                    default :
+                        errorMessage.setVisible(true);
+                    break;
+
                 }
             }
         }
@@ -377,7 +357,7 @@ public class Connexion extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Connexion.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -388,7 +368,7 @@ public class Connexion extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+
             }
         });
     }
@@ -406,6 +386,5 @@ public class Connexion extends javax.swing.JFrame {
     private javax.swing.JPasswordField motDePasseField;
     private javax.swing.JLabel nullMessage;
     // End of variables declaration//GEN-END:variables
-
 
 }
