@@ -9,8 +9,10 @@ import java.util.List;
 
 public class DM {
     private String dateCreation;
+    private Patient patient;
     private String dateDerniereModification;
     private List<Document> document = new ArrayList<Document> ();
     public Chambre chambre;
+    
 
 }

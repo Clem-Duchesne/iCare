@@ -242,12 +242,18 @@ public class Connexion extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        String[] identite = null;
         if (reponse) {
             Poste poste = new Authentification().definirPoste(id);
+            try {
+                identite = new requetes().getPersonnel(conn, id);
+                //System.out.print(identite[0]);
+            } catch (SQLException ex) {
+                Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
             switch (poste) {
                 case SECRETAIREA:
-                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
+                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn, identite);
                     this.setVisible(false);
                     interfaceSecretaireA.setVisible(true);
                     break;
@@ -293,11 +299,18 @@ public class Connexion extends javax.swing.JFrame {
                 Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            String[] identite = null;
             if (reponse) {
                 Poste poste = new Authentification().definirPoste(id);
+                try {
+                    identite = new requetes().getPersonnel(conn, id);
+                    //System.out.print(identite[0]);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 switch (poste) {
                     case SECRETAIREA:
-                        Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
+                        Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn, identite);
                         this.setVisible(false);
                         interfaceSecretaireA.setVisible(true);
                         break;
