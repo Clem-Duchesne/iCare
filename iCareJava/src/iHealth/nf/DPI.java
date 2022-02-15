@@ -7,5 +7,8 @@ package iHealth.nf;
 public class DPI {
     private DM dM;
     private DMA dMA;
-    /*coucou*/
+    
+    public DPI(DMA dma){
+        
+    }
 }

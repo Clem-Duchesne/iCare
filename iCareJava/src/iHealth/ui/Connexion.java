@@ -242,12 +242,18 @@ public class Connexion extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        String[] identite = null;
         if (reponse) {
             Poste poste = new Authentification().definirPoste(id);
+            try {
+                identite = new requetes().getPersonnel(conn, id);
+                //System.out.print(identite[0]);
+            } catch (SQLException ex) {
+                Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+            }
             switch (poste) {
                 case SECRETAIREA:
-                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
+                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn, identite);
                     this.setVisible(false);
                     interfaceSecretaireA.setVisible(true);
                     break;
@@ -263,19 +269,18 @@ public class Connexion extends javax.swing.JFrame {
                     break;
                  */
             }
-        }
-        else{
-            switch(id){
+        } else {
+            switch (id) {
                 case "":
                     nullMessage.setVisible(true);
-                break;
+                    break;
                 case " ":
                     nullMessage.setVisible(true);
-                break;
-                default :
+                    break;
+                default:
                     errorMessage.setVisible(true);
-                break;
-                
+                    break;
+
             }
         }
     }//GEN-LAST:event_connectButtonActionPerformed
@@ -293,38 +298,53 @@ public class Connexion extends javax.swing.JFrame {
                 Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            String[] identite = null;
             if (reponse) {
                 Poste poste = new Authentification().definirPoste(id);
+                try {
+                    identite = new requetes().getPersonnel(conn, id);
+                    //System.out.print(identite[0]);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 switch (poste) {
                     case SECRETAIREA:
-                        Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn);
-                        this.setVisible(false);
-                        interfaceSecretaireA.setVisible(true);
-                        break;
-                    /*
-                        case SECRETAIREM:
-                            Creation_DM interfaceSecretaireM = new Creation_DM();
-                            interfaceSecretaireM.setVisible(true);
+
+                        Creation_DMA interfaceSecretaireA;
+                        try {
+                            interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                            this.setVisible(false);
+                            interfaceSecretaireA.setVisible(true);
+                        } catch (SQLException ex) {
+
+                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
                         break;
 
+                    case SECRETAIREM:
+                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        this.setVisible(false);
+                        interfaceSecretaireM.setVisible(true);
+                        break;
+                    /*
                         //à compléter
                         default:
                             new Connexion().setVisible(true);
                         break;
                      */
                 }
-            }
-            else{
-                switch(id){
+            } else {
+                switch (id) {
                     case "":
                         nullMessage.setVisible(true);
-                    break;
+                        break;
                     case " ":
                         nullMessage.setVisible(true);
-                    break;
-                    default :
+                        break;
+                    default:
                         errorMessage.setVisible(true);
-                    break;
+                        break;
 
                 }
             }
