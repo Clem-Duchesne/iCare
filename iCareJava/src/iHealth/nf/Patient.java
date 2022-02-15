@@ -23,6 +23,7 @@ public class Patient {
         this.dateNaissance = dateNaissance;
         this.sexe = sexe;
         this.adresse = adresse;
+
     }
     public Patient(LocalDate annee_premiere_venue, String nom, String prenom, LocalDate dateNaissance, Sexe sexe, String adresse){
         this.nom = nom;

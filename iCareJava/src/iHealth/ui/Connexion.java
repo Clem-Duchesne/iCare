@@ -269,19 +269,18 @@ public class Connexion extends javax.swing.JFrame {
                     break;
                  */
             }
-        }
-        else{
-            switch(id){
+        } else {
+            switch (id) {
                 case "":
                     nullMessage.setVisible(true);
-                break;
+                    break;
                 case " ":
                     nullMessage.setVisible(true);
-                break;
-                default :
+                    break;
+                default:
                     errorMessage.setVisible(true);
-                break;
-                
+                    break;
+
             }
         }
     }//GEN-LAST:event_connectButtonActionPerformed
@@ -310,16 +309,27 @@ public class Connexion extends javax.swing.JFrame {
                 }
                 switch (poste) {
                     case SECRETAIREA:
-                        Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn, identite);
-                        this.setVisible(false);
-                        interfaceSecretaireA.setVisible(true);
+
+                        Creation_DMA interfaceSecretaireA = null;
+                    try {
+                        interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                            this.setVisible(false);
+                            interfaceSecretaireA.setVisible(true);
+
+
                         break;
-                    
+
+
                     case SECRETAIREM:
                         Creation_DM interfaceSecretaireM = new Creation_DM();
+
                         this.setVisible(false);
                         interfaceSecretaireM.setVisible(true);
-                    break;
+                        break;
                     /*
                         //à compléter
                         default:
@@ -327,18 +337,17 @@ public class Connexion extends javax.swing.JFrame {
                         break;
                      */
                 }
-            }
-            else{
-                switch(id){
+            } else {
+                switch (id) {
                     case "":
                         nullMessage.setVisible(true);
-                    break;
+                        break;
                     case " ":
                         nullMessage.setVisible(true);
-                    break;
-                    default :
+                        break;
+                    default:
                         errorMessage.setVisible(true);
-                    break;
+                        break;
 
                 }
             }

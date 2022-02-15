@@ -119,8 +119,18 @@ public class requetes {
             Sexe sexe = new toSexe().stringToSexe(rs.getString("sexe"));
             
             Patient patient = new Patient(IPP,nom,prenom,dateNaissance, sexe, adresse);
-            patients.add(patient); 
+            patients.add(patient);
+            
+            
         }
+     
+        
+        
+        
+        String prenom = rs.getString("prenom");
+        String nom = rs.getString("nom");
+        String[] identite = {nom, prenom};
+
         
         // Close the result set, statement and the connection
         rs.close();

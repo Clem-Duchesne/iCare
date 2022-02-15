@@ -88,7 +88,12 @@ public class Creation_DMA extends javax.swing.JFrame {
         searchIcon.setIcon(icone7);
         //this.setResizable(false);
         
-        //interaction clic et champ texte
+
+        // Récupérer le nom et prénom de la personne connectée
+        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        
+        new requetes().getPatients(conn).size();
+        //affichage liste de patients 
         jPanel3.setFocusable(true);
         
         // Récupérer le nom et prénom de la personne connectée

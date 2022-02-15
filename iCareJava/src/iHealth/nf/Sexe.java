@@ -5,10 +5,14 @@
  */
 package iHealth.nf;
 
+
+import java.sql.SQLException;
+
 /**
  *
  * @author cleme
  */
+
 public enum Sexe {
     HOMME,
     FEMME,

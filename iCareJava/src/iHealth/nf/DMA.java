@@ -20,6 +20,8 @@ public class DMA {
         DPI mydpi = new DPI(this);
         
     }
+
+
     
     public void addConsultation(Consultation consultation){
         this.consultation.add(consultation);
@@ -38,4 +40,5 @@ public class DMA {
         
     }
 */
+
 }
