@@ -325,7 +325,7 @@ public class Connexion extends javax.swing.JFrame {
 
 
                     case SECRETAIREM:
-                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        Creation_DMold interfaceSecretaireM = new Creation_DMold();
 
                         this.setVisible(false);
                         interfaceSecretaireM.setVisible(true);

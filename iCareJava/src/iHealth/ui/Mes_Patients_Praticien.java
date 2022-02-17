@@ -28,7 +28,7 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author cleme
  */
-public class Creation_DM extends javax.swing.JFrame {
+public class Mes_Patients_Praticien extends javax.swing.JFrame {
 
     
     private Connection conn = null;
@@ -36,7 +36,7 @@ public class Creation_DM extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Creation_DM(Connection conn, String[] identite) throws SQLException {
+    public Mes_Patients_Praticien(Connection conn, String[] identite) throws SQLException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -106,7 +106,7 @@ public class Creation_DM extends javax.swing.JFrame {
         
         
     }
-    public Creation_DM() {
+    public Mes_Patients_Praticien() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int height = dim.height;
@@ -710,9 +710,9 @@ public class Creation_DM extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionLabelMouseClicked
 
@@ -724,9 +724,9 @@ public class Creation_DM extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionIconButtonMouseClicked
 
@@ -754,9 +754,9 @@ public class Creation_DM extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionLabel2MouseClicked
 
@@ -768,9 +768,9 @@ public class Creation_DM extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionIcon2MouseClicked
 
@@ -807,21 +807,23 @@ public class Creation_DM extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Creation_DM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Creation_DM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Creation_DM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Creation_DM.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mes_Patients_Praticien.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Creation_DM().setVisible(true);
+                new Mes_Patients_Praticien().setVisible(true);
             }
         });
     }
