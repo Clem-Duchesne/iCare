@@ -34,7 +34,8 @@ public class requetes {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Comptes WHERE identifiant = '" + id + "'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM PRO WHERE numP = '" + id + "'");
+        
         boolean result = false;
         if (rs != null) {
                         try {
@@ -46,7 +47,7 @@ public class requetes {
                         }
                         try {
                             while (rs.next()) {
-                                if (rs.getString("identifiant").equals(id) && rs.getString("motdepasse").equals(password)) {
+                                if (rs.getString("numP").equals(id) && rs.getString("mdp").equals(password)) {
                                     result = true;
                                 } else {
                                     //errorMessage.setVisible(true);
@@ -66,32 +67,44 @@ public class requetes {
     //requête création patient
     public void createPatient(Connection conn, Patient patient) throws SQLException{
         Statement stmt = conn.createStatement();
-        String IPP = patient.getIPP();
+        String IPP = patient.getPremiereVenue().toString().substring(8,10) + patient.getPremiereVenue().toString().substring(2, 4) + (10000 + (int)(Math.random() * ((99999 - 10000) + 1)));;
+        
         String nom = patient.getNom();
         String prenom = patient.getPrenom();
         String adresse = patient.getAdresse();
         java.sql.Date dateNaissance = patient.getDateNaissance();
         
         Sexe sexe = patient.getSexe();
+        String sexeString = new toSexe().sexeToString(sexe);
+        System.out.println(IPP + nom +  prenom +  dateNaissance +  sexeString + adresse);
+      //  System.out.println(dateNaissance.getTime());
         
         // Execute the query
-        ResultSet rs = stmt.executeQuery("INSERT INTO Patient VALUES ('" + IPP + "','"+ nom + "','" + dateNaissance + "','" + sexe + "','" + adresse + "'");
+
+        
+        ResultSet rs = stmt.executeQuery("INSERT INTO Patient VALUES ('" + IPP + "','"+ nom + "','" + prenom + "', to_date('" + dateNaissance + "', 'YYYY-MM-DD'),'" + sexeString + "','" + adresse + "')");
     
         // Close the result set, statement and the connection
         rs.close();
         stmt.close();
     }
     
-        //requête sélection nom, prénom personnel
+    
+    
+    //requête sélection nom, prénom personnel
     public String[] getPersonnel(Connection conn, String id) throws SQLException{
         
         String[] identite = new String[2];
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Comptes WHERE numP = '" + id + "'");
-            String prenom = rs.getString("prenom");
-            String nom = rs.getString("nom");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM PRO WHERE numP = '" + id + "'");
+        String prenom = null;
+        String nom = null;
+        while (rs.next()) {
+            prenom = rs.getString(3);
+            nom = rs.getString(4);
+        }
             identite[0] = nom;
             identite[1] = prenom;
         
@@ -117,7 +130,7 @@ public class requetes {
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
             String adresse = rs.getString("adresse");
-            String dateNaissance = rs.getString("dateN");
+            java.sql.Date dateNaissance = rs.getDate("dateN");
             Sexe sexe = new toSexe().stringToSexe(rs.getString("sexe"));
             
             Patient patient = new Patient(IPP,nom,prenom,dateNaissance, sexe, adresse);
@@ -125,15 +138,47 @@ public class requetes {
             
             
         }
-        
-        String prenom = rs.getString("prenom");
-        String nom = rs.getString("nom");
-        String[] identite = {nom, prenom};
 
         
         // Close the result set, statement and the connection
         rs.close();
         stmt.close(); 
+        
+        return patients;
+    }
+    
+    //Recherche de patient
+    public List<Patient> getPatient(Connection conn, String nom) throws SQLException, ParseException{
+        
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient WHERE nom = '" + nom + "'");
+        List<Patient> patients = new ArrayList<>();
+        
+        String prenom = null;
+        String nomPatient = null;
+        String IPP = null;
+        java.sql.Date dateNaissance = null;
+        String sexe = null;
+        String adresse = null;
+        Sexe format = null;
+        while (rs.next()) {
+            IPP = rs.getString("IPP");
+            nomPatient = rs.getString("nom");
+            prenom = rs.getString("prenom");
+            dateNaissance = rs.getDate("dateN");
+            sexe = rs.getString("sexe");
+            format = new toSexe().stringToSexe("sexe");
+            adresse = rs.getString("adresse");  
+            
+            Patient patient = new Patient(IPP, nomPatient, prenom, dateNaissance, format, adresse);
+            patients.add(patient);
+        }
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
         
         return patients;
     }

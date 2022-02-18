@@ -113,7 +113,7 @@ public class Visualisation_DM extends javax.swing.JFrame {
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel10.setText("Médicin :");
+        jLabel10.setText("Médecin :");
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
