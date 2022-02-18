@@ -253,11 +253,48 @@ public class Connexion extends javax.swing.JFrame {
             }
             switch (poste) {
                 case SECRETAIREA:
-                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                    Creation_DMA interfaceSecretaireA = null;
+                try {
+                    interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
                     this.setVisible(false);
                     interfaceSecretaireA.setVisible(true);
                     break;
                 /*
+                    case SECRETAIREM:
+                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        interfaceSecretaireM.setVisible(true);
+                    break;
+                    
+                    //à compléter
+                    default:
+                        new Connexion().setVisible(true);
+                    break;
+                 */                /*
+                    case SECRETAIREM:
+                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        interfaceSecretaireM.setVisible(true);
+                    break;
+                    
+                    //à compléter
+                    default:
+                        new Connexion().setVisible(true);
+                    break;
+                 */
+
+                /*
+                    case SECRETAIREM:
+                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        interfaceSecretaireM.setVisible(true);
+                    break;
+                    
+                    //à compléter
+                    default:
+                        new Connexion().setVisible(true);
+                    break;
+                 */                /*
                     case SECRETAIREM:
                         Creation_DM interfaceSecretaireM = new Creation_DM();
                         interfaceSecretaireM.setVisible(true);
@@ -325,10 +362,10 @@ public class Connexion extends javax.swing.JFrame {
 
 
                     case SECRETAIREM:
-                        Creation_DMold interfaceSecretaireM = new Creation_DMold();
+                        //Creation_DMold interfaceSecretaireM = new Creation_DMold();
 
                         this.setVisible(false);
-                        interfaceSecretaireM.setVisible(true);
+                        //interfaceSecretaireM.setVisible(true);
                         break;
                     /*
                         //à compléter

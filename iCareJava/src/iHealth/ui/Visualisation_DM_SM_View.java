@@ -28,7 +28,7 @@ import javax.swing.DefaultComboBoxModel;
  *
  * @author cleme
  */
-public class Visualisation_DM_View extends javax.swing.JFrame {
+public class Visualisation_DM_SM_View extends javax.swing.JFrame {
 
     
     private Connection conn = null;
@@ -36,7 +36,7 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM_View(Connection conn, String[] identite) throws SQLException {
+    public Visualisation_DM_SM_View(Connection conn, String[] identite) throws SQLException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -81,11 +81,11 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
         icone6=new ImageIcon(newImg6);
         numeroDeux.setIcon(icone6);
         
-        ImageIcon icone7 = new ImageIcon("src/iHealth/img/loupe.png");
-        java.awt.Image img7 = icone7.getImage();
-        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
-        icone7=new ImageIcon(newImg7);
-        searchIcon.setIcon(icone7);
+//        ImageIcon icone7 = new ImageIcon("src/iHealth/img/loupe.png");
+//        java.awt.Image img7 = icone7.getImage();
+//        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
+//        icone7=new ImageIcon(newImg7);
+//        searchIcon.setIcon(icone7);
         //this.setResizable(false);
         
 
@@ -106,7 +106,7 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
         
         
     }
-    public Visualisation_DM_View() {
+    public Visualisation_DM_SM_View() {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int height = dim.height;
@@ -150,11 +150,11 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
         icone6=new ImageIcon(newImg6);
         numeroDeux.setIcon(icone6);
         
-        ImageIcon icone7 = new ImageIcon("src/iHealth/img/loupe.png");
-        java.awt.Image img7 = icone7.getImage();
-        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
-        icone7=new ImageIcon(newImg7);
-        searchIcon.setIcon(icone7);
+//        ImageIcon icone7 = new ImageIcon("src/iHealth/img/loupe.png");
+//        java.awt.Image img7 = icone7.getImage();
+//        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
+//        icone7=new ImageIcon(newImg7);
+//        searchIcon.setIcon(icone7);
         //this.setResizable(false);
         
         jPanel3.setFocusable(true);
@@ -545,9 +545,9 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionLabelMouseClicked
 
@@ -559,9 +559,9 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionIconButtonMouseClicked
 
@@ -589,9 +589,9 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionLabel2MouseClicked
 
@@ -603,9 +603,9 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
             this.setVisible(false);
             connexion.setVisible(true);
         } catch (SQLException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Visualisation_DM_View.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_deconnexionIcon2MouseClicked
 
@@ -626,14 +626,22 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Visualisation_DM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Visualisation_DM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Visualisation_DM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Visualisation_DM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -646,7 +654,7 @@ public class Visualisation_DM_View extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Visualisation_DM_View().setVisible(true);
+                new Visualisation_DM_SM_View().setVisible(true);
             }
         });
     }
