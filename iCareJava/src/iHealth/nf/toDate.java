@@ -36,13 +36,20 @@ public class toDate {
         int date_m_int = Integer.parseInt(date_m);
         int date_a_int = Integer.parseInt(date_a);
         
-        if((date_j_int > 0 & date_j_int < 31) & (date_m_int>0 & date_m_int<13) & (date_a_int>1900 & date_a_int < 2023)){
-            String date_java = date_a + date_m + date_m + date_j;
+       // System.out.print(date_j_int + " " + date_m_int + " " + date_a_int);
+        
+        if((date_j_int > 0 & date_j_int <= 31) & (date_m_int>0 & date_m_int<13) & (date_a_int>1900 & date_a_int < 2023)){
+            
+            String date_java = date_a + date_m  + date_j;
             
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             java.util.Date parsed = format.parse(date_java);
+            System.out.println("CE QU'on VEUT VOIR : " + date_java);
             date_sql_format = new java.sql.Date(parsed.getTime());
+            
+            System.out.println("CE QU'on VEUT VOIR : " + date_sql_format);
         }
+        
         
         return date_sql_format;
     }
@@ -52,6 +59,7 @@ public class toDate {
         
         return localDate;
     }
+    
      public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant()
           .atZone(ZoneId.systemDefault())

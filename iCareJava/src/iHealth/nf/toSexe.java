@@ -39,4 +39,28 @@ public class toSexe {
         return sexe_S;
     }
     
+    public String sexeToString(Sexe sexe){
+        String sexe_S = null;
+            
+        switch(sexe){
+            case HOMME:
+                sexe_S = "Masculin";
+                break;
+            
+            case FEMME:
+                sexe_S = "Féminin";
+                break;
+                
+            case AUTRE:
+                sexe_S = "Autre";
+                break;
+                
+            default:
+                sexe_S = "Autre";
+                break;
+        }
+        
+        return sexe_S;
+    }
+    
 }

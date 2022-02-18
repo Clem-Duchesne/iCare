@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -37,7 +38,15 @@ public class Connexion extends javax.swing.JFrame {
      */
     public Connexion() throws ClassNotFoundException, SQLException {
 
+        
         initComponents();
+        
+        ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
+        java.awt.Image img = icone.getImage();
+        java.awt.Image newImg = img.getScaledInstance(145,80,100);
+        icone=new ImageIcon(newImg);
+        logo.setIcon(icone);
+        
         errorMessage.setVisible(false);
         nullMessage.setVisible(false);
         errorServorMessage.setVisible(false);
@@ -82,10 +91,10 @@ public class Connexion extends javax.swing.JFrame {
         identifiantField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
         nullMessage = new javax.swing.JLabel();
         errorMessage = new javax.swing.JLabel();
         errorServorMessage = new javax.swing.JLabel();
+        logo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("iHealth - Connexion");
@@ -139,12 +148,9 @@ public class Connexion extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(223, 91, 98));
         jLabel3.setText("iHealth.");
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iHealth/img/hospital.png"))); // NOI18N
-        jLabel5.setText("jLabel5");
-
         nullMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
         nullMessage.setForeground(new java.awt.Color(0, 51, 51));
-        nullMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+        nullMessage.setText("Veuillez identiquer un identifiant et un mot de passe");
         nullMessage.setEnabled(false);
 
         errorMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
@@ -169,9 +175,9 @@ public class Connexion extends javax.swing.JFrame {
                     .addComponent(motDePasseField, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                     .addComponent(identifiantField)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(errorServorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(errorServorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(173, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(208, 208, 208)
@@ -185,8 +191,8 @@ public class Connexion extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(77, 77, 77)
-                .addComponent(jLabel5)
+                .addGap(44, 44, 44)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
@@ -246,6 +252,7 @@ public class Connexion extends javax.swing.JFrame {
         String[] identite = null;
         if (reponse) {
             Poste poste = new Authentification().definirPoste(id);
+            System.out.print(poste);
             try {
                 identite = new requetes().getPersonnel(conn, id);
                 //System.out.print(identite[0]);
@@ -257,7 +264,8 @@ public class Connexion extends javax.swing.JFrame {
                     Creation_DMA interfaceSecretaireA = null;
                     try {
                         //interfaceSecretaireA = new Creation_DMA(this.conn, identite);
-                        interfaceSecretaireA = new Creation_DMA(this.conn);
+                        interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                       
                     } catch (SQLException ex) {
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
@@ -327,7 +335,7 @@ public class Connexion extends javax.swing.JFrame {
                         Creation_DMA interfaceSecretaireA = null;
                     try {
                         //interfaceSecretaireA = new Creation_DMA(this.conn, identite);
-                        interfaceSecretaireA = new Creation_DMA(this.conn);
+                        interfaceSecretaireA = new Creation_DMA(this.conn, identite);
                     } catch (SQLException ex) {
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
@@ -422,8 +430,8 @@ public class Connexion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel logo;
     private javax.swing.JPasswordField motDePasseField;
     private javax.swing.JLabel nullMessage;
     // End of variables declaration//GEN-END:variables

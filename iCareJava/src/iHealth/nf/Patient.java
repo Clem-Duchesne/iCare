@@ -15,6 +15,7 @@ public class Patient {
     private String prenom;
     private java.sql.Date dateNaissance;
     private Sexe sexe;
+    private java.sql.Date annee_premiere_venue;
     private String adresse;
     //private DPI dPI;
     public Patient(String IPP, String nom, String prenom, String dateNaissance, Sexe sexe, String adresse) throws ParseException{
@@ -26,13 +27,35 @@ public class Patient {
         this.adresse = adresse;
 
     }
-    public Patient(LocalDate annee_premiere_venue, String nom, String prenom, String dateNaissance, Sexe sexe, String adresse) throws ParseException{
+     public Patient(String IPP, String nom, String prenom, java.sql.Date dateNaissance, Sexe sexe, String adresse) throws ParseException{
+        this.IPP = IPP;
         this.nom = nom;
         this.prenom = prenom;
-        this.dateNaissance = new toDate().stringToDate(dateNaissance);
+        this.dateNaissance = dateNaissance;
         this.sexe = sexe;
         this.adresse = adresse;
-        DMA mon_dma = new DMA(this, annee_premiere_venue);
+
+    }
+    public Patient(java.sql.Date annee_premiere_venue, String nom, String prenom, java.sql.Date dateNaissance, Sexe sexe, String adresse) throws ParseException{
+        
+        this.nom = nom;
+        this.prenom = prenom;
+        this.dateNaissance = dateNaissance;
+        this.sexe = sexe;
+        this.adresse = adresse;
+        this.annee_premiere_venue = annee_premiere_venue;
+        /*
+        System.out.println("patient");
+        System.out.println(nom);
+        System.out.println(prenom);
+        System.out.println(dateNaissance);
+        System.out.println(sexe);
+        System.out.println(adresse);
+        System.out.println(annee_premiere_venue);
+*/
+        
+        
+        //DMA mon_dma = new DMA(this, annee_premiere_venue);
 
     }
     
@@ -58,6 +81,10 @@ public class Patient {
     
     public String getAdresse(){
         return adresse;
+    }
+    
+    public java.sql.Date getPremiereVenue(){
+        return annee_premiere_venue;
     }
 
     

@@ -28,19 +28,6 @@ public class Authentification {
                     case "02":
                         poste = Poste.MEDECIN;
                         break;
-
-                    case "03":
-                        poste = Poste.KINESITHERAPEUTE;
-                        break;
-                    case "04":
-                        poste = Poste.ANESTHESISTE;
-                        break;
-                    case "05":
-                        poste = Poste.RADIOLOGUE;
-                        break;
-                    case "06":
-                        poste = Poste.INFIRMIERE;
-                        break;
                     default:
                         poste = null;
                         break;

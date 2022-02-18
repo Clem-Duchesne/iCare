@@ -44,8 +44,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Creation_DMA(Connection conn/*, String[] identite */) throws SQLException, ParseException {
-        System.out.print("cc");
+    public Creation_DMA(Connection conn, String[] identite ) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -99,38 +98,23 @@ public class Creation_DMA extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        //professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite[0] + " " + identite[1]);
         
-        new requetes().getPatients(conn).size();
+        
         //affichage liste de patients 
         jPanel3.setFocusable(true);
       
-        
+
         //affichage liste de patients 
-       // List<Patient> patients = new requetes().getPatients(conn);
-       
-       /*Test patient fictif*/
-        List <Patient> patients = new ArrayList<>();
-        
-        Patient patient = new Patient("0012345", "HUGO", "Victor", "27/10/2000", Sexe.HOMME, "14 rue du Piquet POTEAU");
-        Patient patient1 = new Patient("0012355", "IOV", "Cyprien", "29/10/2000", Sexe.HOMME, "18 rue du Piquet POTEAU");
-        Patient patient2 = new Patient("0012345", "MONT", "Yves", "27/02/2000", Sexe.HOMME, "30 rue Gabriel Péri GRENOBLE");
-        
-        patients.add(patient);
-        patients.add(patient1);
-        patients.add(patient2);
-        
-        for(int i=0;i<3;i++){
-            JLabel patientLabel = new JLabel();
-            System.out.println(patients.get(i).getNom());
-            patientLabel.setText("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom()); 
-            patientTable.add(patientLabel);
-            patientLabel.setVisible(true);
+        List<Patient> patients = new requetes().getPatients(conn);
+ 
+        for(int i=0;i<patients.size();i++){
+            patientsModel.addElement("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+            patientList.setModel(patientsModel);   
+          
         }
         
-        
-        
-        
+  
         
     }
     public Creation_DMA() throws ParseException {
@@ -442,7 +426,7 @@ public class Creation_DMA extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel3.setText("Secrétaire Administrative : ");
 
-        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 11)); // NOI18N
+        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 24)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -762,7 +746,6 @@ public class Creation_DMA extends javax.swing.JFrame {
         patientList.setForeground(new java.awt.Color(51, 51, 51));
         patientList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         patientList.setAlignmentX(80.0F);
-        patientList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
         patientList.setSelectionBackground(new java.awt.Color(204, 204, 204));
         patientList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1051,14 +1034,14 @@ public class Creation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_deconnexionIcon2MouseClicked
 
     private void searchTextfieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextfieldFocusGained
-        if(searchTextfield.getText().equals("Recherche")){
+        if(searchTextfield.getText().equals("Rechercher")){
             searchTextfield.setText("");
         }
     }//GEN-LAST:event_searchTextfieldFocusGained
 
     private void searchTextfieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_searchTextfieldFocusLost
         if(searchTextfield.getText().equals("")){
-            searchTextfield.setText("Recherche");
+            searchTextfield.setText("Rechercher");
         }
     }//GEN-LAST:event_searchTextfieldFocusLost
 
@@ -1071,11 +1054,6 @@ public class Creation_DMA extends javax.swing.JFrame {
         String dateNaissance = dateNiassanceTextField.getText();
         Sexe sexe = (Sexe) sexeTextfield.getSelectedItem();
         String adresse = adresseTextfield.getText();
-        System.out.println(dateNaissance);
-        System.out.println(prenom);
-        System.out.println(nom);
-        System.out.println(adresse);
-
          
         if((nom!=null & !nom.equals(" ") & !nom.equals("Nom")) & (prenom!=null & !prenom.equals(" ") & !prenom.equals("Prénom")) & (dateNaissance !=null & !dateNaissance.equals(" ") & dateNaissance.length() <=10 & !dateNaissance.equals("Date de naissance")) & (adresse!=null & !adresse.equals(" ") & !adresse.equals("Adresse") )){
             java.sql.Date date_sql = null;
@@ -1085,28 +1063,26 @@ public class Creation_DMA extends javax.swing.JFrame {
                 Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
             }
             if(date_sql != null ){
-                LocalDate premiere_venue = LocalDate.now();
+                java.sql.Date premiere_venue = java.sql.Date.valueOf(LocalDate.now());
                 LocalDate dateNaissance2 = new toDate().sqlDateToLocalDate(date_sql);
+                java.sql.Date dateNaissance_sql = java.sql.Date.valueOf(dateNaissance2);
         
                 Patient patient = null;    
                 try {
-                    patient = new Patient(premiere_venue,nom.toUpperCase(),prenom,dateNaissance,sexe,adresse);
+                    patient = new Patient(premiere_venue,nom.toUpperCase(),prenom,dateNaissance_sql,sexe,adresse);
                     patientsModel.addElement("" + patient.getNom() + " " + patient.getPrenom() + "");
                     patientList.setModel(patientsModel);
+                    new requetes().createPatient(this.conn, patient);
                     dateErrorMessage.setText("Un nouveau patient a été créé");
                     
                 } catch (ParseException ex) {
                     Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                /*
-                try {
-                    new requetes().createPatient(this.conn, patient);
-                    //DMA dma = new DMA(patient, premiere_venue);
+                    dateErrorMessage.setText("Il semblerait qu'il y ait eu un problème...");
                 } catch (SQLException ex) {
                     Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.print("coup dur");
+                    dateErrorMessage.setText("Il semblerait qu'il y ait eu un problème...");
                 }
-                */
+               
             }
             else{
                 dateErrorMessage.setText("Veuillez respecter le format de date : JJ/MM/AAAA");
@@ -1124,13 +1100,32 @@ public class Creation_DMA extends javax.swing.JFrame {
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
         //récupérer le patient sélectionner
         selectedPatient = patientList.getSelectedValue();
+        System.out.print(selectedPatient);
+        
+        
        
     }//GEN-LAST:event_patientListMouseClicked
 
     private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
         String searchedPatient = searchTextfield.getText();
+        //String searchedType = searchedPatient.substring(0,2);
         
+        List<Patient> patients = new ArrayList<>();
+        try {
+            patients = new requetes().getPatient(conn, searchedPatient);
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+        }
         //recherche d'un patient dans la base
+        patientsModel= new DefaultListModel();
+        
+        for(int i=0;i<patients.size();i++){
+            patientsModel.addElement("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+            patientList.setModel(patientsModel);
+          
+        }
         
         
         
