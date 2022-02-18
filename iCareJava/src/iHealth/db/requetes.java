@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,7 +70,8 @@ public class requetes {
         String nom = patient.getNom();
         String prenom = patient.getPrenom();
         String adresse = patient.getAdresse();
-        LocalDate dateNaissance = patient.getDateNaissance();
+        java.sql.Date dateNaissance = patient.getDateNaissance();
+        
         Sexe sexe = patient.getSexe();
         
         // Execute the query
@@ -101,7 +103,7 @@ public class requetes {
     }
     
     //récupérer la liste des patients de tout l'hôpital
-    public List<Patient> getPatients(Connection conn) throws SQLException{
+    public List<Patient> getPatients(Connection conn) throws SQLException, ParseException{
         
 //Créer une liste de patient
         List<Patient> patients = new ArrayList<Patient>();
@@ -115,7 +117,7 @@ public class requetes {
             String nom = rs.getString("nom");
             String prenom = rs.getString("prenom");
             String adresse = rs.getString("adresse");
-            LocalDate dateNaissance = new toDate().convertToLocalDateViaInstant(rs.getDate("dateN"));
+            String dateNaissance = rs.getString("dateN");
             Sexe sexe = new toSexe().stringToSexe(rs.getString("sexe"));
             
             Patient patient = new Patient(IPP,nom,prenom,dateNaissance, sexe, adresse);
@@ -123,9 +125,6 @@ public class requetes {
             
             
         }
-     
-        
-        
         
         String prenom = rs.getString("prenom");
         String nom = rs.getString("nom");

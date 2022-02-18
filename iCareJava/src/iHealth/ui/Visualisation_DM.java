@@ -5,8 +5,12 @@
  */
 package iHealth.ui;
 
+import iHealth.db.SQLWarningsExceptions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.lang.System.Logger;
+import java.lang.System.Logger.Level;
+import java.sql.Connection;
 
 /**
  *
@@ -17,8 +21,9 @@ public class Visualisation_DM extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM() {
+    public Visualisation_DM(Connection conn) {
         initComponents();
+        this.conn = conn;
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         this.setBounds(-8, 40, dim.width-500, dim.height-500);
         this.setResizable(false);

@@ -18,11 +18,17 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JLabel;
+import javax.swing.ListModel;
+import javax.swing.SwingConstants;
 
 /**
  *
@@ -32,11 +38,14 @@ public class Creation_DMA extends javax.swing.JFrame {
 
     
     private Connection conn = null;
+    private String selectedPatient = null;
+    private DefaultListModel  patientsModel= new DefaultListModel();
     
     /**
      * Creates new form Creation_DMA
      */
-    public Creation_DMA(Connection conn, String[] identite) throws SQLException {
+    public Creation_DMA(Connection conn/*, String[] identite */) throws SQLException, ParseException {
+        System.out.print("cc");
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -90,23 +99,41 @@ public class Creation_DMA extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        //professionnelLabel.setText(identite[0] + " " + identite[1]);
         
         new requetes().getPatients(conn).size();
         //affichage liste de patients 
         jPanel3.setFocusable(true);
-        
-        // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+      
         
         //affichage liste de patients 
-        int nb_patient = new requetes().getPatients(conn).size();
+       // List<Patient> patients = new requetes().getPatients(conn);
+       
+       /*Test patient fictif*/
+        List <Patient> patients = new ArrayList<>();
+        
+        Patient patient = new Patient("0012345", "HUGO", "Victor", "27/10/2000", Sexe.HOMME, "14 rue du Piquet POTEAU");
+        Patient patient1 = new Patient("0012355", "IOV", "Cyprien", "29/10/2000", Sexe.HOMME, "18 rue du Piquet POTEAU");
+        Patient patient2 = new Patient("0012345", "MONT", "Yves", "27/02/2000", Sexe.HOMME, "30 rue Gabriel Péri GRENOBLE");
+        
+        patients.add(patient);
+        patients.add(patient1);
+        patients.add(patient2);
+        
+        for(int i=0;i<3;i++){
+            JLabel patientLabel = new JLabel();
+            System.out.println(patients.get(i).getNom());
+            patientLabel.setText("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom()); 
+            patientTable.add(patientLabel);
+            patientLabel.setVisible(true);
+        }
+        
         
         
         
         
     }
-    public Creation_DMA() {
+    public Creation_DMA() throws ParseException {
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int height = dim.height;
@@ -158,6 +185,32 @@ public class Creation_DMA extends javax.swing.JFrame {
         //this.setResizable(false);
         
         jPanel3.setFocusable(true);
+        
+        List <Patient> patients = new ArrayList<>();
+        
+        Patient patient = new Patient("0012345", "HUGO", "Victor", "27/10/2000", Sexe.HOMME, "14 rue du Piquet POTEAU");
+        Patient patient1 = new Patient("0012355", "IOV", "Cyprien", "29/10/2000", Sexe.HOMME, "18 rue du Piquet POTEAU");
+        Patient patient2 = new Patient("0012345", "MONT", "Yves", "27/02/2000", Sexe.HOMME, "30 rue Gabriel Péri GRENOBLE");
+        
+        patients.add(patient);
+        patients.add(patient1);
+        patients.add(patient2);
+        
+        
+        
+        //JLabel[] patientLabel = new JLabel[patients.size()];
+        
+        for(int i=0;i<patients.size();i++){
+            patientsModel.addElement("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+            patientList.setModel(patientsModel);
+           // patientLabel[i] = new JLabel();                    
+           // patientLabel[i].setText("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+            //patientTable.add(patientLabel[i]); 
+            //System.out.println(patientLabel[i].getText());     
+          
+        }
+        
+       
         
     }
 
@@ -212,6 +265,9 @@ public class Creation_DMA extends javax.swing.JFrame {
         jPanel8 = new javax.swing.JPanel();
         searchTextfield = new javax.swing.JTextField();
         searchIcon = new javax.swing.JLabel();
+        patientTable = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        patientList = new javax.swing.JList<>();
 
         jMenu1.setText("jMenu1");
 
@@ -572,7 +628,7 @@ public class Creation_DMA extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 675, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -582,7 +638,10 @@ public class Creation_DMA extends javax.swing.JFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(sexeTextfield, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(dateNiassanceTextField)
-                                    .addComponent(dateErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(dateErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(numeroUn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -691,6 +750,37 @@ public class Creation_DMA extends javax.swing.JFrame {
         });
 
         searchIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        searchIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchIconMouseClicked(evt);
+            }
+        });
+
+        patientTable.setBackground(new java.awt.Color(255, 255, 255));
+
+        patientList.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        patientList.setForeground(new java.awt.Color(51, 51, 51));
+        patientList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        patientList.setAlignmentX(80.0F);
+        patientList.setLayoutOrientation(javax.swing.JList.VERTICAL_WRAP);
+        patientList.setSelectionBackground(new java.awt.Color(204, 204, 204));
+        patientList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientListMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(patientList);
+
+        javax.swing.GroupLayout patientTableLayout = new javax.swing.GroupLayout(patientTable);
+        patientTable.setLayout(patientTableLayout);
+        patientTableLayout.setHorizontalGroup(
+            patientTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
+        );
+        patientTableLayout.setVerticalGroup(
+            patientTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 565, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -698,9 +788,12 @@ public class Creation_DMA extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(searchTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(patientTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(searchTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -710,7 +803,9 @@ public class Creation_DMA extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(584, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(patientTable, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -976,14 +1071,34 @@ public class Creation_DMA extends javax.swing.JFrame {
         String dateNaissance = dateNiassanceTextField.getText();
         Sexe sexe = (Sexe) sexeTextfield.getSelectedItem();
         String adresse = adresseTextfield.getText();
+        System.out.println(dateNaissance);
+        System.out.println(prenom);
+        System.out.println(nom);
+        System.out.println(adresse);
 
          
-        if((nom!=null & nom!=" " & nom.equals("Nom")) & (prenom!=null & prenom != " " & prenom.equals("Prénom")) & (dateNaissance !=null & dateNaissance != " " & dateNaissance.length() >10 & !dateNaissance.equals("Date de naissance")) & (adresse!=null & adresse != " " & adresse.equals("Adresse") )){
-            LocalDate date_sql = new toDate().stringToDate(dateNaissance);
+        if((nom!=null & !nom.equals(" ") & !nom.equals("Nom")) & (prenom!=null & !prenom.equals(" ") & !prenom.equals("Prénom")) & (dateNaissance !=null & !dateNaissance.equals(" ") & dateNaissance.length() <=10 & !dateNaissance.equals("Date de naissance")) & (adresse!=null & !adresse.equals(" ") & !adresse.equals("Adresse") )){
+            java.sql.Date date_sql = null;
+            try {
+                date_sql = new toDate().stringToDate(dateNaissance);
+            } catch (ParseException ex) {
+                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if(date_sql != null ){
                 LocalDate premiere_venue = LocalDate.now();
+                LocalDate dateNaissance2 = new toDate().sqlDateToLocalDate(date_sql);
         
-                Patient patient = new Patient(premiere_venue,nom,prenom,date_sql,sexe,adresse);    
+                Patient patient = null;    
+                try {
+                    patient = new Patient(premiere_venue,nom.toUpperCase(),prenom,dateNaissance,sexe,adresse);
+                    patientsModel.addElement("" + patient.getNom() + " " + patient.getPrenom() + "");
+                    patientList.setModel(patientsModel);
+                    dateErrorMessage.setText("Un nouveau patient a été créé");
+                    
+                } catch (ParseException ex) {
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                /*
                 try {
                     new requetes().createPatient(this.conn, patient);
                     //DMA dma = new DMA(patient, premiere_venue);
@@ -991,6 +1106,7 @@ public class Creation_DMA extends javax.swing.JFrame {
                     Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.print("coup dur");
                 }
+                */
             }
             else{
                 dateErrorMessage.setText("Veuillez respecter le format de date : JJ/MM/AAAA");
@@ -1004,6 +1120,23 @@ public class Creation_DMA extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_addPatientButtonActionPerformed
+
+    private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
+        //récupérer le patient sélectionner
+        selectedPatient = patientList.getSelectedValue();
+       
+    }//GEN-LAST:event_patientListMouseClicked
+
+    private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
+        String searchedPatient = searchTextfield.getText();
+        
+        //recherche d'un patient dans la base
+        
+        
+        
+        
+        
+    }//GEN-LAST:event_searchIconMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1035,7 +1168,11 @@ public class Creation_DMA extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Creation_DMA().setVisible(true);
+                try {
+                    new Creation_DMA().setVisible(true);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -1070,12 +1207,15 @@ public class Creation_DMA extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel logo;
     private javax.swing.JTextField nameTextfield;
     private javax.swing.JTextField naturePrestationTextfield;
     private javax.swing.JLabel numberOne;
     private javax.swing.JLabel numeroDeux;
     private javax.swing.JLabel numeroUn;
+    private javax.swing.JList<String> patientList;
+    private javax.swing.JPanel patientTable;
     private javax.swing.JTextField prenomTextfield;
     private javax.swing.JLabel professionnelLabel;
     private javax.swing.JLabel searchIcon;
@@ -1084,4 +1224,5 @@ public class Creation_DMA extends javax.swing.JFrame {
     private javax.swing.JLabel seeDMALabel;
     private javax.swing.JComboBox<String> sexeTextfield;
     // End of variables declaration//GEN-END:variables
+
 }

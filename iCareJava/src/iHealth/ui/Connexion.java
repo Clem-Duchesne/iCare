@@ -16,6 +16,7 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -253,21 +254,34 @@ public class Connexion extends javax.swing.JFrame {
             }
             switch (poste) {
                 case SECRETAIREA:
-                    Creation_DMA interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                    Creation_DMA interfaceSecretaireA = null;
+                    try {
+                        //interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                        interfaceSecretaireA = new Creation_DMA(this.conn);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
                     this.setVisible(false);
                     interfaceSecretaireA.setVisible(true);
-                    break;
-                /*
-                    case SECRETAIREM:
-                        Creation_DM interfaceSecretaireM = new Creation_DM();
-                        interfaceSecretaireM.setVisible(true);
-                    break;
+                break;
+
+                
+                case SECRETAIREM:
+                    Creation_DM interfaceSecretaireM = new Creation_DM();
+                    interfaceSecretaireM.setVisible(true);
+                break;
                     
-                    //à compléter
-                    default:
+                default:
+                    try {
                         new Connexion().setVisible(true);
-                    break;
-                 */
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                break;
             }
         } else {
             switch (id) {
@@ -312,8 +326,11 @@ public class Connexion extends javax.swing.JFrame {
 
                         Creation_DMA interfaceSecretaireA = null;
                     try {
-                        interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                        //interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                        interfaceSecretaireA = new Creation_DMA(this.conn);
                     } catch (SQLException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -322,6 +339,7 @@ public class Connexion extends javax.swing.JFrame {
 
 
                         break;
+
 
 
                     case SECRETAIREM:
