@@ -33,7 +33,7 @@ private static final String configurationFile = "src/database.properties";
 // Get a connection to the database
             Connection conn = DriverManager.getConnection(dbUrl, username, password);
             Patient patient = new Patient("210000258","GUNNESS","Belle","01/01/2001",FEMME,"adresse1");
-            requetes.getDMA_IPP(conn,patient);
+            //DMA dma = new requetes().getDMA_IPP(conn,patient);
             
 // Print information about connection warnings
             SQLWarningsExceptions.printWarnings(conn);

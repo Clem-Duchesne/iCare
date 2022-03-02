@@ -92,15 +92,7 @@ public class Visualisation_DM_SM_View extends javax.swing.JFrame {
         // Récupérer le nom et prénom de la personne connectée
         professionnelLabel.setText(identite[0] + " " + identite[1]);
         
-        new requetes().getPatients(conn).size();
-        //affichage liste de patients 
-        jPanel3.setFocusable(true);
-        
-        // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
-        
-        //affichage liste de patients 
-        int nb_patient = new requetes().getPatients(conn).size();
+     
         
         
         

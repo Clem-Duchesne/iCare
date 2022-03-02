@@ -277,9 +277,21 @@ public class Connexion extends javax.swing.JFrame {
 
                 
                 case SECRETAIREM:
-                    Creation_DM interfaceSecretaireM = new Creation_DM();
+                    Creation_DM interfaceSecretaireM = null;
+                
+                    try {
+                        interfaceSecretaireM = new Creation_DM(this.conn, identite);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                    this.setVisible(false);
                     interfaceSecretaireM.setVisible(true);
                 break;
+
+
                     
                 default:
                     try {
@@ -319,10 +331,10 @@ public class Connexion extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             }
-
             String[] identite = null;
             if (reponse) {
                 Poste poste = new Authentification().definirPoste(id);
+                System.out.print(poste);
                 try {
                     identite = new requetes().getPersonnel(conn, id);
                     //System.out.print(identite[0]);
@@ -331,37 +343,46 @@ public class Connexion extends javax.swing.JFrame {
                 }
                 switch (poste) {
                     case SECRETAIREA:
-
                         Creation_DMA interfaceSecretaireA = null;
-                    try {
-                        //interfaceSecretaireA = new Creation_DMA(this.conn, identite);
-                        interfaceSecretaireA = new Creation_DMA(this.conn, identite);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ParseException ex) {
+                        try {
+                            //interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+                            interfaceSecretaireA = new Creation_DMA(this.conn, identite);
+
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParseException ex) {
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
-                            this.setVisible(false);
-                            interfaceSecretaireA.setVisible(true);
-
-
-                        break;
-
+                        this.setVisible(false);
+                        interfaceSecretaireA.setVisible(true);
+                    break;
 
 
                     case SECRETAIREM:
-                        Creation_DM interfaceSecretaireM = new Creation_DM();
+                        Creation_DM interfaceSecretaireM = null;
+                
+                        try {
+                            interfaceSecretaireM = new Creation_DM(this.conn, identite);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParseException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
 
                         this.setVisible(false);
                         interfaceSecretaireM.setVisible(true);
-                        break;
-                    /*
-                        //à compléter
-                        default:
+                    break;
+
+
+                    default:
+                        try {
                             new Connexion().setVisible(true);
-                        break;
-                     */
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    break;
                 }
             } else {
                 switch (id) {

@@ -14,6 +14,10 @@ public class DMA {
     private Patient patient;
     private List<Consultation> consultation = new ArrayList<Consultation> ();
     
+    public DMA(){
+        
+    }
+    
     public DMA(Patient patient, LocalDate dateCreation){
         this.patient =patient;
         this.dateCreation = dateCreation;

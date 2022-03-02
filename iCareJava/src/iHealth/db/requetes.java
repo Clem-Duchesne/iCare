@@ -5,6 +5,7 @@
  */
 package iHealth.db;
 
+import iHealth.nf.DMA;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
@@ -114,6 +115,47 @@ public class requetes {
         
         return identite;
     }
+    
+    //requête sélection nom, prénom personnel
+    /*
+    public DMA getDMA_IPP(Connection conn, Patient patient) throws SQLException{
+        
+        
+         Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM DMA Where IPP = '" + patient.getIPP() + "'");
+        
+        String IPP = null;
+        java.sql.Date dateS = null;
+        String ph = null;
+        
+        String natureP = null;
+        String service = null;
+        while(rs.next()){
+            IPP = rs.getString("IPP");
+            dateS = rs.getDate("dateS");
+            ph = rs.getString("nomPH");
+            
+            natureP = rs.getString("nature");
+            service = rs.getString("service");
+            
+            DMA dma = new DMA(IPP,dateS,ph,natureP,service);
+            
+            if(rs.getString("lettreS") != null ){
+                String lettreS = rs.getString("lettreS");
+                dma.setLettreS(lettreS);
+            }
+
+        }
+        
+        
+        
+        
+        
+        
+        return dma;
+    }
+*/
     
     //récupérer la liste des patients de tout l'hôpital
     public List<Patient> getPatients(Connection conn) throws SQLException, ParseException{
