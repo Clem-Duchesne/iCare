@@ -120,8 +120,6 @@ public class Creation_DM extends javax.swing.JFrame {
             patientList.setModel(patientsModel);   
           
         }
-       
-        
         
     }
     public Creation_DM() {
@@ -585,6 +583,11 @@ public class Creation_DM extends javax.swing.JFrame {
 
         nomPrenomLabel1.setBackground(new java.awt.Color(255, 255, 255));
         nomPrenomLabel1.setFont(new java.awt.Font("Quicksand", 0, 24)); // NOI18N
+        nomPrenomLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nomPrenomLabel1MouseClicked(evt);
+            }
+        });
 
         sexLabel.setBackground(new java.awt.Color(255, 255, 255));
         sexLabel.setFont(new java.awt.Font("Quicksand", 0, 24)); // NOI18N
@@ -899,7 +902,34 @@ public class Creation_DM extends javax.swing.JFrame {
 
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
         selectedPatient = patientList.getSelectedValue();
+        String IPP = selectedPatient.substring(0, 8);
+        try {
+            Patient patient = requetes.getPatientIPP(conn, IPP);
+            
+            String nom = requetes.getPatientIPP(this.conn, IPP).getNom();
+            String prenom = requetes.getPatientIPP(this.conn, IPP).getPrenom();
+            String sexe = requetes.getPatientIPP(this.conn, IPP).getSexe().toString();
+            String adresse = requetes.getPatientIPP(this.conn, IPP).getAdresse();
+            String dateN = requetes.getPatientIPP(conn, IPP).getDateNaissance().toString();
+            
+            ippLabel.setText(IPP);
+            nomPrenomLabel1.setText(nom + " " + prenom);
+            sexLabel.setText(sexe);
+            adressLabel.setText(adresse);
+            dateNLabel.setText(dateN);
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+            // Aller dans requete et chercher le sejour du patient 
+            // Mettre ces infos dans la 2ème partie de l'interface
     }//GEN-LAST:event_patientListMouseClicked
+
+    private void nomPrenomLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nomPrenomLabel1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nomPrenomLabel1MouseClicked
 
     /**
      * @param args the command line arguments

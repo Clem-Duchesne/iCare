@@ -9,6 +9,7 @@ import iHealth.nf.Authentification;
 import iHealth.nf.Chambre;
 import iHealth.nf.Consultation;
 import iHealth.nf.DMA;
+import iHealth.nf.DM;
 import iHealth.nf.Lit;
 import iHealth.nf.Localisation;
 import iHealth.nf.NumeroSejour;
@@ -351,7 +352,7 @@ public class requetes {
         return patients;
     }
       //Recherche de patient
-    public Patient getPatientIPP(Connection conn, String IPP) throws SQLException, ParseException{
+    public static Patient getPatientIPP(Connection conn, String IPP) throws SQLException, ParseException{
         
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -423,4 +424,108 @@ public class requetes {
         
         return consultations;
     }
+    
+    
+    
+    // Créer un Dossier Médical
+    public static void createDM(Connection conn, DM dm) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+
+        String IPP = dm.getPatient().getIPP();
+        String operation = dm.getOperation();
+        String observation = dm.getObservation();
+        String prescription = dm.getPrescription();
+        String resultat = dm.getResultat();
+        String lettreS = dm.getLettreS();
+        String correspondance = dm.getCorrespondance();
+
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM DM");
+        if(rs.next()){
+            stmt.executeUpdate("INSERT INTO DM VALUES ('" + IPP + "','" + operation + "','" + observation + "','" + prescription + "','" + resultat + "','" + lettreS + "','" + correspondance + "')");
+            System.out.println("Ajout avec succès.");
+        } else{
+            System.out.println("Il n'y a pas eu d'ajout !");
+        }
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+    }
+
+// Rechercher un Dossier Médical
+    public static DM getDM(Connection conn, Patient patient) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM DM WHERE IPP = '" + patient.getIPP() + "'");
+        DM dm = new DM();
+
+        String IPP = null;
+        String operation = null;
+        String observation = null;
+        String prescription = null;
+        String resultat = null;
+        String lettreS = null;
+        String correspondance = null;
+
+        while (rs.next()) {
+            IPP = rs.getString("IPP");
+            operation = rs.getString("op");
+            observation = rs.getString("obs");
+            prescription = rs.getString("presc");
+            resultat = rs.getString("resultat");
+            lettreS = rs.getString("lettreS");
+            correspondance = rs.getString("corres");
+            
+            System.out.println("IPP : " + IPP + "\n"
+            + "op : " + operation + "\n" 
+            + "obs : " + observation + "\n"
+            + "presc : " + prescription + "\n"
+            + "resultat : " + resultat + "\n"
+            + "lettreS : " + lettreS + "\n"
+            + "corres : " + correspondance);
+
+            dm = new DM(patient, operation, observation, prescription, resultat, lettreS, correspondance);
+        }
+
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+
+        return dm;
+    }
+
+// Modifier un Dossier Médical
+    public static DM setDM(Connection conn, Patient patient, String operation, String observation , String prescription , String resultat, String lettreS, String correspondance) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("UPDATE DM SET op='" + operation + "', obs='" + observation + "', presc='" + prescription + "', resultat='" + resultat + "', lettreS='" + lettreS + "', corres='" + correspondance + "' WHERE IPP = '" + patient.getIPP() + "'");
+        DM dm = new DM();
+
+        while (rs.next()) {
+            dm.setOperation(operation);
+            dm.setObservation(observation);
+            dm.setPrescription(prescription);
+            dm.setResultat(resultat);
+            dm.setLettreS(lettreS);
+
+            dm = new DM(patient, operation, observation, prescription, resultat, lettreS, correspondance);
+        }
+        stmt.executeUpdate("commit");
+
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+
+        return dm;
+    }
+    
+    
+
+    // Pour modifier une donnée dans la base de donnée, écrire la requête suivant :
+    // UPDATE table SET prenom = 'Alfred Schmidt', ville= 'Frankfurt' WHERE IPP = 1;
+
 }
