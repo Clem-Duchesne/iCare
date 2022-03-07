@@ -6,7 +6,7 @@ package iHealth.nf;
  */
 
 public class Services {
-    private String typeService;
+    private Service typeService;
     private ServicesSpeciaux servicesSpeciaux;
     private ServicesMedicoTechniques servicesMedicoTechniques;
     private ServicesCliniques servicesCliniques;

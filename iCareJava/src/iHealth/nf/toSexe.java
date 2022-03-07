@@ -19,21 +19,18 @@ public class toSexe {
         Sexe sexe_S = null;
             
         switch(sexe){
-            case "HOMME":
+            case "Masculin":
                 sexe_S = Sexe.HOMME;
                 break;
             
-            case "FEMME":
+            case "Feminin":
                 sexe_S = Sexe.FEMME;
                 break;
                 
-            case "AUTRE":
+            case "Autre":
                 sexe_S = Sexe.AUTRE;
                 break;
-                
-            default:
-                sexe_S = Sexe.AUTRE;
-                break;
+
         }
         
         return sexe_S;
@@ -48,7 +45,7 @@ public class toSexe {
                 break;
             
             case FEMME:
-                sexe_S = "Féminin";
+                sexe_S = "Feminin";
                 break;
                 
             case AUTRE:

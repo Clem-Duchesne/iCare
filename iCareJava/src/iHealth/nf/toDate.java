@@ -44,10 +44,8 @@ public class toDate {
             
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             java.util.Date parsed = format.parse(date_java);
-            System.out.println("CE QU'on VEUT VOIR : " + date_java);
             date_sql_format = new java.sql.Date(parsed.getTime());
             
-            System.out.println("CE QU'on VEUT VOIR : " + date_sql_format);
         }
         
         

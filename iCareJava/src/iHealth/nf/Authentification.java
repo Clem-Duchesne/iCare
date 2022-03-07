@@ -14,7 +14,6 @@ public class Authentification {
      public Poste definirPoste(String identifiant){
         Poste poste = null;
         String posteStr = identifiant.substring(0,2);
-        //System.out.print(posteStr);
 
                 switch(posteStr){
                     case "00": 

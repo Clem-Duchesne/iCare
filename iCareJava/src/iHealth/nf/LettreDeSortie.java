@@ -1,13 +1,25 @@
 package iHealth.nf;
 
+import java.util.Calendar;
+
 /**
  *
  * @author cleme
  */
 public class LettreDeSortie {
-    private String dateEcriture;
-    private PH PHredacteur;
+    private java.sql.Date dateSortie;
     private String lettre;
-    private PH ph;
-
+    
+    public LettreDeSortie(String lettre){
+        this.dateSortie = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+        this.lettre = lettre;
+    }
+    public LettreDeSortie(java.sql.Date dateSortie, String lettre){
+        this.dateSortie = dateSortie;
+        this.lettre = lettre;
+    }
+    
+    public String getLettre_text(){
+        return lettre;
+    }
 }
