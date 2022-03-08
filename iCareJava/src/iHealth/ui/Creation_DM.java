@@ -40,7 +40,7 @@ public class Creation_DM extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Creation_DM(Connection conn, String[] identite) throws SQLException, ParseException {
+    public Creation_DM(Connection conn, String identite) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -101,15 +101,14 @@ public class Creation_DM extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        System.out.print(identite[0]);
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+       // System.out.print(identite);
+        professionnelLabel.setText(identite);
         
         //new requetes().getPatients(conn).size();
         //affichage liste de patients 
         jPanel3.setFocusable(true);
         
-        // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+       
         
         //affichage liste de patients 
         //affichage liste de patients 
@@ -280,7 +279,7 @@ public class Creation_DM extends javax.swing.JFrame {
 
         addDMALabel.setBackground(new java.awt.Color(255, 255, 255));
         addDMALabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
-        addDMALabel.setText("Nouveau DMA");
+        addDMALabel.setText("Nouveau DM");
         addDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addDMALabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -298,7 +297,7 @@ public class Creation_DM extends javax.swing.JFrame {
 
         seeDMALabel.setBackground(new java.awt.Color(255, 255, 255));
         seeDMALabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
-        seeDMALabel.setText("Visualiser DMA");
+        seeDMALabel.setText("Visualiser DM");
         seeDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         seeDMALabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

@@ -8,10 +8,15 @@ package iHealth.ui;
 import java.sql.Connection;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
+import iHealth.nf.Chambre;
 import iHealth.nf.Consultation;
 import iHealth.nf.DMA;
+import iHealth.nf.Lit;
+import iHealth.nf.Localisation;
+import iHealth.nf.NumeroSejour;
 import iHealth.nf.PH;
 import iHealth.nf.Patient;
+import iHealth.nf.Service;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import iHealth.nf.toSexe;
@@ -21,12 +26,15 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -39,6 +47,12 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private Connection conn = null;
     private DefaultTableModel tableModel = new DefaultTableModel();
     private List<Consultation> consultations;
+    private DefaultListModel patientsModel= new DefaultListModel();
+    private DefaultComboBoxModel PHsModel = new DefaultComboBoxModel();
+    private DefaultComboBoxModel ServiceModel = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel ServiceModel2 = new DefaultComboBoxModel<>();
+    private DefaultComboBoxModel localisation = new DefaultComboBoxModel<>();
+    private String IPP;
     
     /**
      * Creates new form Creation_DMA
@@ -113,8 +127,9 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         tableModel.addColumn("Nature prestation");
         tableModel.addColumn("Lettre de sortie");
         
-        consultations = new requetes().getSejours(this.conn, IPP);
+        this.IPP = IPP;
         
+        consultations = new requetes().getSejours(this.conn, IPP);
         
         int index =0;
         for(Consultation c : consultations){
@@ -128,6 +143,36 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         }
         
         consultationTable.setModel(tableModel);
+        
+        //list comboBox PH
+        List<PH> PHs = new requetes().getPHs(conn);
+        List<Service> services = new ArrayList<>();
+        List<Localisation> localisations = new ArrayList<>();
+        
+        for (Service s : Service.values()) { 
+             services.add(s);
+        } 
+        for (Localisation l : Localisation.values()){
+            localisations.add(l);
+        }
+
+        ServiceModel.addElement("Service Responsable");
+        ServiceModel2.addElement("Service Géographique");
+       for(int i=0;i<services.size();i++){
+           ServiceModel.addElement("" + services.get(i) + "");
+           ServiceModel2.addElement("" + services.get(i) + ""); 
+       }
+       for(int i=0;i<localisations.size();i++){
+           localisation.addElement(localisations.get(i) +"");
+       }
+            
+        for(int i=0;i<PHs.size();i++){
+            PHsModel.addElement(PHs.get(i).getNumP() + " - " + PHs.get(i).getNom() + " " + PHs.get(i).getPrenom() +  " - " + PHs.get(i).getService());
+        }
+        praticienComboBox.setModel(PHsModel); 
+        serviceGeographiqueComboBox.setModel(ServiceModel2);
+        serviceResponsableComboBox.setModel(ServiceModel);
+        locComboBox.setModel(localisation);
     }
     public Visualisation_DMA() {
         initComponents();
@@ -222,13 +267,13 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        nameTextfield1 = new javax.swing.JTextField();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        nameTextfield2 = new javax.swing.JTextField();
-        nameTextfield3 = new javax.swing.JTextField();
+        naturePrestationTextField = new javax.swing.JTextField();
         addPatientButton1 = new javax.swing.JButton();
+        praticienComboBox = new javax.swing.JComboBox<>();
+        serviceResponsableComboBox = new javax.swing.JComboBox<>();
+        serviceGeographiqueComboBox = new javax.swing.JComboBox<>();
+        locComboBox = new javax.swing.JComboBox<>();
+        chambreLabel = new javax.swing.JTextField();
         patientLabel = new javax.swing.JLabel();
 
         jMenu1.setText("jMenu1");
@@ -473,26 +518,28 @@ public class Visualisation_DMA extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(numeroUn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sexeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(dateNaissanceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(adresseLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(16, 16, 16)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(39, 39, 39)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(75, 75, 75)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
+                                .addGap(19, 19, 19)
+                                .addComponent(numeroUn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sexeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(dateNaissanceLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(adresseLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(39, 39, 39)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 579, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(75, 75, 75)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -550,66 +597,21 @@ public class Visualisation_DMA extends javax.swing.JFrame {
 
         jPanel8.setBackground(new java.awt.Color(243, 245, 255));
 
-        nameTextfield1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        nameTextfield1.setForeground(new java.awt.Color(102, 102, 102));
-        nameTextfield1.setToolTipText("");
-        nameTextfield1.addFocusListener(new java.awt.event.FocusAdapter() {
+        naturePrestationTextField.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        naturePrestationTextField.setForeground(new java.awt.Color(102, 102, 102));
+        naturePrestationTextField.setText("Nature de la prestation");
+        naturePrestationTextField.setToolTipText("");
+        naturePrestationTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                nameTextfield1FocusGained(evt);
+                naturePrestationTextFieldFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextfield1FocusLost(evt);
+                naturePrestationTextFieldFocusLost(evt);
             }
         });
-        nameTextfield1.addMouseListener(new java.awt.event.MouseAdapter() {
+        naturePrestationTextField.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTextfield1MouseClicked(evt);
-            }
-        });
-
-        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel15.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel15.setText("Nature de la prestation :");
-
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel16.setText("Date de début de séjour :");
-
-        jLabel17.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel17.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel17.setText("Nom du praticien responsable :");
-
-        nameTextfield2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        nameTextfield2.setForeground(new java.awt.Color(102, 102, 102));
-        nameTextfield2.setToolTipText("");
-        nameTextfield2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                nameTextfield2FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextfield2FocusLost(evt);
-            }
-        });
-        nameTextfield2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTextfield2MouseClicked(evt);
-            }
-        });
-
-        nameTextfield3.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        nameTextfield3.setForeground(new java.awt.Color(102, 102, 102));
-        nameTextfield3.setToolTipText("");
-        nameTextfield3.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                nameTextfield3FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextfield3FocusLost(evt);
-            }
-        });
-        nameTextfield3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTextfield3MouseClicked(evt);
+                naturePrestationTextFieldMouseClicked(evt);
             }
         });
 
@@ -618,50 +620,65 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         addPatientButton1.setForeground(new java.awt.Color(255, 255, 255));
         addPatientButton1.setText("Ajout séjour");
         addPatientButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addPatientButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addPatientButton1MouseClicked(evt);
+            }
+        });
         addPatientButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addPatientButton1ActionPerformed(evt);
             }
         });
 
+        praticienComboBox.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+
+        serviceResponsableComboBox.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+
+        serviceGeographiqueComboBox.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+
+        locComboBox.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+
+        chambreLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        chambreLabel.setText("Numéro de la chambre");
+
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nameTextfield3)
-                    .addComponent(nameTextfield2)
-                    .addComponent(nameTextfield1)
-                    .addGroup(jPanel8Layout.createSequentialGroup()
-                        .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17)
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel15))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 117, Short.MAX_VALUE)
                 .addComponent(addPatientButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(147, 147, 147))
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addComponent(locComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chambreLabel))
+                    .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(praticienComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(naturePrestationTextField)
+                    .addComponent(serviceResponsableComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTextfield2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTextfield1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(nameTextfield3, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19)
+                .addComponent(praticienComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(naturePrestationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(locComboBox)
+                    .addComponent(chambreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
+                .addGap(95, 95, 95)
                 .addComponent(addPatientButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(163, Short.MAX_VALUE))
         );
@@ -775,7 +792,16 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_addDMAIconMouseClicked
 
     private void addDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMALabelMouseClicked
-        // TODO add your handling code here:
+        String identite = professionnelLabel.getText();
+        try {
+            Creation_DMA createDMA = new Creation_DMA(this.conn, identite);
+            this.setVisible(false);
+            createDMA.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_addDMALabelMouseClicked
 
     private void seeDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIconMouseClicked
@@ -814,48 +840,24 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deconnexionIcon2MouseClicked
 
-    private void nameTextfield1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield1FocusGained
+    private void naturePrestationTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_naturePrestationTextFieldFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield1FocusGained
+    }//GEN-LAST:event_naturePrestationTextFieldFocusGained
 
-    private void nameTextfield1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield1FocusLost
+    private void naturePrestationTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_naturePrestationTextFieldFocusLost
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield1FocusLost
+    }//GEN-LAST:event_naturePrestationTextFieldFocusLost
 
-    private void nameTextfield1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTextfield1MouseClicked
+    private void naturePrestationTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_naturePrestationTextFieldMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield1MouseClicked
-
-    private void nameTextfield2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield2FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield2FocusGained
-
-    private void nameTextfield2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield2FocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield2FocusLost
-
-    private void nameTextfield2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTextfield2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield2MouseClicked
-
-    private void nameTextfield3FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield3FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield3FocusGained
-
-    private void nameTextfield3FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield3FocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield3FocusLost
-
-    private void nameTextfield3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTextfield3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield3MouseClicked
+    }//GEN-LAST:event_naturePrestationTextFieldMouseClicked
 
     private void addPatientButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatientButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addPatientButton1ActionPerformed
 
     private void consultationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultationTableMouseClicked
-        int num_sejour = consultationTable.getSelectedColumn();
+        int num_sejour = consultationTable.getSelectedRow();
         Consultation consultation_clicked = consultations.get(num_sejour);
         String identite = professionnelLabel.getText();
         
@@ -865,14 +867,48 @@ public class Visualisation_DMA extends javax.swing.JFrame {
             interfaceDMAView.setVisible(true);
         } catch (SQLException ex) {
             Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
-        
-        
+        } catch (ParseException ex) {
+            Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+        } 
         
     }//GEN-LAST:event_consultationTableMouseClicked
+
+    private void addPatientButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addPatientButton1MouseClicked
+        
+
+
+        String praticien = (String) praticienComboBox.getSelectedItem();
+        String numP = praticien.substring(0,7);
+        //System.out.print(numP);
+        String naturePrestation = naturePrestationTextField.getText();
+        String num_chambre =chambreLabel.getText();
+        String service_geo = serviceGeographiqueComboBox.getSelectedItem().toString();
+        String service_responsable = serviceResponsableComboBox.getSelectedItem().toString();
+        String loc = (String) locComboBox.getSelectedItem();
+        if(praticien!=null & naturePrestation!=null & !naturePrestation.equals(" ") & !naturePrestation.equals("Nature de la prestation") & (service_responsable!="Service responsable") & service_geo != "Service géographique" & num_chambre != "Numéro chambre" & num_chambre != " " & num_chambre != null){
+
+            java.sql.Date current_date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+            
+            
+            DMA dma = null;    
+            
+            NumeroSejour numeroSejour = new NumeroSejour(current_date);
+            
+            
+            Chambre chambre = new Chambre(Service.valueOf(service_geo),Service.valueOf(service_responsable), num_chambre);
+            Lit lit = new Lit(Localisation.valueOf(loc), chambre);
+            Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
+            dma = new DMA(IPP,current_date);
+            try {
+
+                    new requetes().addSejour(this.conn, IPP, consultation);
+                    new requetes().addLocalisation(conn, IPP, lit, consultation);
+  
+            } catch (SQLException ex) {
+                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_addPatientButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -915,6 +951,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private javax.swing.JLabel addDMALabel;
     private javax.swing.JButton addPatientButton1;
     private javax.swing.JLabel adresseLabel;
+    private javax.swing.JTextField chambreLabel;
     private javax.swing.JTable consultationTable;
     private javax.swing.JLabel dateNaissanceLabel;
     private javax.swing.JLabel deconnexionIcon2;
@@ -922,9 +959,6 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private javax.swing.JLabel deconnexionLabel;
     private javax.swing.JLabel deconnexionLabel2;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -942,16 +976,18 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox<String> locComboBox;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField nameTextfield1;
-    private javax.swing.JTextField nameTextfield2;
-    private javax.swing.JTextField nameTextfield3;
+    private javax.swing.JTextField naturePrestationTextField;
     private javax.swing.JLabel numeroDeux;
     private javax.swing.JLabel numeroUn;
     private javax.swing.JLabel patientLabel;
+    private javax.swing.JComboBox<String> praticienComboBox;
     private javax.swing.JLabel professionnelLabel;
     private javax.swing.JLabel seeDMAIcon;
     private javax.swing.JLabel seeDMALabel;
+    private javax.swing.JComboBox<String> serviceGeographiqueComboBox;
+    private javax.swing.JComboBox<String> serviceResponsableComboBox;
     private javax.swing.JLabel sexeLabel;
     // End of variables declaration//GEN-END:variables
 }

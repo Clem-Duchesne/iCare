@@ -58,7 +58,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Creation_DMA(Connection conn, String[] identite ) throws SQLException, ParseException {
+    public Creation_DMA(Connection conn, String identite ) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -112,7 +112,7 @@ public class Creation_DMA extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite);
         
         
         //affichage liste de patients 
@@ -1209,12 +1209,12 @@ public class Creation_DMA extends javax.swing.JFrame {
             try {
                 if(new requetes().getDMA_IPP(this.conn, IPP)!=null){
                     new requetes().addSejour(this.conn, IPP, consultation);
-                    new requetes().addLocalisation(conn, IPP, lit);
+                    new requetes().addLocalisation(conn, IPP, lit, consultation);
                 }
                 else{
                     new requetes().createDMA(this.conn, dma);
                     new requetes().addSejour(this.conn, IPP, consultation);
-                    new requetes().addLocalisation(conn, IPP, lit);
+                    new requetes().addLocalisation(conn, IPP, lit, consultation);
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);

@@ -248,7 +248,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Quicksand" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Nouveau DMA"/>
+                <Property name="text" type="java.lang.String" value="Nouveau DM"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
@@ -278,7 +278,7 @@
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Quicksand" size="14" style="0"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Visualiser DMA"/>
+                <Property name="text" type="java.lang.String" value="Visualiser DM"/>
                 <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                   <Color id="Hand Cursor"/>
                 </Property>
