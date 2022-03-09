@@ -352,7 +352,7 @@ public class requetes {
         return patients;
     }
       //Recherche de patient
-    public static Patient getPatientIPP(Connection conn, String IPP) throws SQLException, ParseException{
+    public Patient getPatientIPP(Connection conn, String IPP) throws SQLException, ParseException{
         
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -388,7 +388,7 @@ public class requetes {
     
     
     //Retourner séjour
-    public List<Consultation> getSejours(Connection conn, String IPP) throws SQLException, ParseException{
+    public  List<Consultation> getSejours(Connection conn, String IPP) throws SQLException, ParseException{
         
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -428,7 +428,7 @@ public class requetes {
     
     
     // Créer un Dossier Médical
-    public static void createDM(Connection conn, DM dm) throws SQLException, ParseException {
+    public void createDM(Connection conn, DM dm) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
 
@@ -455,7 +455,7 @@ public class requetes {
     }
 
 // Rechercher un Dossier Médical
-    public static DM getDM(Connection conn, Patient patient) throws SQLException, ParseException {
+    public DM getDM(Connection conn, Patient patient) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
@@ -498,7 +498,7 @@ public class requetes {
     }
 
 // Modifier un Dossier Médical
-    public static DM setDM(Connection conn, Patient patient, String operation, String observation , String prescription , String resultat, String lettreS, String correspondance) throws SQLException, ParseException {
+    public DM setDM(Connection conn, Patient patient, String operation, String observation , String prescription , String resultat, String lettreS, String correspondance) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query

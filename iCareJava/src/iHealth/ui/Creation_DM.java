@@ -101,7 +101,7 @@ public class Creation_DM extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        System.out.print(identite[0]);
+        //System.out.print(identite[0]);
         professionnelLabel.setText(identite[0] + " " + identite[1]);
         
         //new requetes().getPatients(conn).size();
@@ -116,7 +116,7 @@ public class Creation_DM extends javax.swing.JFrame {
         List<Patient> patients = new requetes().getPatients(conn);
  
         for(int i=0;i<patients.size();i++){
-            patientsModel.addElement("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+            patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
             patientList.setModel(patientsModel);   
           
         }
@@ -269,7 +269,7 @@ public class Creation_DM extends javax.swing.JFrame {
         logo.setBackground(new java.awt.Color(255, 255, 255));
 
         addDMAIcon.setBackground(new java.awt.Color(255, 255, 255));
-        addDMAIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addDMAIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         addDMAIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addDMAIconMouseClicked(evt);
@@ -279,7 +279,7 @@ public class Creation_DM extends javax.swing.JFrame {
         addDMALabel.setBackground(new java.awt.Color(255, 255, 255));
         addDMALabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         addDMALabel.setText("Nouveau DMA");
-        addDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         addDMALabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addDMALabelMouseClicked(evt);
@@ -287,7 +287,7 @@ public class Creation_DM extends javax.swing.JFrame {
         });
 
         seeDMAIcon.setBackground(new java.awt.Color(255, 255, 255));
-        seeDMAIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        seeDMAIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         seeDMAIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 seeDMAIconMouseClicked(evt);
@@ -297,7 +297,7 @@ public class Creation_DM extends javax.swing.JFrame {
         seeDMALabel.setBackground(new java.awt.Color(255, 255, 255));
         seeDMALabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         seeDMALabel.setText("Visualiser DMA");
-        seeDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        seeDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         seeDMALabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 seeDMALabelMouseClicked(evt);
@@ -305,7 +305,7 @@ public class Creation_DM extends javax.swing.JFrame {
         });
 
         deconnexionIconButton.setBackground(new java.awt.Color(255, 255, 255));
-        deconnexionIconButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deconnexionIconButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         deconnexionIconButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deconnexionIconButtonMouseClicked(evt);
@@ -315,7 +315,7 @@ public class Creation_DM extends javax.swing.JFrame {
         deconnexionLabel.setBackground(new java.awt.Color(255, 255, 255));
         deconnexionLabel.setFont(new java.awt.Font("Quicksand", 0, 16)); // NOI18N
         deconnexionLabel.setText("DÉCONNEXION");
-        deconnexionLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deconnexionLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         deconnexionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deconnexionLabelMouseClicked(evt);
@@ -372,14 +372,14 @@ public class Creation_DM extends javax.swing.JFrame {
         deconnexionLabel2.setForeground(new java.awt.Color(221, 75, 75));
         deconnexionLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         deconnexionLabel2.setText("Déconnexion");
-        deconnexionLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deconnexionLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         deconnexionLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deconnexionLabel2MouseClicked(evt);
             }
         });
 
-        deconnexionIcon2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        deconnexionIcon2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         deconnexionIcon2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 deconnexionIcon2MouseClicked(evt);
@@ -453,9 +453,9 @@ public class Creation_DM extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(221, 221, 221)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(206, 206, 206))
+                .addGap(134, 134, 134)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,7 +480,7 @@ public class Creation_DM extends javax.swing.JFrame {
             }
         });
 
-        searchIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        searchIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         patientList.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         patientList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -495,19 +495,19 @@ public class Creation_DM extends javax.swing.JFrame {
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel8Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(searchTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 560, Short.MAX_VALUE)
+                    .addComponent(searchTextfield))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .addComponent(jScrollPane1)
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -524,7 +524,7 @@ public class Creation_DM extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Ouvrir DM");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -748,9 +748,9 @@ public class Creation_DM extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -902,21 +902,31 @@ public class Creation_DM extends javax.swing.JFrame {
 
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
         selectedPatient = patientList.getSelectedValue();
-        String IPP = selectedPatient.substring(0, 8);
+        String IPP = selectedPatient.substring(0, 9);
+        System.out.println(IPP);
         try {
-            Patient patient = requetes.getPatientIPP(conn, IPP);
+            Patient patient = new requetes().getPatientIPP(conn, IPP);
             
-            String nom = requetes.getPatientIPP(this.conn, IPP).getNom();
-            String prenom = requetes.getPatientIPP(this.conn, IPP).getPrenom();
-            String sexe = requetes.getPatientIPP(this.conn, IPP).getSexe().toString();
-            String adresse = requetes.getPatientIPP(this.conn, IPP).getAdresse();
-            String dateN = requetes.getPatientIPP(conn, IPP).getDateNaissance().toString();
+            String nom = patient.getNom();
+            String prenom = patient.getPrenom();
+            String sexe = patient.getSexe().toString();
+            String adresse = patient.getAdresse();
+            String dateN = patient.getDateNaissance().toString();
             
             ippLabel.setText(IPP);
             nomPrenomLabel1.setText(nom + " " + prenom);
             sexLabel.setText(sexe);
             adressLabel.setText(adresse);
             dateNLabel.setText(dateN);
+            
+            String numS;
+            String numP;
+            String date_entree;
+            String date_sortie;
+            String nature;
+            String service;
+            String lettreS;
+            
         } catch (SQLException ex) {
             Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
