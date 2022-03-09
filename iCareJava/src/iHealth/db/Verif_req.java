@@ -38,12 +38,13 @@ public class Verif_req {
 
             //DMA dma = new requetes().getDMA_IPP(conn,patient);
             DM dm = new DM(patient_new, "operation_essai", "observation_essai", "prescription_essai", "resultat_essai", "lettreS_essai", "correspondance_essai");
-            //requetes.createPatient(conn,patient_new);
-            //requetes.getPatient(conn,"ALPHA");
-            //requetes.createDM(conn,dm);
-            requetes.getDM(conn, patient_new);
-            requetes.setDM(conn, patient_new, "nouvelle operation", "nouvelle observation", "nouvelle prescription", "nouveau resultat", "nouvelle lettre de sortie", "nouvelle correspondance");
-            requetes.getDM(conn, patient_new);
+//            requetes.createPatient(conn,patient_new);
+//            requetes.getPatient(conn,"ALPHA");
+//            requetes.createDM(conn,dm);
+//            requetes.getDM(conn, patient_new);
+//            requetes.setDM(conn, patient_new, "nouvelle operation", "nouvelle observation", "nouvelle prescription", "nouveau resultat", "nouvelle lettre de sortie", "nouvelle correspondance");
+//            requetes.getDM(conn, patient_new);
+//            requetes.get_date_entree(conn, "210000258");
 
 // Print information about connection warnings
             SQLWarningsExceptions.printWarnings(conn);

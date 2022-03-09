@@ -481,13 +481,13 @@ public class requetes {
             lettreS = rs.getString("lettreS");
             correspondance = rs.getString("corres");
             
-            System.out.println("IPP : " + IPP + "\n"
-            + "op : " + operation + "\n" 
-            + "obs : " + observation + "\n"
-            + "presc : " + prescription + "\n"
-            + "resultat : " + resultat + "\n"
-            + "lettreS : " + lettreS + "\n"
-            + "corres : " + correspondance);
+//            System.out.println("IPP : " + IPP + "\n"
+//            + "op : " + operation + "\n" 
+//            + "obs : " + observation + "\n"
+//            + "presc : " + prescription + "\n"
+//            + "resultat : " + resultat + "\n"
+//            + "lettreS : " + lettreS + "\n"
+//            + "corres : " + correspondance);
 
             dm = new DM(patient, operation, observation, prescription, resultat, lettreS, correspondance);
         }
@@ -525,9 +525,23 @@ public class requetes {
         return dm;
     }
     
-    
+// Obtenir la date de séjour la plus récente dans le DM
+    public static Date get_date_entree(Connection conn, String IPP) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT MAX(date_entree) FROM Sejour WHERE IPP = '" + IPP + "'");
+        Date date = null;
+        while (rs.next()) {
+            date = rs.getDate(1);
+        }
+//        System.out.println("Date d'entrée du patient : " + date);
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
 
-    // Pour modifier une donnée dans la base de donnée, écrire la requête suivant :
-    // UPDATE table SET prenom = 'Alfred Schmidt', ville= 'Frankfurt' WHERE IPP = 1;
-
+        return date;
+    }
 }

@@ -40,7 +40,7 @@ public class Creation_DM extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Creation_DM(Connection conn, String[] identite) throws SQLException, ParseException {
+    public Creation_DM(Connection conn, String identite) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -102,14 +102,12 @@ public class Creation_DM extends javax.swing.JFrame {
 
         // Récupérer le nom et prénom de la personne connectée
         //System.out.print(identite[0]);
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite);
         
         //new requetes().getPatients(conn).size();
         //affichage liste de patients 
         jPanel3.setFocusable(true);
-        
-        // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+
         
         //affichage liste de patients 
         //affichage liste de patients 
