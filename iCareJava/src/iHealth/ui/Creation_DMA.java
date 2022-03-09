@@ -1159,6 +1159,10 @@ public class Creation_DMA extends javax.swing.JFrame {
     private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
         String searchedPatient = searchTextfield.getText();
         //String searchedType = searchedPatient.substring(0,2);
+        patientList.setModel(null);
+        if(searchedPatient.equals(null)){
+            patientList.setModel(patientsModel);
+        }
         
         List<Patient> patients = new ArrayList<>();
         try {
