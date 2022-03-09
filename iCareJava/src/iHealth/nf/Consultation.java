@@ -61,6 +61,9 @@ public class Consultation {
     public void setLettreDeSortie(LettreDeSortie lettreDeSortie){
         this.lettreDeSortie = lettreDeSortie;
     }
+    public String getIPP(){
+        return IPP;
+    }
     
     
 

@@ -125,16 +125,17 @@ public class requetes {
         stmt.close();
     }
     //requête création localisation
-    public void addLocalisation(Connection conn, String IPP, Lit lit) throws SQLException{
+    public void addLocalisation(Connection conn, String IPP, Lit lit, Consultation consultation) throws SQLException{
         Statement stmt = conn.createStatement();
         
         String loc = new toLocalisation().LocalisationtoString(lit.getLoc());
         String chambre = lit.getChambre().getNumeroChambre();
         String service_resp = lit.getChambre().getServiceResponsable().toString();
         String service_geo = lit.getChambre().getServiceGeographique().toString();
+        String num_sejour = consultation.getNumeroSejour().getNumero();
         
         // Execute the query
-        ResultSet rs = stmt.executeQuery("INSERT INTO LOC VALUES ('" + IPP + "','" + loc + "','" + chambre + "','" + service_resp + "','" + service_geo +"')");
+        ResultSet rs = stmt.executeQuery("INSERT INTO LOC VALUES ('" + num_sejour + "','" + IPP + "','" + loc + "','" + chambre + "','" + service_resp + "','" + service_geo +"')");
     
         // Close the result set, statement and the connection
         rs.close();
@@ -162,9 +163,9 @@ public class requetes {
     
     
     //requête sélection nom, prénom personnel
-    public String[] getPersonnel(Connection conn, String id) throws SQLException{
+    public String getPersonnel(Connection conn, String id) throws SQLException{
         
-        String[] identite = new String[2];
+        String identite = null;
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
@@ -175,8 +176,8 @@ public class requetes {
             prenom = rs.getString(3);
             nom = rs.getString(4);
         }
-            identite[0] = nom;
-            identite[1] = prenom;
+            identite = nom + " " + prenom;
+
         
         // Close the result set, statement and the connection
         rs.close();
@@ -238,18 +239,19 @@ public class requetes {
         return ph;
     }
     
-     public Lit getLoc(Connection conn, String IPP, String service_resp) throws SQLException{
+     public Lit getLoc(Connection conn, String IPP, String num_sejour) throws SQLException{
         
         Lit lit = null;
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM LOC WHERE IPP = '" + IPP + "' AND service_responsable = '" + service_resp + "'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM LOC WHERE IPP = '" + IPP + "' AND numS = '" + num_sejour + "'");
         
         while(rs.next()){
                 String loc = rs.getString("lit");
                 String num_c = rs.getString("chambre");
                 String service_geo = rs.getString("service_geographique");    
+                String service_resp = rs.getString("service_responsable"); 
                 Service service_geo_s = Service.valueOf(Service.class, service_geo);
                 Service service_resp_s = Service.valueOf(Service.class, service_resp);
                 Localisation loc_l = new toLocalisation().StringToLocalisation(loc);
@@ -403,16 +405,16 @@ public class requetes {
         String nature = null;
         String service_r = null;
         String lettreSortie = null;
-        Lit lit =null;
+        Lit lit = null;
         while (rs.next()) {
             numero_sejour = rs.getString("numS");
             numP = rs.getString("numP");
             dateEntree = rs.getDate("date_entree");
             dateSortie = rs.getDate("date_sortie");
-            nature = rs.getString("nature");
+            nature = rs.getString("nature"); 
             service_r = rs.getString("service");
             lettreSortie = rs.getString("lettreS");
-            lit = this.getLoc(conn, IPP, service_r);
+            lit = this.getLoc(conn, IPP, numero_sejour);
             NumeroSejour numeroSejour = new NumeroSejour(numero_sejour);
             Consultation consultation = new Consultation(numeroSejour, IPP, dateEntree, dateSortie, numP, nature, lit, lettreSortie);
             consultations.add(consultation);

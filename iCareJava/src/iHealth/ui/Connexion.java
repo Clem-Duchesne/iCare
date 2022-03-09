@@ -259,7 +259,7 @@ public class Connexion extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String[] identite = null;
+        String identite = null;
         if (reponse) {
             Poste poste = new Authentification().definirPoste(id);
 
@@ -341,7 +341,7 @@ public class Connexion extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] identite = null;
+            String identite = null;
             if (reponse) {
                 Poste poste = new Authentification().definirPoste(id);
                 try {

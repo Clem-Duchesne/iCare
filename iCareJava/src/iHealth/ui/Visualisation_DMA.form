@@ -461,33 +461,37 @@
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                              <Component id="numeroUn" min="-2" pref="34" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel6" min="-2" pref="358" max="-2" attributes="0"/>
-                                  <Component id="sexeLabel" max="32767" attributes="0"/>
-                                  <Component id="dateNaissanceLabel" max="32767" attributes="0"/>
-                                  <Component id="adresseLabel" alignment="0" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="numeroDeux" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                      <Component id="numeroUn" min="-2" pref="34" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="jLabel6" min="-2" pref="358" max="-2" attributes="0"/>
+                                          <Component id="sexeLabel" max="32767" attributes="0"/>
+                                          <Component id="dateNaissanceLabel" max="32767" attributes="0"/>
+                                          <Component id="adresseLabel" alignment="0" max="32767" attributes="0"/>
+                                      </Group>
+                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
-                                      <Component id="jLabel5" min="-2" pref="579" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="numeroDeux" alignment="0" min="-2" pref="25" max="-2" attributes="0"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <EmptySpace min="39" pref="39" max="-2" attributes="0"/>
+                                              <Component id="jLabel5" min="-2" pref="579" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jScrollPane1" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -661,46 +665,45 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="nameTextfield3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nameTextfield2" alignment="0" max="32767" attributes="0"/>
-                          <Component id="nameTextfield1" alignment="0" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jLabel17" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel16" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="117" max="32767" attributes="0"/>
                       <Component id="addPatientButton1" min="-2" pref="201" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="147" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="locComboBox" min="-2" pref="151" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="chambreLabel" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="serviceGeographiqueComboBox" alignment="1" max="32767" attributes="0"/>
+                          <Component id="praticienComboBox" alignment="0" max="32767" attributes="0"/>
+                          <Component id="naturePrestationTextField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="serviceResponsableComboBox" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                      <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="nameTextfield2" min="-2" pref="53" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                      <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="nameTextfield1" min="-2" pref="53" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="nameTextfield3" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="praticienComboBox" min="-2" pref="57" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="naturePrestationTextField" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="serviceResponsableComboBox" min="-2" pref="58" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="serviceGeographiqueComboBox" min="-2" pref="56" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="locComboBox" max="32767" attributes="0"/>
+                          <Component id="chambreLabel" pref="50" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
                       <Component id="addPatientButton1" min="-2" pref="43" max="-2" attributes="0"/>
                       <EmptySpace pref="163" max="32767" attributes="0"/>
                   </Group>
@@ -708,7 +711,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JTextField" name="nameTextfield1">
+            <Component class="javax.swing.JTextField" name="naturePrestationTextField">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Quicksand" size="18" style="0"/>
@@ -716,77 +719,13 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="66" green="66" red="66" type="rgb"/>
                 </Property>
+                <Property name="text" type="java.lang.String" value="Nature de la prestation"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
               <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextfield1FocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextfield1FocusLost"/>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nameTextfield1MouseClicked"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel15">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Helvetica Neue" size="24" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Nature de la prestation :"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel16">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Helvetica Neue" size="24" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Date de d&#xe9;but de s&#xe9;jour :"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel17">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
-                </Property>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Helvetica Neue" size="24" style="0"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Nom du praticien responsable :"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="nameTextfield2">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Quicksand" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="66" green="66" red="66" type="rgb"/>
-                </Property>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
-              </Properties>
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextfield2FocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextfield2FocusLost"/>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nameTextfield2MouseClicked"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="nameTextfield3">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Quicksand" size="18" style="0"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="66" green="66" red="66" type="rgb"/>
-                </Property>
-                <Property name="toolTipText" type="java.lang.String" value=""/>
-              </Properties>
-              <Events>
-                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextfield3FocusGained"/>
-                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="nameTextfield3FocusLost"/>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="nameTextfield3MouseClicked"/>
+                <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="naturePrestationTextFieldFocusGained"/>
+                <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="naturePrestationTextFieldFocusLost"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="naturePrestationTextFieldMouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="addPatientButton1">
@@ -806,8 +745,69 @@
                 </Property>
               </Properties>
               <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addPatientButton1MouseClicked"/>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addPatientButton1ActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="praticienComboBox">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Quicksand" size="12" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="serviceResponsableComboBox">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Quicksand" size="12" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="serviceGeographiqueComboBox">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Quicksand" size="12" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JComboBox" name="locComboBox">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Quicksand" size="12" style="0"/>
+                </Property>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="0"/>
+                </Property>
+              </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+              </AuxValues>
+            </Component>
+            <Component class="javax.swing.JTextField" name="chambreLabel">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Quicksand" size="18" style="0"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Num&#xe9;ro de la chambre"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
