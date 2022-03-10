@@ -216,7 +216,7 @@ public class requetes {
         
         return PHs;
     }
-    
+    //by numP
      public PH getPH(Connection conn, String numP) throws SQLException{
         
         PH ph = null;
@@ -238,7 +238,25 @@ public class requetes {
         
         return ph;
     }
-    
+     //by name and surname
+    public String getPHnumP(Connection conn, String nom, String prenom) throws SQLException{
+        
+
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM PRO WHERE nomP = '" + nom + "' AND prenomP = '" + prenom + "'");
+        String numP = null;
+        while(rs.next()){
+            numP = rs.getString("numP");
+
+        }
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close(); 
+        
+        return numP;
+    }
      public Lit getLoc(Connection conn, String IPP, String num_sejour) throws SQLException{
         
         Lit lit = null;
@@ -346,6 +364,42 @@ public class requetes {
             Patient patient = new Patient(IPP, nomPatient, prenom, dateNaissance, format, adresse);
             patients.add(patient);
         }
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+        
+        return patients;
+    }
+    //Recherche de patient pour un ph
+    public List<Patient> getPatientPH(Connection conn, String numP) throws SQLException, ParseException{
+        
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient natural join Sejour WHERE numP = '" + numP + "'");
+        List<Patient> patients = new ArrayList<>();
+        
+        String prenom = null;
+        String nomPatient = null;
+        String IPP = null;
+        java.sql.Date dateNaissance = null;
+        String sexe = null;
+        String adresse = null;
+        Sexe format = null;
+        while (rs.next()) {
+            IPP = rs.getString("IPP");
+            nomPatient = rs.getString("nom");
+            prenom = rs.getString("prenom");
+            dateNaissance = rs.getDate("dateN");
+            sexe = rs.getString("sexe");
+            format = new toSexe().stringToSexe("sexe");
+            adresse = rs.getString("adresse");  
+            
+            Patient patient = new Patient(IPP, nomPatient, prenom, dateNaissance, format, adresse);
+            patients.add(patient);
+        }
+        
         
         // Close the result set, statement and the connection
         rs.close();

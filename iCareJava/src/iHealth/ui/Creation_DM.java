@@ -8,6 +8,8 @@ package iHealth.ui;
 import java.sql.Connection;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
+import iHealth.nf.Consultation;
+import iHealth.nf.DM;
 import iHealth.nf.DMA;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
@@ -36,6 +38,7 @@ public class Creation_DM extends javax.swing.JFrame {
     private Connection conn = null;
     private String selectedPatient = null;
     private DefaultListModel  patientsModel= new DefaultListModel();
+    private String identite=null;
     
     /**
      * Creates new form Creation_DMA
@@ -47,6 +50,7 @@ public class Creation_DM extends javax.swing.JFrame {
         int height = dim.height;
         height = height - 40;
         this.setBounds(-8, 40, dim.width, height);
+        
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
@@ -102,12 +106,13 @@ public class Creation_DM extends javax.swing.JFrame {
 
         // Récupérer le nom et prénom de la personne connectée
         //System.out.print(identite[0]);
+        this.identite = identite;
         professionnelLabel.setText(identite);
         
         //new requetes().getPatients(conn).size();
         //affichage liste de patients 
         jPanel3.setFocusable(true);
-
+ 
         
         //affichage liste de patients 
         //affichage liste de patients 
@@ -851,7 +856,27 @@ public class Creation_DM extends javax.swing.JFrame {
     }//GEN-LAST:event_seeDMAIconMouseClicked
 
     private void seeDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabelMouseClicked
-        // TODO add your handling code here:
+        String IPP = selectedPatient.substring(0, 9);
+        Patient patient=null;
+        try {
+            patient = new requetes().getPatientIPP(conn, IPP);
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        Consultation consultation = null;
+        DM dm =null;
+        Visualisation_DM_SM interfaceDMSM =null;
+        try {
+            interfaceDMSM = new Visualisation_DM_SM(this.conn, identite, patient, consultation, dm);
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVisible(false);
+        interfaceDMSM.setVisible(true);
+        
     }//GEN-LAST:event_seeDMALabelMouseClicked
 
     private void deconnexionLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel2MouseClicked

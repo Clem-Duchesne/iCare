@@ -300,6 +300,21 @@ public class Connexion extends javax.swing.JFrame {
                     this.setVisible(false);
                     interfaceSecretaireM.setVisible(true);
                 break;
+                
+                case MEDECIN:
+                     interfaceSecretaireM = null;
+                
+                    try {
+                        Mes_Patients_PH interfacePH = new Mes_Patients_PH(this.conn, identite);
+                        this.setVisible(false);
+                        interfacePH.setVisible(true);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ParseException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+               
+                break;
 
 
                     

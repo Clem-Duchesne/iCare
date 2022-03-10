@@ -32,12 +32,14 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
 
     
     private Connection conn = null;
+    private String IPP =null;
     
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM_PH(Connection conn, String[] identite) throws SQLException {
+    public Visualisation_DM_PH(Connection conn, String identite, String IPP) throws SQLException {
         this.conn = conn;
+        this.IPP = IPP;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         int height = dim.height;
@@ -98,17 +100,9 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite);
         
-       
-       
-        
-        
-        
-        
-        
-        
-        
+
     }
     public Visualisation_DM_PH() {
         initComponents();

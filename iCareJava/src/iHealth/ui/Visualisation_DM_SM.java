@@ -8,6 +8,8 @@ package iHealth.ui;
 import java.sql.Connection;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
+import iHealth.nf.Consultation;
+import iHealth.nf.DM;
 import iHealth.nf.DMA;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
@@ -36,7 +38,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM_SM(Connection conn, String[] identite) throws SQLException {
+    public Visualisation_DM_SM(Connection conn, String identite, Patient patient, Consultation consultation, DM dm) throws SQLException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -90,7 +92,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         
 
         // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite);
        
       
         
@@ -419,7 +421,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
 
         jLabel10.setBackground(new java.awt.Color(255, 255, 255));
         jLabel10.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel10.setText("Médecin :");
+        jLabel10.setText("Practicien responsable : ");
 
         jLabel15.setBackground(new java.awt.Color(255, 255, 255));
         jLabel15.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N

@@ -19,10 +19,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -32,11 +34,12 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
 
     
     private Connection conn = null;
+    private DefaultListModel patientsModel= new DefaultListModel();
     
     /**
      * Creates new form Creation_DMA
      */
-    public Mes_Patients_PH(Connection conn, String[] identite) throws SQLException {
+    public Mes_Patients_PH(Connection conn, String identite) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -86,14 +89,23 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         seeDMAIcon2.setIcon(icone6); 
 
         // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite);
         
        
         //affichage liste de patients 
         jPanel3.setFocusable(true);
+        String[] identiteTable = identite.split(" ");
+        String nom = identiteTable[0];
+        String prenom = identiteTable[1];
+        String numP = new requetes().getPHnumP(conn, nom, prenom);
         
-        // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+         List<Patient> patients = new requetes().getPatientPH(conn, numP);
+ 
+        for(int i=0;i<patients.size();i++){
+            patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+            patientListe.setModel(patientsModel);   
+          
+        }
         
         
         
@@ -152,6 +164,8 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         
         jPanel3.setFocusable(true);
          this.setResizable(false);
+         
+        
         
     }
 
@@ -192,6 +206,8 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         numberOne = new javax.swing.JLabel();
         searchTextfield = new javax.swing.JTextField();
         searchIcon = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        patientListe = new javax.swing.JList<>();
 
         jMenu1.setText("jMenu1");
 
@@ -412,7 +428,7 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel3.setText("Praticien Hospitalier :");
 
-        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 11)); // NOI18N
+        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -463,6 +479,13 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
             }
         });
 
+        patientListe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientListeMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(patientListe);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -470,7 +493,9 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(numberOne)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1)
+                .addGap(18, 18, 18)
                 .addComponent(searchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -490,6 +515,10 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
                             .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(searchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -680,6 +709,21 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIcon1MouseClicked
 
+    private void patientListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListeMouseClicked
+        String patient = patientListe.getSelectedValue();
+        String identite = professionnelLabel.getText();
+        String IPP = patient.substring(0,9);
+        
+        try {
+            Visualisation_DM_PH interfaceVuePH = new Visualisation_DM_PH(this.conn, identite, IPP);
+            this.setVisible(false);
+            interfaceVuePH.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_patientListeMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -740,8 +784,10 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel logo;
     private javax.swing.JLabel numberOne;
+    private javax.swing.JList<String> patientListe;
     private javax.swing.JLabel professionnelLabel;
     private javax.swing.JLabel searchIcon;
     private javax.swing.JTextField searchTextfield;
