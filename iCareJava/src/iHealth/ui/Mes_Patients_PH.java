@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -35,6 +36,7 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     
     private Connection conn = null;
     private DefaultListModel patientsModel= new DefaultListModel();
+    private List<Patient> patientsGen;
     
     /**
      * Creates new form Creation_DMA
@@ -95,14 +97,14 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         //affichage liste de patients 
         jPanel3.setFocusable(true);
         String[] identiteTable = identite.split(" ");
-        String nom = identiteTable[0];
-        String prenom = identiteTable[1];
+        String prenom = identiteTable[0];
+        String nom = identiteTable[1];
         String numP = new requetes().getPHnumP(conn, nom, prenom);
         
-         List<Patient> patients = new requetes().getPatientPH(conn, numP);
+        patientsGen = new requetes().getPatientPH(conn, numP);
  
-        for(int i=0;i<patients.size();i++){
-            patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+        for(int i=0;i<patientsGen.size();i++){
+            patientsModel.addElement(patientsGen.get(i).getIPP() + " - " + patientsGen.get(i).getNom() + " " + patientsGen.get(i).getPrenom() + "");
             patientListe.setModel(patientsModel);   
           
         }
@@ -652,11 +654,14 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTextfieldFocusGained
 
     private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
-        String searchedPatient = searchTextfield.getText();
+         String searchedPatient = searchTextfield.getText();
         //String searchedType = searchedPatient.substring(0,2);
-
-        //List<Patient> patients = new ArrayList<>();
-        /*
+        patientListe.setModel(null);
+        if(searchedPatient.equals(null)){
+            patientListe.setModel(patientsModel);
+        }
+        
+        List<Patient> patients = new ArrayList<>();
         try {
             patients = new requetes().getPatient(conn, searchedPatient);
         } catch (SQLException ex) {
@@ -664,17 +669,19 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
         }
-        */
         //recherche d'un patient dans la base
-        /*
         patientsModel= new DefaultListModel();
-
+        
+        
         for(int i=0;i<patients.size();i++){
-            patientsModel.addElement("" + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
-            patientList.setModel(patientsModel);
-
-        }
-        */
+ 
+            for(int j = 0; j<patientsGen.size();j++){
+                if(patients.get(i).getIPP().equals(patientsGen.get(j).getIPP())){
+                    patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+                }
+            }
+        } 
+        patientListe.setModel(patientsModel);
     }//GEN-LAST:event_searchIconMouseClicked
 
     private void seeDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabelMouseClicked
@@ -694,7 +701,16 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_addDMAIconMouseClicked
 
     private void seeDMALabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabel1MouseClicked
-        // TODO add your handling code here:
+        String identite = professionnelLabel.getText();
+        try {
+            Liste_Patients_PH interfacePHService = new Liste_Patients_PH(conn, identite);
+            this.setVisible(false);
+            interfacePHService.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_seeDMALabel1MouseClicked
 
     private void seeDMAIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIcon2MouseClicked

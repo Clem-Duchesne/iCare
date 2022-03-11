@@ -257,6 +257,53 @@ public class requetes {
         
         return numP;
     }
+    public String getPHService(Connection conn, String nom, String prenom) throws SQLException{
+         // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM PRO WHERE nomP = '" + nom + "' AND prenomP = '" + prenom + "'");
+        String service_P = null;
+        while(rs.next()){
+            service_P = rs.getString("serviceP");
+
+        }
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close(); 
+        
+        return service_P;
+    }
+    public List<Patient> getPatientService(Connection conn, String service_resp)throws SQLException, ParseException{
+        //Créer une liste de patient
+        List<Patient> patients = new ArrayList<Patient>();
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient natural join Sejour WHERE service ='" + service_resp + "'");
+        
+        while(rs.next()){
+            String IPP = rs.getString("IPP");
+            String nom = rs.getString("nom"); 
+            String prenom = rs.getString("prenom");
+            String adresse = rs.getString("adresse");
+            java.sql.Date dateNaissance = rs.getDate("dateN");
+            Sexe sexe = new toSexe().stringToSexe(rs.getString("sexe"));
+         
+            
+            Patient patient = new Patient(IPP,nom,prenom,dateNaissance, sexe, adresse);
+            patients.add(patient);
+            
+            
+        }
+
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close(); 
+        
+        return patients;
+        
+    }
      public Lit getLoc(Connection conn, String IPP, String num_sejour) throws SQLException{
         
         Lit lit = null;
