@@ -240,17 +240,19 @@ public class requetes {
     }
      //by name and surname
     public String getPHnumP(Connection conn, String nom, String prenom) throws SQLException{
-        
-
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
+        
+        String numP = null;
+        
         // Execute the query
         ResultSet rs = stmt.executeQuery("SELECT * FROM PRO WHERE nomP = '" + nom + "' AND prenomP = '" + prenom + "'");
-        String numP = null;
+
         while(rs.next()){
             numP = rs.getString("numP");
 
         }
+//        System.out.println(numP);
         // Close the result set, statement and the connection
         rs.close();
         stmt.close(); 
@@ -424,7 +426,7 @@ public class requetes {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient natural join Sejour WHERE numP = '" + numP + "'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient NATURAL JOIN Sejour WHERE numP = '" + numP + "'");
         List<Patient> patients = new ArrayList<>();
         
         String prenom = null;
@@ -447,6 +449,9 @@ public class requetes {
             patients.add(patient);
         }
         
+//        for (int i=0; i<patients.size();i++){
+//            System.out.println(patients.get(i).getNom() + patients.get(i).getPrenom() + "\n");
+//        }
         
         // Close the result set, statement and the connection
         rs.close();
@@ -627,7 +632,7 @@ public class requetes {
     }
     
 // Obtenir la date de séjour la plus récente dans le DM
-    public static Date get_date_entree(Connection conn, String IPP) throws SQLException, ParseException {
+    public Date get_date_entree(Connection conn, String IPP) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         
@@ -644,5 +649,67 @@ public class requetes {
         stmt.close();
 
         return date;
+    }
+    
+// Obtenir le PH du séjour le plus récent
+    public String get_PH_sejour(Connection conn, String IPP) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT DISTINCT nomP, prenomP FROM PRO NATURAL JOIN Sejour WHERE date_entree=(SELECT max(date_entree) FROM Sejour WHERE IPP='" + IPP + "')");
+        String nom = null;
+        String prenom = null;
+        while (rs.next()) {
+            nom = rs.getString(1);
+            prenom = rs.getString(2);
+        }
+//        System.out.println("PH de ce séjour : Dr. " + nom + " " + prenom);
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+
+        return "Dr. " + nom + " " + prenom;
+    }
+    
+// Obtenir le service du dernier séjour
+    public String get_service_sejour(Connection conn, String IPP) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT service FROM Sejour WHERE IPP='" + IPP + "' AND date_entree=(SELECT MAX(date_entree) FROM Sejour WHERE IPP='" + IPP + "')");
+        String service = null;
+        while (rs.next()) {
+            service = rs.getString(1);
+        }
+//        System.out.println("Service de ce séjour : " + service);
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+
+        return service;
+    }
+    
+// Obtenir la nature du dernier séjour
+    public String get_nature_sejour(Connection conn, String IPP) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT nature FROM Sejour WHERE IPP='" + IPP + "' AND date_entree=(SELECT MAX(date_entree) FROM Sejour WHERE IPP='" + IPP + "')");
+        String nature = null;
+        while (rs.next()) {
+            nature = rs.getString(1);
+        }
+//        System.out.println("Nature de ce séjour : " + nature);
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+
+        return nature;
     }
 }

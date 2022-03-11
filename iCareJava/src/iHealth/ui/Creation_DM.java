@@ -113,8 +113,6 @@ public class Creation_DM extends javax.swing.JFrame {
         //affichage liste de patients 
         jPanel3.setFocusable(true);
  
-        
-        //affichage liste de patients 
         //affichage liste de patients 
         List<Patient> patients = new requetes().getPatients(conn);
  
@@ -926,9 +924,11 @@ public class Creation_DM extends javax.swing.JFrame {
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
         selectedPatient = patientList.getSelectedValue();
         String IPP = selectedPatient.substring(0, 9);
-        System.out.println(IPP);
+//        System.out.println(IPP);
         try {
             Patient patient = new requetes().getPatientIPP(conn, IPP);
+            String date_entree = new requetes().get_date_entree(conn,IPP).toString();
+            String nom_prenom_PH = new requetes().get_PH_sejour(conn, IPP);
             
             String nom = patient.getNom();
             String prenom = patient.getPrenom();
@@ -936,15 +936,18 @@ public class Creation_DM extends javax.swing.JFrame {
             String adresse = patient.getAdresse();
             String dateN = patient.getDateNaissance().toString();
             
+            
             ippLabel.setText(IPP);
             nomPrenomLabel1.setText(nom + " " + prenom);
             sexLabel.setText(sexe);
             adressLabel.setText(adresse);
             dateNLabel.setText(dateN);
+            dateSLabel.setText(date_entree);
+            PHLabel1.setText(nom_prenom_PH);
+            serviceLabel1.setText(new requetes().get_service_sejour(conn, IPP));
+            prestationLabel.setText(new requetes().get_nature_sejour(conn, IPP));
             
             String numS;
-            String numP;
-            String date_entree;
             String date_sortie;
             String nature;
             String service;
