@@ -45,6 +45,10 @@ public class Verif_req {
 //            requetes.setDM(conn, patient_new, "nouvelle operation", "nouvelle observation", "nouvelle prescription", "nouveau resultat", "nouvelle lettre de sortie", "nouvelle correspondance");
 //            requetes.getDM(conn, patient_new);
 //            requetes.get_date_entree(conn, "210000258");
+//            requetes.get_PH_sejour(conn, "210000258");
+//            requetes.get_service_sejour(conn, "210000258");
+//            requetes.getPatientPH(conn, "0200008");
+//            requetes.getPHnumP(conn, "CACHIN", "Francoise");
 
 // Print information about connection warnings
             SQLWarningsExceptions.printWarnings(conn);

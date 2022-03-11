@@ -95,11 +95,12 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         //affichage liste de patients 
         jPanel3.setFocusable(true);
         String[] identiteTable = identite.split(" ");
-        String nom = identiteTable[0];
-        String prenom = identiteTable[1];
+        String prenom = identiteTable[0];
+        String nom = identiteTable[1];
         String numP = new requetes().getPHnumP(conn, nom, prenom);
+        System.out.println(numP + " " + nom + " " + prenom);
         
-         List<Patient> patients = new requetes().getPatientPH(conn, numP);
+        List<Patient> patients = new requetes().getPatientPH(conn, numP);
  
         for(int i=0;i<patients.size();i++){
             patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");

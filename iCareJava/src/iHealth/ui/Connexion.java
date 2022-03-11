@@ -318,15 +318,15 @@ public class Connexion extends javax.swing.JFrame {
 
 
                     
-                default:
-                    try {
-                        new Connexion().setVisible(true);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                break;
+//                default:
+//                    try {
+//                        new Connexion().setVisible(true);
+//                    } catch (ClassNotFoundException ex) {
+//                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+//                    } catch (SQLException ex) {
+//                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                break;
             }
         } else {
             switch (id) {
@@ -395,6 +395,21 @@ public class Connexion extends javax.swing.JFrame {
 
                         this.setVisible(false);
                         interfaceSecretaireM.setVisible(true);
+                    break;
+                    
+                    case MEDECIN:
+                        Mes_Patients_PH interfacePH = null;
+                
+                        try {
+                            interfacePH = new Mes_Patients_PH(this.conn, identite);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (ParseException ex) {
+                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                        this.setVisible(false);
+                        interfacePH.setVisible(true);
                     break;
 
 
