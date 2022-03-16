@@ -11,9 +11,11 @@ import iHealth.db.requetes;
 import iHealth.nf.Consultation;
 import iHealth.nf.DM;
 import iHealth.nf.DMA;
+import iHealth.nf.PH;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
+import iHealth.nf.toSexe;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -25,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -34,11 +37,13 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
 
     
     private Connection conn = null;
+    private String IPP;
+    private DefaultTableModel tableModel = new DefaultTableModel();
     
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM_SM(Connection conn, String identite, Patient patient, Consultation consultation, DM dm) throws SQLException {
+    public Visualisation_DM_SM(Connection conn, String identite, Patient patient, DMA dma, DM dm) throws SQLException {
         this.conn = conn;
         initComponents();
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -94,12 +99,48 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         // Récupérer le nom et prénom de la personne connectée
         professionnelLabel.setText(identite);
        
-      
+        IPP = patient.getIPP();
         
+        patientLabel.setText("Patient : " + patient.getNom() + " " + patient.getPrenom() + " - IPP : " + patient.getIPP());
         
-        
-        
-        
+         ippLabel.setText("IPP : " + IPP);
+            nomPrenomLabel1.setText("Nom & prénom : " + patient.getNom() + " " + patient.getPrenom());
+            sexLabel.setText("Sexe : " + new toSexe().sexeToString(patient.getSexe()));
+            adressLabel.setText("Adresse : " + patient.getAdresse());
+            dateNLabel.setText("Date de naissance : " + patient.getDateNaissance().toString());
+            
+            Consultation sejour = new requetes().getConsultationByNumS(conn, dm.getNumS(), IPP);
+            PH ph = new requetes().getPH(conn, sejour.getNumP());
+            PHLabel1.setText("Praticien responsable : " + ph.getNom() + " " + ph.getPrenom());
+            
+            dateOLabel.setText("Date d'ouverture : " + dm.getDateE());
+
+            //Liste consultations et hospitalisations
+            tableModel.addColumn("Numéro de séjour");
+            tableModel.addColumn("Date début séjour");
+            tableModel.addColumn("Date fin séjour");
+            tableModel.addColumn("PH responsable");
+            tableModel.addColumn("Localisation");
+            tableModel.addColumn("Nature prestation");
+            tableModel.addColumn("Lettre de sortie");
+
+            this.IPP = IPP;
+            
+            List<Document> documents = new ArrayList<>();
+            List<Document> documents = new requetes().getDocuments(this.conn, IPP, dm.getNumS());
+
+            int index =0;
+            for(Consultation c : consultations){
+                PH ph = new requetes().getPH(conn, c.getNumP());
+                String lettre_check = "";
+                if(c.getLettre().getLettre_text() != null){
+                    lettre_check = "Voir lettre de sortie";
+                }
+                tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
+                index++; 
+            }
+
+            consultationTable.setModel(tableModel);
         
     }
     public Visualisation_DM_SM() {
@@ -192,17 +233,16 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         numeroUn = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         numeroDeux = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        ippLabel = new javax.swing.JLabel();
+        PHLabel1 = new javax.swing.JLabel();
+        nomPrenomLabel1 = new javax.swing.JLabel();
+        sexLabel = new javax.swing.JLabel();
+        adressLabel = new javax.swing.JLabel();
+        dateNLabel = new javax.swing.JLabel();
+        dateOLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         numeroDeux1 = new javax.swing.JLabel();
-        IPPLabel = new javax.swing.JLabel();
 
         jMenu1.setText("jMenu1");
 
@@ -376,7 +416,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel3.setText("Secrétaire Médicale : ");
 
-        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 11)); // NOI18N
+        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -415,33 +455,33 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(37, 158, 185));
         jLabel6.setText(" Informations sur le patient");
 
-        jLabel16.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel16.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel16.setText("IPP :");
+        ippLabel.setBackground(new java.awt.Color(255, 255, 255));
+        ippLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        ippLabel.setText("IPP :");
 
-        jLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel10.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel10.setText("Practicien responsable : ");
+        PHLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        PHLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        PHLabel1.setText("Practicien responsable : ");
 
-        jLabel15.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel15.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel15.setText("Nom & prénom :");
+        nomPrenomLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        nomPrenomLabel1.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        nomPrenomLabel1.setText("Nom & prénom :");
 
-        jLabel14.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel14.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel14.setText("Sexe :");
+        sexLabel.setBackground(new java.awt.Color(255, 255, 255));
+        sexLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        sexLabel.setText("Sexe :");
 
-        jLabel13.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel13.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel13.setText("Adresse :");
+        adressLabel.setBackground(new java.awt.Color(255, 255, 255));
+        adressLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        adressLabel.setText("Adresse :");
 
-        jLabel7.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel7.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel7.setText("Date de naissance :");
+        dateNLabel.setBackground(new java.awt.Color(255, 255, 255));
+        dateNLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        dateNLabel.setText("Date de naissance :");
 
-        jLabel18.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel18.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        jLabel18.setText("Date d’ouverture :");
+        dateOLabel.setBackground(new java.awt.Color(255, 255, 255));
+        dateOLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        dateOLabel.setText("Date d’ouverture :");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -467,12 +507,12 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(dateNLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(PHLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(adressLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(sexLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(nomPrenomLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(ippLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -480,7 +520,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                         .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dateOLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 520, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 998, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(310, Short.MAX_VALUE))))
@@ -500,23 +540,23 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(numberOne, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(jLabel16)
+                .addComponent(ippLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel15)
+                .addComponent(nomPrenomLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
+                .addComponent(sexLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
+                .addComponent(adressLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
+                .addComponent(dateNLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
+                .addComponent(PHLabel1)
                 .addGap(24, 24, 24)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addComponent(jLabel18)
+                .addComponent(dateOLabel)
                 .addGap(42, 42, 42)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 165, Short.MAX_VALUE))
@@ -526,10 +566,6 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                     .addComponent(numeroDeux1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(378, Short.MAX_VALUE)))
         );
-
-        IPPLabel.setFont(new java.awt.Font("Quicksand", 0, 30)); // NOI18N
-        IPPLabel.setForeground(new java.awt.Color(217, 21, 21));
-        IPPLabel.setText("IPP :          ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -546,8 +582,6 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(patientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(IPPLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -570,9 +604,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                         .addGap(30, 30, 30)
                         .addComponent(jLabel1)))
                 .addGap(36, 36, 36)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(patientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(IPPLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(patientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(45, Short.MAX_VALUE))
@@ -714,24 +746,21 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel IPPLabel;
+    private javax.swing.JLabel PHLabel1;
     private javax.swing.JLabel addDMAIcon;
     private javax.swing.JLabel addDMALabel;
+    private javax.swing.JLabel adressLabel;
+    private javax.swing.JLabel dateNLabel;
+    private javax.swing.JLabel dateOLabel;
     private javax.swing.JLabel deconnexionIcon2;
     private javax.swing.JLabel deconnexionIconButton;
     private javax.swing.JLabel deconnexionLabel;
     private javax.swing.JLabel deconnexionLabel2;
+    private javax.swing.JLabel ippLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
@@ -743,6 +772,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JLabel logo;
+    private javax.swing.JLabel nomPrenomLabel1;
     private javax.swing.JLabel numberOne;
     private javax.swing.JLabel numeroDeux;
     private javax.swing.JLabel numeroDeux1;
@@ -751,5 +781,6 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     private javax.swing.JLabel professionnelLabel;
     private javax.swing.JLabel seeDMAIcon;
     private javax.swing.JLabel seeDMALabel;
+    private javax.swing.JLabel sexLabel;
     // End of variables declaration//GEN-END:variables
 }

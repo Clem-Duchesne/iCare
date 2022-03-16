@@ -52,6 +52,14 @@ public class toDate {
         return date_sql_format;
     }
     
+    public java.sql.Date todate(String date) throws ParseException{
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+            java.util.Date parsed = format.parse(date);
+            java.sql.Date date_sql_format = new java.sql.Date(parsed.getTime());
+            
+            return date_sql_format;
+    }
+    
     public LocalDate sqlDateToLocalDate(java.sql.Date date){
         LocalDate localDate = java.sql.Date.valueOf(""+date+"").toLocalDate();
         

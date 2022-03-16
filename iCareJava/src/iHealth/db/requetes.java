@@ -312,7 +312,7 @@ public class requetes {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM LOC WHERE IPP = '" + IPP + "' AND numS = '" + num_sejour + "'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM LOC WHERE numS = '" + num_sejour + "' AND IPP = '" + IPP + "'");
         
         while(rs.next()){
                 String loc = rs.getString("lit");
@@ -329,6 +329,61 @@ public class requetes {
         stmt.close(); 
         
         return lit;
+    }
+     public Consultation getConsultationByNumS(Connection conn, String numS, String IPP) throws SQLException{
+          // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Sejour WHERE numS = '" + numS + "' AND IPP = '" + IPP + "'");
+        String service_P = null;
+        String numP =null;
+        String nature = null;
+        Lit lit = null;
+        Consultation sejour = null;
+        while(rs.next()){
+            service_P = rs.getString("service");
+            nature = rs.getString("nature");
+            numS = rs.getString("numS");
+            numP = rs.getString("numP");
+            NumeroSejour numS2 = new NumeroSejour(numS);
+            lit = this.getLoc(conn, IPP, numS);
+            java.sql.Date date_entree2 = rs.getDate("date_entree");
+            sejour = new Consultation(numS2, IPP, date_entree2, numP,nature,lit);
+
+        }
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close(); 
+        
+        
+        return sejour;
+     }
+     public Consultation getSejour(Connection conn, String date_entree, String nature,String IPP) throws SQLException{
+         // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Sejour WHERE date_entree = to_date('" + date_entree + "','YYYY-MM-DD') AND nature = '" + nature + "' AND IPP = '" + IPP + "'");
+        String service_P = null;
+        String numP =null;
+        String numS = null;
+        Lit lit = null;
+        Consultation sejour = null;
+        while(rs.next()){
+            service_P = rs.getString("service");
+            numS = rs.getString("numS");
+            numP = rs.getString("numP");
+            NumeroSejour numS2 = new NumeroSejour(numS);
+            lit = this.getLoc(conn, IPP, numS);
+            java.sql.Date date_entree2 = rs.getDate("date_entree");
+            sejour = new Consultation(numS2, IPP, date_entree2, numP,nature,lit);
+
+        }
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close(); 
+        
+        
+        return sejour;
     }
     //requête sélection nom, prénom personnel
     
@@ -541,21 +596,13 @@ public class requetes {
         Statement stmt = conn.createStatement();
 
         String IPP = dm.getPatient().getIPP();
-        String operation = dm.getOperation();
-        String observation = dm.getObservation();
-        String prescription = dm.getPrescription();
-        String resultat = dm.getResultat();
-        String lettreS = dm.getLettreS();
-        String correspondance = dm.getCorrespondance();
+        String numS = dm.getNumS();
+        java.sql.Date date_ouverture = dm.getDateE();
+      
 
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM DM");
-        if(rs.next()){
-            stmt.executeUpdate("INSERT INTO DM VALUES ('" + IPP + "','" + operation + "','" + observation + "','" + prescription + "','" + resultat + "','" + lettreS + "','" + correspondance + "')");
-            System.out.println("Ajout avec succès.");
-        } else{
-            System.out.println("Il n'y a pas eu d'ajout !");
-        }
+        ResultSet rs = stmt.executeQuery("INSERT INTO DM VALUES ('" + IPP + "','" + numS + "'" + date_ouverture + "'" + null + "'')");
+
         
         // Close the result set, statement and the connection
         rs.close();
@@ -571,31 +618,17 @@ public class requetes {
         DM dm = new DM();
 
         String IPP = null;
-        String operation = null;
-        String observation = null;
-        String prescription = null;
-        String resultat = null;
-        String lettreS = null;
+        String numS = null;
+        java.sql.Date date_E =null;
         String correspondance = null;
 
         while (rs.next()) {
             IPP = rs.getString("IPP");
-            operation = rs.getString("op");
-            observation = rs.getString("obs");
-            prescription = rs.getString("presc");
-            resultat = rs.getString("resultat");
-            lettreS = rs.getString("lettreS");
+            numS = rs.getString("numS");
+            date_E = rs.getDate("date_ouverture");
             correspondance = rs.getString("corres");
-            
-//            System.out.println("IPP : " + IPP + "\n"
-//            + "op : " + operation + "\n" 
-//            + "obs : " + observation + "\n"
-//            + "presc : " + prescription + "\n"
-//            + "resultat : " + resultat + "\n"
-//            + "lettreS : " + lettreS + "\n"
-//            + "corres : " + correspondance);
 
-            dm = new DM(patient, operation, observation, prescription, resultat, lettreS, correspondance);
+            dm = new DM(patient, numS, date_E, correspondance);
         }
 
         // Close the result set, statement and the connection
@@ -606,30 +639,20 @@ public class requetes {
     }
 
 // Modifier un Dossier Médical
-    public DM setDM(Connection conn, Patient patient, String operation, String observation , String prescription , String resultat, String lettreS, String correspondance) throws SQLException, ParseException {
+    public void setDMCorrespondance(Connection conn, Patient patient, String operation, String observation , String prescription , String resultat, String lettreS, String correspondance) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("UPDATE DM SET op='" + operation + "', obs='" + observation + "', presc='" + prescription + "', resultat='" + resultat + "', lettreS='" + lettreS + "', corres='" + correspondance + "' WHERE IPP = '" + patient.getIPP() + "'");
-        DM dm = new DM();
+        ResultSet rs = stmt.executeQuery("UPDATE DM SET corres='" + correspondance + "' WHERE IPP = '" + patient.getIPP() + "'");
 
-        while (rs.next()) {
-            dm.setOperation(operation);
-            dm.setObservation(observation);
-            dm.setPrescription(prescription);
-            dm.setResultat(resultat);
-            dm.setLettreS(lettreS);
-
-            dm = new DM(patient, operation, observation, prescription, resultat, lettreS, correspondance);
-        }
         stmt.executeUpdate("commit");
 
         // Close the result set, statement and the connection
         rs.close();
         stmt.close();
-
-        return dm;
     }
+    
+
     
 // Obtenir la date de séjour la plus récente dans le DM
     public Date get_date_entree(Connection conn, String IPP) throws SQLException, ParseException {

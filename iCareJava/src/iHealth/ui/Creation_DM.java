@@ -13,6 +13,7 @@ import iHealth.nf.DM;
 import iHealth.nf.DMA;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
+import iHealth.nf.toSexe;
 import iHealth.nf.toDate;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -854,7 +855,7 @@ public class Creation_DM extends javax.swing.JFrame {
     }//GEN-LAST:event_seeDMAIconMouseClicked
 
     private void seeDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabelMouseClicked
-        String IPP = selectedPatient.substring(0, 9);
+       /* String IPP = selectedPatient.substring(0, 9);
         Patient patient=null;
         try {
             patient = new requetes().getPatientIPP(conn, IPP);
@@ -874,6 +875,7 @@ public class Creation_DM extends javax.swing.JFrame {
         }
         this.setVisible(false);
         interfaceDMSM.setVisible(true);
+        */
         
     }//GEN-LAST:event_seeDMALabelMouseClicked
 
@@ -918,7 +920,69 @@ public class Creation_DM extends javax.swing.JFrame {
     }//GEN-LAST:event_searchTextfieldFocusLost
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        //Creation DM
+        
+        //Recuperation patient
+        String IPP = ippLabel.getText();
+        String[] identiteP = nomPrenomLabel1.getText().split(" ");
+        String nom = identiteP[0];
+        String prenom = identiteP[1];
+        String dateNaissance = dateNLabel.getText();
+        String sexe =sexLabel.getText();
+        Sexe sexeS = new toSexe().stringToSexe(sexe);
+        String adresse = adressLabel.getText();
+        
+        //Recuperation sejour
+        
+        try {
+            String date_entree = dateSLabel.getText();
+            String nature = prestationLabel.getText();
+            //String nomP = PHLabel1.getText().split(" ")[0];
+            //String prenomP = PHLabel1.getText().split(" ")[1];
+            //String numP = new requetes().getPHnumP(conn, nomP, prenomP);
+            Consultation sejour = new requetes().getSejour(conn, date_entree, nature, IPP);
+            java.sql.Date dateN = new toDate().todate(dateNaissance);
+            
+            Patient patient = new Patient(IPP,nom,prenom,dateN,sexeS,adresse);
+            
+            String numS = sejour.getNumeroSejour().getNumero();
+            java.sql.Date dateE = new java.sql.Date(System.currentTimeMillis());
+            String correspondance = null;
+            DM dm = new DM(patient, numS, dateE, correspondance);
+            DMA dma = new requetes().getDMA_IPP(conn, IPP);
+            
+            try {
+                DM dm2 = new requetes().getDM(this.conn,patient);
+                if(dm2== null){
+                    new requetes().createDM(this.conn, dm);
+                    Visualisation_DM_SM interfaceSM = new Visualisation_DM_SM(this.conn, identite, patient, dma, dm);
+                    this.setVisible(false);
+                    interfaceSM.setVisible(true);
+ 
+                }
+                else{
+                    Visualisation_DM_SM interfaceSM = new Visualisation_DM_SM(this.conn, identite, patient, dma, dm2);
+                    this.setVisible(false);
+                    interfaceSM.setVisible(true);
+                }
+
+                
+            } catch (ParseException ex) {
+                Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
+        
+        
+
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void patientListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListMouseClicked
@@ -932,7 +996,8 @@ public class Creation_DM extends javax.swing.JFrame {
             
             String nom = patient.getNom();
             String prenom = patient.getPrenom();
-            String sexe = patient.getSexe().toString();
+            
+            String sexe = new toSexe().sexeToString(patient.getSexe());
             String adresse = patient.getAdresse();
             String dateN = patient.getDateNaissance().toString();
             

@@ -19,25 +19,21 @@ public class DM {
     public Chambre chambre;
 
     private Patient patient;
-    private String operation;
-    private String observation;
-    private String prescription;
-    private String resultat;
-    private String lettreS;
+    private String numS;
+    private java.sql.Date dateE;
+    private List<Document> documents;
     private String correspondance;
 
     public DM() {
 
     }
 
-    public DM(Patient patient, String operation, String observation, String prescription, String resultat, String lettreS, String correspondance) {
+    public DM(Patient patient, String numS, java.sql.Date dateE, String correspondance) {
         this.patient = patient;
-        this.operation = operation;
-        this.observation = observation;
-        this.prescription = prescription;
-        this.resultat = resultat;
-        this.lettreS = lettreS;
+        this.dateE = dateE;
+        this.numS = numS;
         this.correspondance = correspondance;
+        this.documents = new ArrayList<>();
     }
 
     public Patient getPatient() {
@@ -48,52 +44,18 @@ public class DM {
         this.patient = patient;
     }
 
-    public String getOperation() {
-        return operation;
+ 
+    
+    public String getNumS(){
+        return numS;
     }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
+    
+    public java.sql.Date getDateE(){
+        return dateE;
     }
-
-    public String getObservation() {
-        return observation;
-    }
-
-    public void setObservation(String observation) {
-        this.observation = observation;
-    }
-
-    public String getPrescription() {
-        return prescription;
-    }
-
-    public void setPrescription(String prescription) {
-        this.prescription = prescription;
-    }
-
-    public String getResultat() {
-        return resultat;
-    }
-
-    public void setResultat(String resultat) {
-        this.resultat = resultat;
-    }
-
-    public String getLettreS() {
-        return lettreS;
-    }
-
-    public void setLettreS(String lettreS) {
-        this.lettreS = lettreS;
-    }
-
-    public String getCorrespondance() {
-        return correspondance;
-    }
-
-    public void setCorrespondance(String correspondance) {
-        this.correspondance = correspondance;
+    
+    public void addDocument(Document document){
+        documents.add(document);
     }
 
 }
