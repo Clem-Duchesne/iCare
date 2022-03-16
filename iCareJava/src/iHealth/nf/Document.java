@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Document {
     private String dateEcriture;
+    public java.sql.Date date_ajout;
     private String numS;
     private String numP;
     private String IPP;
@@ -31,6 +32,17 @@ public class Document {
         this.titre = titre;
         this.description = description;
     }
+    public Document(String idDoc, java.sql.Date dateEcriture, String numS, String numP, String IPP,  DocumentType type, String titre, String description) {
+        this.date_ajout = dateEcriture;
+        this.numS = numS;
+        this.numP = numP;
+        this.IPP = IPP;
+        this.idDoc = idDoc;
+        this.type = type;
+        this.titre = titre;
+        this.description = description;
+    }
+    
 
     public String getDateEcriture() {
         return dateEcriture;

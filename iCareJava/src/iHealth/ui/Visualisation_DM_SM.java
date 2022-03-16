@@ -11,10 +11,12 @@ import iHealth.db.requetes;
 import iHealth.nf.Consultation;
 import iHealth.nf.DM;
 import iHealth.nf.DMA;
+import iHealth.nf.Document;
 import iHealth.nf.PH;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
+import iHealth.nf.toDocument;
 import iHealth.nf.toSexe;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -22,7 +24,9 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -116,31 +120,28 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
             dateOLabel.setText("Date d'ouverture : " + dm.getDateE());
 
             //Liste consultations et hospitalisations
-            tableModel.addColumn("Numéro de séjour");
-            tableModel.addColumn("Date début séjour");
-            tableModel.addColumn("Date fin séjour");
-            tableModel.addColumn("PH responsable");
-            tableModel.addColumn("Localisation");
-            tableModel.addColumn("Nature prestation");
-            tableModel.addColumn("Lettre de sortie");
+            tableModel.addColumn("N°");
+            tableModel.addColumn("Date d'ajout");
+            tableModel.addColumn("Type");
+            tableModel.addColumn("PH");
+            tableModel.addColumn("Titre");
+
 
             this.IPP = IPP;
             
             List<Document> documents = new ArrayList<>();
-            List<Document> documents = new requetes().getDocuments(this.conn, IPP, dm.getNumS());
+            documents = new requetes().getDocuments(this.conn, IPP, dm.getNumS());
 
             int index =0;
-            for(Consultation c : consultations){
-                PH ph = new requetes().getPH(conn, c.getNumP());
-                String lettre_check = "";
-                if(c.getLettre().getLettre_text() != null){
-                    lettre_check = "Voir lettre de sortie";
-                }
-                tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
+            for(Document d : documents){
+                PH ph1 = new requetes().getPH(conn, d.getNumP());
+                
+                tableModel.insertRow(index, new Object[] { d.getIdDoc(), d.getDateEcriture(),new toDocument().DocToString(d.getType()),"Dr." + ph1.getNom()+ " " + ph1.getPrenom(), d.getTitre()});
                 index++; 
-            }
+            } 
+            
 
-            consultationTable.setModel(tableModel);
+            documentTable.setModel(tableModel);
         
     }
     public Visualisation_DM_SM() {
@@ -241,7 +242,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         dateNLabel = new javax.swing.JLabel();
         dateOLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        documentTable = new javax.swing.JTable();
         numeroDeux1 = new javax.swing.JLabel();
 
         jMenu1.setText("jMenu1");
@@ -483,7 +484,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
         dateOLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         dateOLabel.setText("Date d’ouverture :");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        documentTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null}
             },
@@ -491,7 +492,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
                 "Date ajout document", "Prescription PH", "Observation PH", "Commentaire Infirmier", "Compte-rendu", "Résultats", "Lettre de sortie"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(documentTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -756,6 +757,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     private javax.swing.JLabel deconnexionIconButton;
     private javax.swing.JLabel deconnexionLabel;
     private javax.swing.JLabel deconnexionLabel2;
+    private javax.swing.JTable documentTable;
     private javax.swing.JLabel ippLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
@@ -770,7 +772,6 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel logo;
     private javax.swing.JLabel nomPrenomLabel1;
     private javax.swing.JLabel numberOne;

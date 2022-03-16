@@ -10,6 +10,8 @@ import iHealth.nf.Chambre;
 import iHealth.nf.Consultation;
 import iHealth.nf.DMA;
 import iHealth.nf.DM;
+import iHealth.nf.Document;
+import iHealth.nf.DocumentType;
 import iHealth.nf.Lit;
 import iHealth.nf.Localisation;
 import iHealth.nf.NumeroSejour;
@@ -20,6 +22,7 @@ import iHealth.nf.Professionnel;
 import iHealth.nf.Service;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
+import iHealth.nf.toDocument;
 import iHealth.nf.toLocalisation;
 import iHealth.nf.toSexe;
 import iHealth.ui.Connexion;
@@ -734,5 +737,37 @@ public class requetes {
         stmt.close();
 
         return nature;
+    }
+    
+    
+    public List<Document> getDocuments(Connection conn, String IPP, String numS) throws SQLException{
+        
+        List<Document> documents = new ArrayList<>();
+        Statement stmt = conn.createStatement();
+        
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM DOCUMENT WHERE IPP='" + IPP + "' AND numS = '" + numS + "'");
+        String idDoc = null;
+        java.sql.Date date_ajout =null;
+        DocumentType type = null;
+        String numP =null;
+        String titre =null;
+        String description =null;
+        
+        
+        while (rs.next()) {
+            idDoc = rs.getString("idDoc");
+            date_ajout = rs.getDate("date_ajout");
+            type = new toDocument().toDocument(rs.getString("type"));
+            numP = rs.getString("numP");
+            titre = rs.getString("titre");
+            description = rs.getString("description");
+            
+            Document document = new Document(idDoc, date_ajout, numS, numP,IPP, type, titre, description);
+            documents.add(document);
+        }
+        
+        return documents;
+        
     }
 }
