@@ -36,6 +36,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.ListModel;
 import javax.swing.SwingConstants;
@@ -54,6 +55,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     private DefaultComboBoxModel ServiceModel = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel ServiceModel2 = new DefaultComboBoxModel<>();
     private DefaultComboBoxModel localisation = new DefaultComboBoxModel<>();
+    private List<Patient> patients;
     
     /**
      * Creates new form Creation_DMA
@@ -61,10 +63,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     public Creation_DMA(Connection conn, String identite ) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = dim.height;
-        height = height - 40;
-        this.setBounds(-8, 40, dim.width, height);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
@@ -241,9 +240,11 @@ public class Creation_DMA extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
+        dialogue = new javax.swing.JDialog();
         jPanel2 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        scrollPane = new javax.swing.JScrollPane();
+        message = new javax.swing.JTextPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         logo = new javax.swing.JLabel();
@@ -289,22 +290,76 @@ public class Creation_DMA extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         patientList = new javax.swing.JList<>();
 
-        jMenu1.setText("jMenu1");
+        dialogue.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        dialogue.setTitle("Erreur ");
+        dialogue.setAlwaysOnTop(true);
+        dialogue.setBackground(new java.awt.Color(255, 255, 255));
+        dialogue.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        dialogue.setModalExclusionType(null);
+        dialogue.setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
+        dialogue.setSize(new java.awt.Dimension(400, 300));
+        dialogue.setType(java.awt.Window.Type.POPUP);
 
-        jMenu2.setText("jMenu2");
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        jButton2.setBackground(new java.awt.Color(237, 100, 100));
+        jButton2.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        jButton2.setForeground(new java.awt.Color(255, 255, 255));
+        jButton2.setText("OK");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        scrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        scrollPane.setForeground(new java.awt.Color(51, 51, 51));
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setEnabled(false);
+        scrollPane.setFocusable(false);
+
+        message.setBorder(null);
+        message.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        message.setAutoscrolls(false);
+        message.setCaretColor(new java.awt.Color(255, 255, 255));
+        message.setFocusable(false);
+        scrollPane.setViewportView(message);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton2)
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
+                .addGap(11, 11, 11))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(126, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jButton2)
+                .addGap(86, 86, 86))
+        );
+
+        javax.swing.GroupLayout dialogueLayout = new javax.swing.GroupLayout(dialogue.getContentPane());
+        dialogue.getContentPane().setLayout(dialogueLayout);
+        dialogueLayout.setHorizontalGroup(
+            dialogueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        dialogueLayout.setVerticalGroup(
+            dialogueLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("iHealth - Création DMA");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1920, 1080));
@@ -407,7 +462,7 @@ public class Creation_DMA extends javax.swing.JFrame {
         );
 
         jLabel1.setFont(new java.awt.Font("Franklin Gothic Demi", 0, 36)); // NOI18N
-        jLabel1.setText("ACCUEIL");
+        jLabel1.setText("Création DMA");
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -457,7 +512,7 @@ public class Creation_DMA extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel3.setText("Secrétaire Administrative : ");
 
-        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 24)); // NOI18N
+        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -632,6 +687,14 @@ public class Creation_DMA extends javax.swing.JFrame {
         chambreLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         chambreLabel.setForeground(new java.awt.Color(102, 102, 102));
         chambreLabel.setText("Numéro Chambre");
+        chambreLabel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                chambreLabelFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                chambreLabelFocusLost(evt);
+            }
+        });
         chambreLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 chambreLabelMouseClicked(evt);
@@ -645,19 +708,6 @@ public class Creation_DMA extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(229, 229, 229)
-                                .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(167, 167, 167)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(naturePrestationTextfield)
-                                        .addComponent(praticienComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -665,38 +715,48 @@ public class Creation_DMA extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(adresseTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(sexeTextfield, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(dateNiassanceTextField)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(dateErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 30, Short.MAX_VALUE))))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(3, 3, 3)
                                 .addComponent(numeroUn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addComponent(nameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(prenomTextfield))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(adresseTextfield)
+                                    .addComponent(nameTextfield))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(prenomTextfield, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sexeTextfield, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(addConsultation, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(286, 286, 286)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(naturePrestationTextfield)
+                                        .addComponent(praticienComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(349, 349, 349)
+                                .addComponent(addConsultation, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(163, 163, 163)
+                                .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(locComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(281, 281, 281)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(dateNiassanceTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(dateErrorMessage)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 94, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(locComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -711,18 +771,15 @@ public class Creation_DMA extends javax.swing.JFrame {
                     .addComponent(prenomTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(sexeTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(dateNiassanceTextField)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(dateErrorMessage, javax.swing.GroupLayout.DEFAULT_SIZE, 16, Short.MAX_VALUE)
-                        .addGap(47, 47, 47))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(adresseTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(sexeTextfield)
+                    .addComponent(adresseTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(dateNiassanceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dateErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(13, 13, 13)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -733,15 +790,12 @@ public class Creation_DMA extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                        .addGap(16, 16, 16))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(locComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(locComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(serviceGeographiqueComboBox))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
                 .addComponent(addConsultation, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -757,9 +811,9 @@ public class Creation_DMA extends javax.swing.JFrame {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(221, 221, 221)
+                .addGap(126, 126, 126)
                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(206, 206, 206))
+                .addGap(96, 96, 96))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -809,11 +863,11 @@ public class Creation_DMA extends javax.swing.JFrame {
         patientTable.setLayout(patientTableLayout);
         patientTableLayout.setHorizontalGroup(
             patientTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 423, Short.MAX_VALUE)
         );
         patientTableLayout.setVerticalGroup(
             patientTableLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 587, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -855,7 +909,7 @@ public class Creation_DMA extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -863,7 +917,7 @@ public class Creation_DMA extends javax.swing.JFrame {
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 658, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -949,7 +1003,8 @@ public class Creation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_addDMAIconMouseClicked
 
     private void addDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMALabelMouseClicked
-        // TODO add your handling code here:
+        
+        this.setVisible(true);
     }//GEN-LAST:event_addDMALabelMouseClicked
 
     private void seeDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIconMouseClicked
@@ -959,20 +1014,30 @@ public class Creation_DMA extends javax.swing.JFrame {
     private void seeDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabelMouseClicked
         
         String patient = patientList.getSelectedValue();
-        String IPP = patient.substring(0, 9);
+        if(patient != null){
+            String IPP = patient.substring(0, 9);
+            Visualisation_DMA interfaceSecretaireA = null;
+            String identite = professionnelLabel.getText();
+            try {
+                interfaceSecretaireA = new Visualisation_DMA(this.conn, identite, IPP);
+            } catch (SQLException ex) {
+                message.setText("Visualisation du DMA impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Visualisation du DMA impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            }
         
-        Visualisation_DMA interfaceSecretaireA = null;
-        String identite = professionnelLabel.getText();
-        try {
-            interfaceSecretaireA = new Visualisation_DMA(this.conn, identite, IPP);
-        } catch (SQLException ex) {
-            Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            this.setVisible(false);
+            interfaceSecretaireA.setVisible(true);
+        }
+        else{
+            message.setText("Veuillez sélectionner un patient pour créer son DMA");
+            dialogue.setVisible(true);
         }
         
-        this.setVisible(false);
-        interfaceSecretaireA.setVisible(true);
         
     }//GEN-LAST:event_seeDMALabelMouseClicked
 
@@ -1041,12 +1106,14 @@ public class Creation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_adresseTextfieldFocusLost
 
     private void naturePrestationTextfieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_naturePrestationTextfieldFocusGained
-        
+        if(naturePrestationTextfield.getText().equals("Nature de la prestation")){
+            naturePrestationTextfield.setText("");
+        }
     }//GEN-LAST:event_naturePrestationTextfieldFocusGained
 
     private void naturePrestationTextfieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_naturePrestationTextfieldFocusLost
         if(naturePrestationTextfield.getText().equals("")){
-            naturePrestationTextfield.setText("Nature prestation");
+            naturePrestationTextfield.setText("Nature de la prestation");
         }
     }//GEN-LAST:event_naturePrestationTextfieldFocusLost
 
@@ -1122,15 +1189,38 @@ public class Creation_DMA extends javax.swing.JFrame {
                     patient = new Patient(premiere_venue,nom.toUpperCase(),prenom,dateNaissance_sql,sexe,adresse);
                     patientsModel.addElement( "" + patient.getNom() + " " + patient.getPrenom() + "");
                     patientList.setModel(patientsModel);
-                    new requetes().createPatient(this.conn, patient);
-                    dateErrorMessage.setText("Un nouveau patient a été créé");
+                    List<Patient> patientTest = new requetes().getPatient(conn, patient.getNom());
+                    if(patientTest.size() == 0){
+                        new requetes().createPatient(this.conn, patient);
+                        dateErrorMessage.setText("Un nouveau patient a été créé");
+                    }
+                    else{
+                        boolean res = false;
+                        for(Patient p : patientTest){
+                            if(p.getNom() == patient.getNom() && p.getPrenom() == patient.getPrenom() && p.getDateNaissance()==patient.getDateNaissance() && p.getSexe() == patient.getSexe()){
+                                message.setText("Ce patient est déjà enregistré dans la base");
+                                dialogue.setVisible(true); 
+                                res =true;
+                            }
+                        }
+                        if(res == false){
+                            new requetes().createPatient(this.conn, patient);
+                            dateErrorMessage.setText("Un nouveau patient a été créé");
+                        }
+                       
+                    }
+                    
+                    
                     
                 } catch (ParseException ex) {
+                    message.setText("Le patient n'a pas pu être créé. \n Vérifiez le format de date");
+                    dialogue.setVisible(true);
                     Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-                    dateErrorMessage.setText("Il semblerait qu'il y ait eu un problème...");
+                    
                 } catch (SQLException ex) {
                     Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-                    dateErrorMessage.setText("Il semblerait qu'il y ait eu un problème...");
+                    message.setText("Le patient n'a pas pu être créé. \n Vérifiez le format de date");
+                    dialogue.setVisible(true);
                 }
                
             }
@@ -1159,27 +1249,42 @@ public class Creation_DMA extends javax.swing.JFrame {
     private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
         String searchedPatient = searchTextfield.getText();
         //String searchedType = searchedPatient.substring(0,2);
-        patientList.setModel(null);
-        if(searchedPatient.equals(null)){
-            patientList.setModel(patientsModel);
-        }
-        
-        List<Patient> patients = new ArrayList<>();
-        try {
-            patients = new requetes().getPatient(conn, searchedPatient);
-        } catch (SQLException ex) {
-            Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //recherche d'un patient dans la base
-        patientsModel= new DefaultListModel();
-        
-        for(int i=0;i<patients.size();i++){
-            patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
-            patientList.setModel(patientsModel);
+       
+        if(searchedPatient.equals("") || searchedPatient.equals(" ")){
+            for(int i=0;i<patients.size();i++){
+                patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + ""); 
           
-        } 
+            }
+            patientList.setModel(patientsModel);
+        }
+        else{
+            List<Patient> patients = new ArrayList<>();
+            try {
+                patients = new requetes().getPatient(conn, searchedPatient);
+                if(patients.size()== 0 ){
+                    message.setText("Aucun patient à ce nom enregistré");
+                    dialogue.setVisible(true);
+                }
+                else{
+                    //recherche d'un patient dans la base
+                    patientsModel= new DefaultListModel();
+
+                    for(int i=0;i<patients.size();i++){
+                        patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+                        patientList.setModel(patientsModel);
+
+                    } 
+                }
+            } catch (SQLException ex) {
+                    message.setText("Il semblerait qu'il y est un problème serveur");
+                    dialogue.setVisible(true);
+                Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Il semblerait qu'il y est un problème serveur");
+                    dialogue.setVisible(true);
+                Logger.getLogger(Creation_DM.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_searchIconMouseClicked
 
@@ -1214,15 +1319,26 @@ public class Creation_DMA extends javax.swing.JFrame {
                 if(new requetes().getDMA_IPP(this.conn, IPP)!=null){
                     new requetes().addSejour(this.conn, IPP, consultation);
                     new requetes().addLocalisation(conn, IPP, lit, consultation);
+                    message.setText("Le nouveau séjour a bien été créé");
+                    dialogue.setVisible(true);
+                    
                 }
                 else{
                     new requetes().createDMA(this.conn, dma);
                     new requetes().addSejour(this.conn, IPP, consultation);
                     new requetes().addLocalisation(conn, IPP, lit, consultation);
+                    message.setText("Le DMA a bien été créé");
+                    dialogue.setVisible(true);
                 }
             } catch (SQLException ex) {
+                message.setText("Il semblerait qu'il y ait eu un problème lors de la création du DMA");
+                dialogue.setVisible(true);
                 Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+        else{
+            message.setText("Veuillez remplir la totalité des champs avant de valider");
+            dialogue.setVisible(true);
         }
         
     }//GEN-LAST:event_addConsultationMouseClicked
@@ -1238,6 +1354,22 @@ public class Creation_DMA extends javax.swing.JFrame {
             chambreLabel.setText("");
         }
     }//GEN-LAST:event_chambreLabelMouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        dialogue.setVisible(false);
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void chambreLabelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chambreLabelFocusGained
+        if(chambreLabel.getText().equals("Numéro Chambre")){
+            chambreLabel.setText("");
+        }
+    }//GEN-LAST:event_chambreLabelFocusGained
+
+    private void chambreLabelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chambreLabelFocusLost
+        if(chambreLabel.getText().equals("")){
+            chambreLabel.setText("Numéro Chambre");
+        }
+    }//GEN-LAST:event_chambreLabelFocusLost
 
     /**
      * @param args the command line arguments
@@ -1291,14 +1423,14 @@ public class Creation_DMA extends javax.swing.JFrame {
     private javax.swing.JLabel deconnexionIconButton;
     private javax.swing.JLabel deconnexionLabel;
     private javax.swing.JLabel deconnexionLabel2;
+    private javax.swing.JDialog dialogue;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1310,6 +1442,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox<String> locComboBox;
     private javax.swing.JLabel logo;
+    private javax.swing.JTextPane message;
     private javax.swing.JTextField nameTextfield;
     private javax.swing.JTextField naturePrestationTextfield;
     private javax.swing.JLabel numeroDeux;
@@ -1319,6 +1452,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> praticienComboBox;
     private javax.swing.JTextField prenomTextfield;
     private javax.swing.JLabel professionnelLabel;
+    private javax.swing.JScrollPane scrollPane;
     private javax.swing.JLabel searchIcon;
     private javax.swing.JTextField searchTextfield;
     private javax.swing.JLabel seeDMAIcon;

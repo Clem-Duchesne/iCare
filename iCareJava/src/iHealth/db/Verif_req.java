@@ -37,7 +37,7 @@ public class Verif_req {
             Patient patient_new = new Patient("220200999", "ALPHA", "Beta", "02/02/2002", FEMME, "1, rue des mimosas");
 
             //DMA dma = new requetes().getDMA_IPP(conn,patient);
-            DM dm = new DM(patient_new, "operation_essai", "observation_essai", "prescription_essai", "resultat_essai", "lettreS_essai", "correspondance_essai");
+            //DM dm = new DM(patient_new, "operation_essai", "observation_essai", "prescription_essai", "resultat_essai", "lettreS_essai", "correspondance_essai");
 //            requetes.createPatient(conn,patient_new);
 //            requetes.getPatient(conn,"ALPHA");
 //            requetes.createDM(conn,dm);

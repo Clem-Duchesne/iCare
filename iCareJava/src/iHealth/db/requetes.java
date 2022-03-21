@@ -642,7 +642,7 @@ public class requetes {
     }
 
 // Modifier un Dossier Médical
-    public void setDMCorrespondance(Connection conn, Patient patient, String operation, String observation , String prescription , String resultat, String lettreS, String correspondance) throws SQLException, ParseException {
+    public void setDMCorrespondance(Connection conn, Patient patient, String correspondance) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
@@ -655,7 +655,23 @@ public class requetes {
         stmt.close();
     }
     
+    //Modifier séjour
+    public void setLettreS(Connection conn, Consultation sejour, String lettre) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        java.sql.Date dateS = new java.sql.Date(System.currentTimeMillis());
+        String date_sql = dateS.toString();
+        
+        // Execute the query
+        System.out.print("UPDATE SEJOUR SET date_sortie = to_date('" + date_sql + "','YYYY-MM-DD') ,lettreS = '" + lettre + "' WHERE numS = '" + sejour.getNumeroSejour().getNumero() + "'");
+        ResultSet rs = stmt.executeQuery("UPDATE SEJOUR SET date_sortie = to_date('" + date_sql + "','YYYY-MM-DD'), lettreS = '" + lettre + "' WHERE numS = '" + sejour.getNumeroSejour().getNumero() + "'");
 
+        stmt.executeUpdate("commit");
+
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+    }
     
 // Obtenir la date de séjour la plus récente dans le DM
     public Date get_date_entree(Connection conn, String IPP) throws SQLException, ParseException {
@@ -668,7 +684,26 @@ public class requetes {
         while (rs.next()) {
             date = rs.getDate(1);
         }
-//        System.out.println("Date d'entrée du patient : " + date);
+
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+
+        return date;
+    }
+    
+    public Date get_date_sortie(Connection conn, String IPP,String date_entree) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT date_sortie FROM Sejour WHERE IPP = '" + IPP + "' AND date_entree= to_date('" + date_entree + "','YYYY-MM-DD')");
+        Date date = null;
+        while (rs.next()) {
+            date = rs.getDate("date_sortie");
+        }
+
         
         // Close the result set, statement and the connection
         rs.close();
@@ -770,4 +805,24 @@ public class requetes {
         return documents;
         
     }
+    
+       //requête ajout document
+    public void addDocument(Connection conn, Document doc) throws SQLException{
+        Statement stmt = conn.createStatement();
+        
+        java.sql.Date date_ajout = doc.getDateEcriture();
+        String date_sql = date_ajout.toString();
+   
+        
+        // Execute the query
+       
+	//System.out.print("INSERT INTO DOCUMENT VALUES ('" + doc.getIdDoc() + "','" + doc.getIPP() + "','" + doc.getNumS() + "', to_date('" + date_sql + "','YYYY-MM-DD'),'" + new toDocument().DocToStringUpperCase(doc.getType()) + "','" + doc.getNumP() + "','" + doc.getTitre() + "','" + doc.getDescription() + "')'");
+        ResultSet rs = stmt.executeQuery("INSERT INTO DOCUMENT VALUES ('" + doc.getIdDoc() + "','" + doc.getIPP() + "','" + doc.getNumS() + "', to_date('" + date_sql + "','YYYY-MM-DD'),'" + new toDocument().DocToStringUpperCase(doc.getType()) + "','" + doc.getNumP() + "','" + doc.getTitre() + "','" + doc.getDescription() + "')" );
+    
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+    }
+    
+    
 }

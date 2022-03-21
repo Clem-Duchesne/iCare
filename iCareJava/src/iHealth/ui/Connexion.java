@@ -10,6 +10,7 @@ import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
 import iHealth.nf.Authentification;
 import iHealth.nf.Poste;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +21,7 @@ import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 /**
  *
@@ -41,6 +43,7 @@ public class Connexion extends javax.swing.JFrame {
         
         initComponents();
         
+        //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
         java.awt.Image newImg = img.getScaledInstance(145,80,100);
@@ -48,8 +51,6 @@ public class Connexion extends javax.swing.JFrame {
         logo.setIcon(icone);
         
         errorMessage.setVisible(false);
-        nullMessage.setVisible(false);
-        errorServorMessage.setVisible(false);
         //ConnectBD connexionBD = new ConnectBD();
         DatabaseAccessProperties dap = new DatabaseAccessProperties(configurationFile);
         jdbcDriver = dap.getJdbcDriver();
@@ -91,9 +92,7 @@ public class Connexion extends javax.swing.JFrame {
         identifiantField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        nullMessage = new javax.swing.JLabel();
         errorMessage = new javax.swing.JLabel();
-        errorServorMessage = new javax.swing.JLabel();
         logo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,6 +101,7 @@ public class Connexion extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(785, 496));
 
         jPanel1.setBackground(new java.awt.Color(244, 244, 244));
+        jPanel1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
         jPanel1.setMaximumSize(new java.awt.Dimension(785, 496));
         jPanel1.setName(""); // NOI18N
 
@@ -148,79 +148,53 @@ public class Connexion extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(223, 91, 98));
         jLabel3.setText("iHealth.");
 
-        nullMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
-        nullMessage.setForeground(new java.awt.Color(0, 51, 51));
-        nullMessage.setText("Veuillez identiquer un identifiant et un mot de passe");
-        nullMessage.setEnabled(false);
-
         errorMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
         errorMessage.setForeground(new java.awt.Color(253, 0, 0));
         errorMessage.setText("Identifiant ou mot de passe incorrect");
         errorMessage.setEnabled(false);
 
-        errorServorMessage.setFont(new java.awt.Font("Montserrat Thin", 0, 12)); // NOI18N
-        errorServorMessage.setForeground(new java.awt.Color(253, 0, 0));
-        errorServorMessage.setText("Connexion au serveur impossible");
-        errorServorMessage.setEnabled(false);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                .addGap(207, 207, 207)
-                .addComponent(motDePasseField)
-                .addGap(173, 173, 173))
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                .addGap(207, 207, 207)
-                .addComponent(identifiantField)
-                .addGap(173, 173, 173))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(206, 206, 206)
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(208, 208, 208)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel1Layout.createSequentialGroup()
-                .addGap(256, 256, 256)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nullMessage, javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(logo, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(connectButton, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(errorMessage, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(errorServorMessage, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(222, 222, 222))
+                .addGap(171, 171, 171)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(motDePasseField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 404, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(errorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(identifiantField, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(209, 209, 209))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(202, 202, 202)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(identifiantField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel1)
-                        .addGap(1, 1, 1)
-                        .addComponent(motDePasseField, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(49, 49, 49))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel3)
-                        .addGap(112, 112, 112)
-                        .addComponent(connectButton)
-                        .addGap(18, 18, 18)))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(errorMessage)
-                    .addComponent(errorServorMessage)
-                    .addComponent(nullMessage))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addGap(69, 69, 69)
+                .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(identifiantField, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(motDePasseField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorMessage)
+                .addContainerGap(133, Short.MAX_VALUE))
         );
 
         identifiantField.getAccessibleContext().setAccessibleName("");
@@ -257,6 +231,8 @@ public class Connexion extends javax.swing.JFrame {
         try {
             reponse = new requetes().connection(this.conn, id, password);
         } catch (SQLException ex) {
+            errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
         }
         String identite = null;
@@ -267,6 +243,8 @@ public class Connexion extends javax.swing.JFrame {
                 identite = new requetes().getPersonnel(conn, id);
                 //System.out.print(identite[0]);
             } catch (SQLException ex) {
+                errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                 Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             }
             switch (poste) {
@@ -277,8 +255,12 @@ public class Connexion extends javax.swing.JFrame {
                         interfaceSecretaireA = new Creation_DMA(this.conn, identite);
                        
                     } catch (SQLException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                     Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
                     this.setVisible(false);
@@ -292,8 +274,12 @@ public class Connexion extends javax.swing.JFrame {
                     try {
                         interfaceSecretaireM = new Creation_DM(this.conn, identite);
                     } catch (SQLException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                     Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
@@ -309,38 +295,50 @@ public class Connexion extends javax.swing.JFrame {
                         this.setVisible(false);
                         interfacePH.setVisible(true);
                     } catch (SQLException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     } catch (ParseException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                     Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
                
                 break;
 
-
-                    
-//                default:
-//                    try {
-//                        new Connexion().setVisible(true);
-//                    } catch (ClassNotFoundException ex) {
-//                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-//                    } catch (SQLException ex) {
-//                        Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                break;
             }
         } else {
             switch (id) {
                 case "":
-                    nullMessage.setVisible(true);
+                    errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                    errorMessage.setVisible(true);
                     break;
                 case " ":
-                    nullMessage.setVisible(true);
+                    errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                    errorMessage.setVisible(true);
                     break;
                 default:
+                    errorMessage.setText("Identifiant ou mot de passe incorrect");
                     errorMessage.setVisible(true);
                     break;
 
             }
+            switch (password) {
+                case "":
+                    errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                    errorMessage.setVisible(true);
+                    break;
+                case " ":
+                    errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                    errorMessage.setVisible(true);
+                    break;
+                default:
+                    errorMessage.setText("Identifiant ou mot de passe incorrect");
+                    errorMessage.setVisible(true);
+                    break;
+
+            }
+            
         }
     }//GEN-LAST:event_connectButtonActionPerformed
 
@@ -354,6 +352,8 @@ public class Connexion extends javax.swing.JFrame {
             try {
                 reponse = new requetes().connection(this.conn, id, password);
             } catch (SQLException ex) {
+                 errorMessage.setText("Connexion au serveur impossible");
+                 errorMessage.setVisible(true);
                 Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
             }
             String identite = null;
@@ -363,6 +363,8 @@ public class Connexion extends javax.swing.JFrame {
                     identite = new requetes().getPersonnel(conn, id);
                     //System.out.print(identite[0]);
                 } catch (SQLException ex) {
+                    errorMessage.setText("Connexion au serveur impossible");
+                    errorMessage.setVisible(true);
                     Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 switch (poste) {
@@ -373,8 +375,12 @@ public class Connexion extends javax.swing.JFrame {
                             interfaceSecretaireA = new Creation_DMA(this.conn, identite);
 
                         } catch (SQLException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ParseException ex) {
+                        errorMessage.setText("Connexion au serveur impossible");
+                        errorMessage.setVisible(true);
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
                         this.setVisible(false);
@@ -388,8 +394,12 @@ public class Connexion extends javax.swing.JFrame {
                         try {
                             interfaceSecretaireM = new Creation_DM(this.conn, identite);
                         } catch (SQLException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (ParseException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -403,8 +413,13 @@ public class Connexion extends javax.swing.JFrame {
                         try {
                             interfacePH = new Mes_Patients_PH(this.conn, identite);
                         } catch (SQLException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                            
                         } catch (ParseException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                         Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
@@ -417,8 +432,12 @@ public class Connexion extends javax.swing.JFrame {
                         try {
                             new Connexion().setVisible(true);
                         } catch (ClassNotFoundException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (SQLException ex) {
+                            errorMessage.setText("Connexion au serveur impossible");
+                            errorMessage.setVisible(true);
                             Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
                         }
                     break;
@@ -426,16 +445,34 @@ public class Connexion extends javax.swing.JFrame {
             } else {
                 switch (id) {
                     case "":
-                        nullMessage.setVisible(true);
+                        errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                        errorMessage.setVisible(true);
                         break;
                     case " ":
-                        nullMessage.setVisible(true);
+                        errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                        errorMessage.setVisible(true);
                         break;
                     default:
+                        errorMessage.setText("Identifiant ou mot de passe incorrect");
                         errorMessage.setVisible(true);
                         break;
 
                 }
+                switch (password) {
+                case "":
+                    errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                    errorMessage.setVisible(true);
+                    break;
+                case " ":
+                    errorMessage.setText("Veuillez indiquer un identifiant et un mot de passe");
+                    errorMessage.setVisible(true);
+                    break;
+                default:
+                    errorMessage.setText("Identifiant ou mot de passe incorrect");
+                    errorMessage.setVisible(true);
+                    break;
+
+            }
             }
         }
     }//GEN-LAST:event_motDePasseFieldKeyPressed
@@ -485,7 +522,6 @@ public class Connexion extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
     private javax.swing.JLabel errorMessage;
-    private javax.swing.JLabel errorServorMessage;
     private javax.swing.JTextField identifiantField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -493,7 +529,6 @@ public class Connexion extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel logo;
     private javax.swing.JPasswordField motDePasseField;
-    private javax.swing.JLabel nullMessage;
     // End of variables declaration//GEN-END:variables
 
 }

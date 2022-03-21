@@ -8,10 +8,15 @@ package iHealth.ui;
 import java.sql.Connection;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
+import iHealth.nf.Consultation;
+import iHealth.nf.DM;
 import iHealth.nf.DMA;
+import iHealth.nf.Document;
+import iHealth.nf.DocumentType;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
+import iHealth.nf.toDocument;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.SQLException;
@@ -23,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
 
 /**
  *
@@ -32,17 +38,27 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
 
     
     private Connection conn = null;
+    private Consultation consultation;
+    private DocumentType doc_type;
+    private String IPP;
+    private DM dm;
+    private String identite;
+    private Consultation maConsultation;
     
     /**
      * Creates new form Creation_DMA
      */
-    public Ajout_Doc_PH(Connection conn, String[] identite) throws SQLException {
+    public Ajout_Doc_PH(Connection conn, String identite, String IPP,DM mydm, Consultation maConsultation, DocumentType type_doc) throws SQLException, ParseException {
         this.conn = conn;
+        consultation = maConsultation;
+        doc_type = type_doc;
+        this.identite = identite;
+        this.IPP = IPP;
+        dm = mydm;
+        this.maConsultation = maConsultation;
+        
         initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = dim.height;
-        height = height - 40;
-        this.setBounds(-8, 40, dim.width, height);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
@@ -50,17 +66,13 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         icone=new ImageIcon(newImg);
         logo.setIcon(icone);
         
-        ImageIcon icone2 = new ImageIcon("src/iHealth/img/plus (1).png");
-        java.awt.Image img2 = icone2.getImage();
-        java.awt.Image newImg2 = img2.getScaledInstance(25,25,100);
-        icone2=new ImageIcon(newImg2);
-        addDMAIcon.setIcon(icone2);
+  
         
         ImageIcon icone3 = new ImageIcon("src/iHealth/img/vue.png");
         java.awt.Image img3 = icone3.getImage();
         java.awt.Image newImg3 = img3.getScaledInstance(25,25,100);
         icone3=new ImageIcon(newImg3);
-        seeDMAIcon.setIcon(icone3);
+        seeDMIcon.setIcon(icone3);
         
         ImageIcon icone4 = new ImageIcon("src/iHealth/img/deconnexion.png");
         java.awt.Image img4 = icone4.getImage();
@@ -80,20 +92,22 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         java.awt.Image img8 = icone8.getImage();
         java.awt.Image newImg8 = img8.getScaledInstance(25,25,100);
         icone7=new ImageIcon(newImg8);
-        seeDMAIcon2.setIcon(icone8);
-        seeDMAIcon1.setIcon(icone8);
+        patientIcon2.setIcon(icone8);
+        patientIcon.setIcon(icone8);
         
         
 
         // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        professionnelLabel.setText(identite);
         
-       
-        //affichage liste de patients 
-        jPanel3.setFocusable(true);
+        Patient patient = new requetes().getPatientIPP(this.conn, IPP);
         
-        // Récupérer le nom et prénom de la personne connectée
-        professionnelLabel.setText(identite[0] + " " + identite[1]);
+        patientLabel.setText("Patient : " + patient.getNom() + " " + patient.getPrenom() + " - IPP : " + patient.getIPP());
+        documentTypeLabel.setText(new toDocument().DocToString(type_doc));
+        descriptionLabel.setText("Description");
+         if(type_doc.equals(DocumentType.LETTRES)){
+             intituleLabel.setVisible(false);
+         }
   
         
     }
@@ -109,18 +123,13 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         java.awt.Image newImg = img.getScaledInstance(106,80,100);
         icone=new ImageIcon(newImg);
         logo.setIcon(icone);
-        
-        ImageIcon icone2 = new ImageIcon("src/iHealth/img/plus (1).png");
-        java.awt.Image img2 = icone2.getImage();
-        java.awt.Image newImg2 = img2.getScaledInstance(25,25,100);
-        icone2=new ImageIcon(newImg2);
-        addDMAIcon.setIcon(icone2);
+      
         
         ImageIcon icone3 = new ImageIcon("src/iHealth/img/vue.png");
         java.awt.Image img3 = icone3.getImage();
         java.awt.Image newImg3 = img3.getScaledInstance(25,25,100);
         icone3=new ImageIcon(newImg3);
-        seeDMAIcon.setIcon(icone3);
+        seeDMIcon.setIcon(icone3);
         
         ImageIcon icone4 = new ImageIcon("src/iHealth/img/deconnexion.png");
         java.awt.Image img4 = icone4.getImage();
@@ -139,8 +148,8 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         java.awt.Image img6 = icone6.getImage();
         java.awt.Image newImg6 = img6.getScaledInstance(25,25,100);
         icone6=new ImageIcon(newImg6);
-        seeDMAIcon1.setIcon(icone6);
-        seeDMAIcon2.setIcon(icone6);
+        patientIcon.setIcon(icone6);
+        patientIcon2.setIcon(icone6);
         
         
         
@@ -158,22 +167,22 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
-        jPanel2 = new javax.swing.JPanel();
+        dialogue2 = new javax.swing.JDialog();
+        jPanel10 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
+        scrollPane = new javax.swing.JScrollPane();
+        message = new javax.swing.JTextPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         logo = new javax.swing.JLabel();
-        addDMAIcon = new javax.swing.JLabel();
-        addDMALabel = new javax.swing.JLabel();
-        seeDMAIcon = new javax.swing.JLabel();
+        seeDMIcon = new javax.swing.JLabel();
         seeDMALabel = new javax.swing.JLabel();
         deconnexionIconButton = new javax.swing.JLabel();
         deconnexionLabel = new javax.swing.JLabel();
         seeDMALabel1 = new javax.swing.JLabel();
         seeDMALabel2 = new javax.swing.JLabel();
-        seeDMAIcon1 = new javax.swing.JLabel();
-        seeDMAIcon2 = new javax.swing.JLabel();
+        patientIcon = new javax.swing.JLabel();
+        patientIcon2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         deconnexionLabel2 = new javax.swing.JLabel();
@@ -181,46 +190,102 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         professionnelLabel = new javax.swing.JLabel();
-        IPPLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         numberOne = new javax.swing.JLabel();
         retour = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        nameTextfield = new javax.swing.JTextField();
-        nameTextfield2 = new javax.swing.JTextField();
-        addPatientButton = new javax.swing.JButton();
-        nameTextfield1 = new javax.swing.JTextField();
+        documentTypeLabel = new javax.swing.JLabel();
+        intituleLabel = new javax.swing.JTextField();
+        addDoc = new javax.swing.JButton();
+        description = new javax.swing.JScrollPane();
+        descriptionLabel = new javax.swing.JTextPane();
         jPanel36 = new javax.swing.JPanel();
         jPanel37 = new javax.swing.JPanel();
-        deconnexionLabel3 = new javax.swing.JLabel();
+        prescriptionLabel = new javax.swing.JLabel();
         jPanel38 = new javax.swing.JPanel();
-        deconnexionLabel4 = new javax.swing.JLabel();
+        operationLabel = new javax.swing.JLabel();
         jPanel44 = new javax.swing.JPanel();
-        deconnexionLabel10 = new javax.swing.JLabel();
+        observationLabel = new javax.swing.JLabel();
         jPanel45 = new javax.swing.JPanel();
-        deconnexionLabel11 = new javax.swing.JLabel();
+        jPanel46 = new javax.swing.JPanel();
+        resultatLabel = new javax.swing.JLabel();
         jPanel47 = new javax.swing.JPanel();
-        deconnexionLabel13 = new javax.swing.JLabel();
+        commentaireLabel = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        lettreSLabel = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
-        patientName1 = new javax.swing.JLabel();
+        patientLabel = new javax.swing.JLabel();
 
-        jMenu1.setText("jMenu1");
+        dialogue2.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        dialogue2.setTitle("Erreur ");
+        dialogue2.setAlwaysOnTop(true);
+        dialogue2.setBackground(new java.awt.Color(255, 255, 255));
+        dialogue2.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
+        dialogue2.setModalExclusionType(null);
+        dialogue2.setModalityType(java.awt.Dialog.ModalityType.DOCUMENT_MODAL);
+        dialogue2.setSize(new java.awt.Dimension(400, 300));
+        dialogue2.setType(java.awt.Window.Type.POPUP);
 
-        jMenu2.setText("jMenu2");
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        jButton4.setBackground(new java.awt.Color(237, 100, 100));
+        jButton4.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        jButton4.setForeground(new java.awt.Color(255, 255, 255));
+        jButton4.setText("OK");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
+        scrollPane.setBackground(new java.awt.Color(255, 255, 255));
+        scrollPane.setForeground(new java.awt.Color(51, 51, 51));
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+        scrollPane.setEnabled(false);
+        scrollPane.setFocusable(false);
+
+        message.setBorder(null);
+        message.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        message.setAutoscrolls(false);
+        message.setCaretColor(new java.awt.Color(255, 255, 255));
+        message.setFocusable(false);
+        scrollPane.setViewportView(message);
+
+        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+        jPanel10.setLayout(jPanel10Layout);
+        jPanel10Layout.setHorizontalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton4)
+                    .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
+                .addGap(11, 11, 11))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        jPanel10Layout.setVerticalGroup(
+            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel10Layout.createSequentialGroup()
+                .addContainerGap(126, Short.MAX_VALUE)
+                .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jButton4)
+                .addGap(86, 86, 86))
+        );
+
+        javax.swing.GroupLayout dialogue2Layout = new javax.swing.GroupLayout(dialogue2.getContentPane());
+        dialogue2.getContentPane().setLayout(dialogue2Layout);
+        dialogue2Layout.setHorizontalGroup(
+            dialogue2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        dialogue2Layout.setVerticalGroup(
+            dialogue2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("iHealth - Ajout document");
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1920, 1080));
@@ -232,29 +297,11 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
 
         logo.setBackground(new java.awt.Color(255, 255, 255));
 
-        addDMAIcon.setBackground(new java.awt.Color(255, 255, 255));
-        addDMAIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        addDMAIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+        seeDMIcon.setBackground(new java.awt.Color(255, 255, 255));
+        seeDMIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        seeDMIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addDMAIconMouseClicked(evt);
-            }
-        });
-
-        addDMALabel.setBackground(new java.awt.Color(255, 255, 255));
-        addDMALabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
-        addDMALabel.setText("Ajout Documents");
-        addDMALabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        addDMALabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                addDMALabelMouseClicked(evt);
-            }
-        });
-
-        seeDMAIcon.setBackground(new java.awt.Color(255, 255, 255));
-        seeDMAIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        seeDMAIcon.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                seeDMAIconMouseClicked(evt);
+                seeDMIconMouseClicked(evt);
             }
         });
 
@@ -306,19 +353,19 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
             }
         });
 
-        seeDMAIcon1.setBackground(new java.awt.Color(255, 255, 255));
-        seeDMAIcon1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        seeDMAIcon1.addMouseListener(new java.awt.event.MouseAdapter() {
+        patientIcon.setBackground(new java.awt.Color(255, 255, 255));
+        patientIcon.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        patientIcon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                seeDMAIcon1MouseClicked(evt);
+                patientIconMouseClicked(evt);
             }
         });
 
-        seeDMAIcon2.setBackground(new java.awt.Color(255, 255, 255));
-        seeDMAIcon2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        seeDMAIcon2.addMouseListener(new java.awt.event.MouseAdapter() {
+        patientIcon2.setBackground(new java.awt.Color(255, 255, 255));
+        patientIcon2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        patientIcon2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                seeDMAIcon2MouseClicked(evt);
+                patientIcon2MouseClicked(evt);
             }
         });
 
@@ -327,33 +374,18 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(deconnexionIconButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(deconnexionLabel))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel4Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(seeDMIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(patientIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(patientIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(seeDMALabel2)
+                    .addComponent(seeDMALabel1)
+                    .addComponent(seeDMALabel)
+                    .addComponent(logo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deconnexionLabel)
+                    .addComponent(deconnexionIconButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
-            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel4Layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                        .addComponent(seeDMALabel2)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                .addComponent(seeDMALabel1)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.CENTER, jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                                        .addComponent(addDMALabel)
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(seeDMALabel, javax.swing.GroupLayout.Alignment.CENTER)
-                                            .addComponent(seeDMAIcon, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addComponent(addDMAIcon, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(seeDMAIcon2, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(seeDMAIcon1, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -361,19 +393,15 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(logo, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(seeDMAIcon1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(patientIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(seeDMALabel2)
                 .addGap(18, 18, 18)
-                .addComponent(seeDMAIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(patientIcon2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(4, 4, 4)
                 .addComponent(seeDMALabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(addDMAIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addDMALabel)
-                .addGap(18, 18, 18)
-                .addComponent(seeDMAIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(seeDMIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(5, 5, 5)
                 .addComponent(seeDMALabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -434,7 +462,8 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
         jLabel3.setText("Praticien Hospitalier :");
 
-        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 11)); // NOI18N
+        professionnelLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        professionnelLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -459,81 +488,51 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        IPPLabel.setFont(new java.awt.Font("Quicksand", 0, 30)); // NOI18N
-        IPPLabel.setForeground(new java.awt.Color(217, 21, 21));
-        IPPLabel.setText("IPP :         ");
-
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setFont(new java.awt.Font("Quicksand", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(37, 158, 185));
-        jLabel6.setText("Prescription");
+        documentTypeLabel.setFont(new java.awt.Font("Quicksand", 1, 24)); // NOI18N
+        documentTypeLabel.setForeground(new java.awt.Color(37, 158, 185));
+        documentTypeLabel.setText("Prescription");
 
-        nameTextfield.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        nameTextfield.setForeground(new java.awt.Color(102, 102, 102));
-        nameTextfield.setText("Date du jour");
-        nameTextfield.setToolTipText("");
-        nameTextfield.addFocusListener(new java.awt.event.FocusAdapter() {
+        intituleLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        intituleLabel.setForeground(new java.awt.Color(102, 102, 102));
+        intituleLabel.setText("Intitulé");
+        intituleLabel.setToolTipText("");
+        intituleLabel.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                nameTextfieldFocusGained(evt);
+                intituleLabelFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextfieldFocusLost(evt);
+                intituleLabelFocusLost(evt);
             }
         });
-        nameTextfield.addMouseListener(new java.awt.event.MouseAdapter() {
+        intituleLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTextfieldMouseClicked(evt);
+                intituleLabelMouseClicked(evt);
             }
         });
 
-        nameTextfield2.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        nameTextfield2.setForeground(new java.awt.Color(102, 102, 102));
-        nameTextfield2.setText("Intitulé");
-        nameTextfield2.setToolTipText("");
-        nameTextfield2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                nameTextfield2FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextfield2FocusLost(evt);
-            }
-        });
-        nameTextfield2.addMouseListener(new java.awt.event.MouseAdapter() {
+        addDoc.setBackground(new java.awt.Color(237, 100, 100));
+        addDoc.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        addDoc.setForeground(new java.awt.Color(255, 255, 255));
+        addDoc.setText("Ajouter au DM");
+        addDoc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        addDoc.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTextfield2MouseClicked(evt);
+                addDocMouseClicked(evt);
             }
         });
-
-        addPatientButton.setBackground(new java.awt.Color(237, 100, 100));
-        addPatientButton.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        addPatientButton.setForeground(new java.awt.Color(255, 255, 255));
-        addPatientButton.setText("Ajouter au DM");
-        addPatientButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        addPatientButton.addActionListener(new java.awt.event.ActionListener() {
+        addDoc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addPatientButtonActionPerformed(evt);
+                addDocActionPerformed(evt);
             }
         });
 
-        nameTextfield1.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        nameTextfield1.setForeground(new java.awt.Color(102, 102, 102));
-        nameTextfield1.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        nameTextfield1.setText("Description");
-        nameTextfield1.setToolTipText("");
-        nameTextfield1.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                nameTextfield1FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                nameTextfield1FocusLost(evt);
-            }
-        });
-        nameTextfield1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nameTextfield1MouseClicked(evt);
-            }
-        });
+        description.setToolTipText("Description");
+
+        descriptionLabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
+        descriptionLabel.setForeground(new java.awt.Color(102, 102, 102));
+        description.setViewportView(descriptionLabel);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -542,27 +541,24 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(numberOne)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(9, 9, 9)
-                                .addComponent(retour, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(nameTextfield1, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(nameTextfield2, javax.swing.GroupLayout.PREFERRED_SIZE, 398, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(nameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 125, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(288, 288, 288)
-                        .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(9, 9, 9)
+                            .addComponent(retour, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(documentTypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel3Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addComponent(intituleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 47, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(325, 325, 325))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -575,30 +571,28 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(retour, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6))
-                        .addGap(45, 45, 45)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(nameTextfield2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addComponent(nameTextfield1, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(documentTypeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(62, Short.MAX_VALUE))))
+                        .addComponent(intituleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(addDoc, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(26, Short.MAX_VALUE))))
         );
 
         jPanel36.setBackground(new java.awt.Color(243, 245, 255));
 
         jPanel37.setBackground(new java.awt.Color(255, 255, 255));
 
-        deconnexionLabel3.setBackground(new java.awt.Color(255, 255, 255));
-        deconnexionLabel3.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        deconnexionLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deconnexionLabel3.setText("Prescription");
-        deconnexionLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deconnexionLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        prescriptionLabel.setBackground(new java.awt.Color(255, 255, 255));
+        prescriptionLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        prescriptionLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        prescriptionLabel.setText("Prescription");
+        prescriptionLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        prescriptionLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deconnexionLabel3MouseClicked(evt);
+                prescriptionLabelMouseClicked(evt);
             }
         });
 
@@ -606,26 +600,26 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jPanel37.setLayout(jPanel37Layout);
         jPanel37Layout.setHorizontalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deconnexionLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(prescriptionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel37Layout.setVerticalGroup(
             jPanel37Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel37Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(deconnexionLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(prescriptionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel38.setBackground(new java.awt.Color(255, 255, 255));
 
-        deconnexionLabel4.setBackground(new java.awt.Color(255, 255, 255));
-        deconnexionLabel4.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        deconnexionLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deconnexionLabel4.setText("Compte-rendu");
-        deconnexionLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deconnexionLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+        operationLabel.setBackground(new java.awt.Color(255, 255, 255));
+        operationLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        operationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        operationLabel.setText("Opération");
+        operationLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        operationLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deconnexionLabel4MouseClicked(evt);
+                operationLabelMouseClicked(evt);
             }
         });
 
@@ -633,26 +627,26 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jPanel38.setLayout(jPanel38Layout);
         jPanel38Layout.setHorizontalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deconnexionLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(operationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel38Layout.setVerticalGroup(
             jPanel38Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel38Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(deconnexionLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(operationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel44.setBackground(new java.awt.Color(255, 255, 255));
 
-        deconnexionLabel10.setBackground(new java.awt.Color(255, 255, 255));
-        deconnexionLabel10.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        deconnexionLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deconnexionLabel10.setText("Observation");
-        deconnexionLabel10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deconnexionLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
+        observationLabel.setBackground(new java.awt.Color(255, 255, 255));
+        observationLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        observationLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        observationLabel.setText("Observation");
+        observationLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        observationLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deconnexionLabel10MouseClicked(evt);
+                observationLabelMouseClicked(evt);
             }
         });
 
@@ -660,53 +654,69 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jPanel44.setLayout(jPanel44Layout);
         jPanel44Layout.setHorizontalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deconnexionLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(observationLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel44Layout.setVerticalGroup(
             jPanel44Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel44Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(deconnexionLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(observationLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         jPanel45.setBackground(new java.awt.Color(255, 255, 255));
 
-        deconnexionLabel11.setBackground(new java.awt.Color(255, 255, 255));
-        deconnexionLabel11.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        deconnexionLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deconnexionLabel11.setText("Lettre de sortie");
-        deconnexionLabel11.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deconnexionLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
+        jPanel46.setBackground(new java.awt.Color(255, 255, 255));
+
+        resultatLabel.setBackground(new java.awt.Color(255, 255, 255));
+        resultatLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        resultatLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        resultatLabel.setText("Résultat");
+        resultatLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        resultatLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deconnexionLabel11MouseClicked(evt);
+                resultatLabelMouseClicked(evt);
             }
         });
+
+        javax.swing.GroupLayout jPanel46Layout = new javax.swing.GroupLayout(jPanel46);
+        jPanel46.setLayout(jPanel46Layout);
+        jPanel46Layout.setHorizontalGroup(
+            jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(resultatLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel46Layout.setVerticalGroup(
+            jPanel46Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(resultatLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
 
         javax.swing.GroupLayout jPanel45Layout = new javax.swing.GroupLayout(jPanel45);
         jPanel45.setLayout(jPanel45Layout);
         jPanel45Layout.setHorizontalGroup(
             jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deconnexionLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel45Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         jPanel45Layout.setVerticalGroup(
             jPanel45Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel45Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(deconnexionLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jPanel46, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         jPanel47.setBackground(new java.awt.Color(255, 255, 255));
 
-        deconnexionLabel13.setBackground(new java.awt.Color(255, 255, 255));
-        deconnexionLabel13.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
-        deconnexionLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        deconnexionLabel13.setText("Résultats");
-        deconnexionLabel13.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        deconnexionLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
+        commentaireLabel.setBackground(new java.awt.Color(255, 255, 255));
+        commentaireLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        commentaireLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        commentaireLabel.setText("Commentaire");
+        commentaireLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        commentaireLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                deconnexionLabel13MouseClicked(evt);
+                commentaireLabelMouseClicked(evt);
             }
         });
 
@@ -714,14 +724,44 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         jPanel47.setLayout(jPanel47Layout);
         jPanel47Layout.setHorizontalGroup(
             jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(deconnexionLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(commentaireLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel47Layout.setVerticalGroup(
             jPanel47Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel47Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(deconnexionLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(commentaireLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+        );
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+
+        lettreSLabel.setBackground(new java.awt.Color(255, 255, 255));
+        lettreSLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
+        lettreSLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lettreSLabel.setText("Lettre de sortie");
+        lettreSLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lettreSLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lettreSLabelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lettreSLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lettreSLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel36Layout = new javax.swing.GroupLayout(jPanel36);
@@ -734,8 +774,9 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                     .addComponent(jPanel37, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel38, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel44, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel45, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel47, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel45, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel36Layout.setVerticalGroup(
@@ -750,7 +791,9 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel47, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel45, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -766,7 +809,7 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addGap(41, 41, 41))
         );
         jPanel7Layout.setVerticalGroup(
@@ -777,9 +820,9 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        patientName1.setFont(new java.awt.Font("Quicksand", 0, 30)); // NOI18N
-        patientName1.setForeground(new java.awt.Color(217, 21, 21));
-        patientName1.setText("Patient :         ");
+        patientLabel.setFont(new java.awt.Font("Quicksand", 0, 30)); // NOI18N
+        patientLabel.setForeground(new java.awt.Color(217, 21, 21));
+        patientLabel.setText("Patient :         ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -791,22 +834,19 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 146, Short.MAX_VALUE)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(patientName1, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(IPPLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 316, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(patientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 898, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)))
                 .addContainerGap())
         );
@@ -822,20 +862,19 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(30, 30, 30)
                         .addComponent(jLabel1)))
-                .addGap(36, 36, 36)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(patientName1, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(IPPLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(patientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel36, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(68, 68, 68))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(33, Short.MAX_VALUE))))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel36, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -844,13 +883,14 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 25, Short.MAX_VALUE))
         );
 
         pack();
@@ -884,20 +924,29 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deconnexionIconButtonMouseClicked
 
-    private void addDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMAIconMouseClicked
+    private void seeDMIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMIconMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_addDMAIconMouseClicked
-
-    private void addDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMALabelMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addDMALabelMouseClicked
-
-    private void seeDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIconMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_seeDMAIconMouseClicked
+    }//GEN-LAST:event_seeDMIconMouseClicked
 
     private void seeDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabelMouseClicked
-        // TODO add your handling code here:
+
+            DMA dma;
+            DM dm;
+            Patient patient1;
+
+            try {
+                patient1 = new requetes().getPatientIPP(conn, IPP);
+                dma = new requetes().getDMA_IPP(conn, IPP);
+                dm = new requetes().getDM(conn, patient1);
+                Visualisation_DM_PH interfaceVuePH = new Visualisation_DM_PH(this.conn, identite, IPP,patient1, dma, dm);
+                this.setVisible(false);
+                interfaceVuePH.setVisible(true);
+            } catch (SQLException | ParseException ex) {
+                message.setText("Visualisation du DM impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
     }//GEN-LAST:event_seeDMALabelMouseClicked
 
     private void deconnexionLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel2MouseClicked
@@ -928,85 +977,217 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_deconnexionIcon2MouseClicked
 
-    private void deconnexionLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel3MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deconnexionLabel3MouseClicked
+    private void prescriptionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prescriptionLabelMouseClicked
+        String identite = professionnelLabel.getText();
+        Ajout_Doc_PH ajoutDocInterface;
+        try {
+            DocumentType type_doc = DocumentType.PRESCRIPTION;
+            ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, dm, maConsultation, type_doc);
+            this.setVisible(false);
+            ajoutDocInterface.setVisible(true);
+        } catch (SQLException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_prescriptionLabelMouseClicked
 
-    private void deconnexionLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel4MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deconnexionLabel4MouseClicked
+    private void operationLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_operationLabelMouseClicked
+        String identite = professionnelLabel.getText();
+        Ajout_Doc_PH ajoutDocInterface;
+        try {
+            DocumentType type_doc = DocumentType.OPERATION;
+            ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, dm, maConsultation, type_doc);
+            this.setVisible(false);
+            ajoutDocInterface.setVisible(true);
+        } catch (SQLException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_operationLabelMouseClicked
 
-    private void deconnexionLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel10MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deconnexionLabel10MouseClicked
+    private void observationLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_observationLabelMouseClicked
+        String identite = professionnelLabel.getText();
+        Ajout_Doc_PH ajoutDocInterface;
+        try {
+            DocumentType type_doc = DocumentType.OPERATION;
+            ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, dm, maConsultation, type_doc);
+            this.setVisible(false);
+            ajoutDocInterface.setVisible(true);
+        } catch (SQLException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_observationLabelMouseClicked
 
-    private void deconnexionLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel11MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deconnexionLabel11MouseClicked
-
-    private void deconnexionLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deconnexionLabel13MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deconnexionLabel13MouseClicked
+    private void commentaireLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commentaireLabelMouseClicked
+        String identite = professionnelLabel.getText();
+        Ajout_Doc_PH ajoutDocInterface;
+        try {
+            DocumentType type_doc = DocumentType.COMMENTAIRE;
+            ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, dm, maConsultation, type_doc);
+            this.setVisible(false);
+            ajoutDocInterface.setVisible(true);
+        } catch (SQLException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            message.setText("Ajout de document impossible");
+            dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_commentaireLabelMouseClicked
 
     private void seeDMALabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabel1MouseClicked
-        // TODO add your handling code here:
+        String identite = professionnelLabel.getText();
+        try {
+            Liste_Patients_PH interfacePHService = new Liste_Patients_PH(conn, identite);
+            this.setVisible(false);
+            interfacePHService.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_seeDMALabel1MouseClicked
 
     private void seeDMALabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabel2MouseClicked
-        // TODO add your handling code here:
+         String identite = professionnelLabel.getText();
+        try {
+            Mes_Patients_PH interfacePH = new Mes_Patients_PH(conn, identite);
+            this.setVisible(false);
+            interfacePH.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_seeDMALabel2MouseClicked
 
-    private void nameTextfieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfieldFocusGained
-        if(nameTextfield.getText().equals("Nom")){
-            nameTextfield.setText("");
+    private void intituleLabelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_intituleLabelFocusGained
+        // TODO add your handling code here:
+    }//GEN-LAST:event_intituleLabelFocusGained
+
+    private void intituleLabelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_intituleLabelFocusLost
+        // TODO add your handling code here:
+    }//GEN-LAST:event_intituleLabelFocusLost
+
+    private void intituleLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_intituleLabelMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_intituleLabelMouseClicked
+
+    private void addDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDocActionPerformed
+
+    }//GEN-LAST:event_addDocActionPerformed
+
+    private void patientIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIconMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientIconMouseClicked
+
+    private void patientIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIcon2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_patientIcon2MouseClicked
+
+    private void addDocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDocMouseClicked
+        
+            String description = descriptionLabel.getText();
+
+            java.sql.Date dateA = new java.sql.Date(System.currentTimeMillis());
+
+            String id[] = identite.split(" ");
+
+            String numP;
+        if( description != ""){
+            if(doc_type.equals(DocumentType.LETTRES)){
+            String intitule = "Lettre de sortie";
+                try {
+                    numP = new requetes().getPHnumP(conn, id[1], id[0]);
+                    Document doc = new Document(dateA, consultation.getNumeroSejour().getNumero(), numP, IPP,  doc_type, intitule, description);
+                    //new requetes().addDocument(this.conn,doc);
+                    new requetes().setLettreS(conn, consultation, description);
+
+                } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    message.setText("Ajout de document impossible");
+                    dialogue.setVisible(true);
+                    Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            else{
+                String intitule = intituleLabel.getText();
+                try {
+                    numP = new requetes().getPHnumP(conn, id[1], id[0]);
+                    Document doc = new Document(dateA, consultation.getNumeroSejour().getNumero(), numP, IPP,  doc_type, intitule, description);
+                    new requetes().addDocument(this.conn,doc);
+                } catch (SQLException ex) {
+                    message.setText("Ajout de document impossible");
+                    dialogue.setVisible(true);
+                    Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            }
         }
-    }//GEN-LAST:event_nameTextfieldFocusGained
-
-    private void nameTextfieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfieldFocusLost
-        if(nameTextfield.getText().equals("")){
-            nameTextfield.setText("Nom");
+        else{
+           message.setText("Assurez vous d'avoir rempli l'intégralité des champs");
+           dialogue.setVisible(true); 
         }
-    }//GEN-LAST:event_nameTextfieldFocusLost
+        
+        
+        
+        
+    }//GEN-LAST:event_addDocMouseClicked
 
-    private void nameTextfieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTextfieldMouseClicked
+    private void lettreSLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lettreSLabelMouseClicked
+        String identite = professionnelLabel.getText();
+        Ajout_Doc_PH ajoutDocInterface;
+        
+        try {
+            DocumentType type_doc = DocumentType.LETTRES;
+            ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, dm, maConsultation, type_doc);
+            this.setVisible(false);
+            ajoutDocInterface.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_lettreSLabelMouseClicked
 
-    }//GEN-LAST:event_nameTextfieldMouseClicked
+    private void resultatLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultatLabelMouseClicked
+        String identite = professionnelLabel.getText();
+        Ajout_Doc_PH ajoutDocInterface;
+        try {
+            DocumentType type_doc = DocumentType.RESULTAT;
+            ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, dm, maConsultation, type_doc);
+            this.setVisible(false);
+            ajoutDocInterface.setVisible(true);
+        } catch (SQLException ex) {
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_resultatLabelMouseClicked
 
-    private void nameTextfield1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield1FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield1FocusGained
-
-    private void nameTextfield1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield1FocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield1FocusLost
-
-    private void nameTextfield1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTextfield1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield1MouseClicked
-
-    private void nameTextfield2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield2FocusGained
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield2FocusGained
-
-    private void nameTextfield2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_nameTextfield2FocusLost
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield2FocusLost
-
-    private void nameTextfield2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nameTextfield2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_nameTextfield2MouseClicked
-
-    private void addPatientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPatientButtonActionPerformed
-
-    }//GEN-LAST:event_addPatientButtonActionPerformed
-
-    private void seeDMAIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIcon1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_seeDMAIcon1MouseClicked
-
-    private void seeDMAIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIcon2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_seeDMAIcon2MouseClicked
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        dialogue.setVisible(false);
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1075,26 +1256,25 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel IPPLabel;
-    private javax.swing.JLabel addDMAIcon;
-    private javax.swing.JLabel addDMALabel;
-    private javax.swing.JButton addPatientButton;
+    private javax.swing.JButton addDoc;
+    private javax.swing.JLabel commentaireLabel;
     private javax.swing.JLabel deconnexionIcon2;
     private javax.swing.JLabel deconnexionIconButton;
     private javax.swing.JLabel deconnexionLabel;
-    private javax.swing.JLabel deconnexionLabel10;
-    private javax.swing.JLabel deconnexionLabel11;
-    private javax.swing.JLabel deconnexionLabel13;
     private javax.swing.JLabel deconnexionLabel2;
-    private javax.swing.JLabel deconnexionLabel3;
-    private javax.swing.JLabel deconnexionLabel4;
+    private javax.swing.JScrollPane description;
+    private javax.swing.JTextPane descriptionLabel;
+    private javax.swing.JDialog dialogue;
+    private javax.swing.JDialog dialogue2;
+    private javax.swing.JLabel documentTypeLabel;
+    private javax.swing.JTextField intituleLabel;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel36;
@@ -1103,23 +1283,29 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel44;
     private javax.swing.JPanel jPanel45;
+    private javax.swing.JPanel jPanel46;
     private javax.swing.JPanel jPanel47;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JLabel lettreSLabel;
     private javax.swing.JLabel logo;
-    private javax.swing.JTextField nameTextfield;
-    private javax.swing.JTextField nameTextfield1;
-    private javax.swing.JTextField nameTextfield2;
+    private javax.swing.JTextPane message;
     private javax.swing.JLabel numberOne;
-    private javax.swing.JLabel patientName1;
+    private javax.swing.JLabel observationLabel;
+    private javax.swing.JLabel operationLabel;
+    private javax.swing.JLabel patientIcon;
+    private javax.swing.JLabel patientIcon2;
+    private javax.swing.JLabel patientLabel;
+    private javax.swing.JLabel prescriptionLabel;
     private javax.swing.JLabel professionnelLabel;
+    private javax.swing.JLabel resultatLabel;
     private javax.swing.JLabel retour;
-    private javax.swing.JLabel seeDMAIcon;
-    private javax.swing.JLabel seeDMAIcon1;
-    private javax.swing.JLabel seeDMAIcon2;
+    private javax.swing.JScrollPane scrollPane;
     private javax.swing.JLabel seeDMALabel;
     private javax.swing.JLabel seeDMALabel1;
     private javax.swing.JLabel seeDMALabel2;
+    private javax.swing.JLabel seeDMIcon;
     // End of variables declaration//GEN-END:variables
 }

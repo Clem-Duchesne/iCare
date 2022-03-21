@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Document {
-    private String dateEcriture;
-    public java.sql.Date date_ajout;
+
+    private java.sql.Date date_ajout;
     private String numS;
     private String numP;
     private String IPP;
@@ -18,8 +18,8 @@ public class Document {
     private String titre;
     private String description;
 
-    public Document(String dateEcriture, String numS, String numP, String IPP,  DocumentType type, String titre, String description) {
-        this.dateEcriture = dateEcriture;
+    public Document(java.sql.Date dateEcriture, String numS, String numP, String IPP,  DocumentType type, String titre, String description) {
+        this.date_ajout = dateEcriture;
         this.numS = numS;
         this.numP = numP;
         this.IPP = IPP;
@@ -44,8 +44,8 @@ public class Document {
     }
     
 
-    public String getDateEcriture() {
-        return dateEcriture;
+    public java.sql.Date getDateEcriture() {
+        return date_ajout;
     }
 
     public String getNumS() {
