@@ -424,6 +424,11 @@ public class Visualisation_Doc_PH extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(37, 158, 185));
         jLabel8.setText(" Retour");
         jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
 
         redactionLabel.setBackground(new java.awt.Color(255, 255, 255));
         redactionLabel.setFont(new java.awt.Font("Helvetica Neue", 0, 24)); // NOI18N
@@ -745,6 +750,26 @@ public class Visualisation_Doc_PH extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         dialogue.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        String identite = professionnelLabel.getText();
+            DMA dma;
+            DM dm;
+            Patient patient1;
+
+            try {
+                patient1 = new requetes().getPatientIPP(conn, IPP);
+                dma = new requetes().getDMA_IPP(conn, IPP);
+                dm = new requetes().getDM(conn, patient1);
+                Visualisation_DM_PH interfaceVuePH = new Visualisation_DM_PH(this.conn, identite, IPP,patient1, dma, dm);
+                this.setVisible(false);
+                interfaceVuePH.setVisible(true);
+            } catch (SQLException | ParseException ex) {
+                message.setText("Retour au DM impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }//GEN-LAST:event_jLabel8MouseClicked
 
     /**
      * @param args the command line arguments
