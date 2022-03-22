@@ -209,7 +209,6 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
             }
         });
 
-        scrollPane.setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setForeground(new java.awt.Color(51, 51, 51));
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
