@@ -5,6 +5,9 @@
  */
 package iHealth.ui;
 
+import static Securite.Encryption.hashPassword;
+import static Securite.Encryption.verifyPassword;
+import Securite.Salt;
 import iHealth.db.DatabaseAccessProperties;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
@@ -229,7 +232,11 @@ public class Connexion extends javax.swing.JFrame {
         boolean reponse = false;
 
         try {
+            
+            //System.out.print(key);
+                
             reponse = new requetes().connection(this.conn, id, password);
+            //reponse = new requetes().connection(this.conn, id, password);
         } catch (SQLException ex) {
             errorMessage.setText("Connexion au serveur impossible");
                  errorMessage.setVisible(true);
@@ -350,7 +357,9 @@ public class Connexion extends javax.swing.JFrame {
             boolean reponse = false;
 
             try {
-                reponse = new requetes().connection(this.conn, id, password);
+                String key = hashPassword(password, Salt.salt).get();
+                
+                reponse = new requetes().connection(this.conn, id, key);
             } catch (SQLException ex) {
                  errorMessage.setText("Connexion au serveur impossible");
                  errorMessage.setVisible(true);

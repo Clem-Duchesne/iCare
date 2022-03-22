@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 
 /**
  *
@@ -45,10 +46,7 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
     public Liste_Patients_PH(Connection conn, String identite) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = dim.height;
-        height = height - 40;
-        this.setBounds(-8, 40, dim.width, height);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();

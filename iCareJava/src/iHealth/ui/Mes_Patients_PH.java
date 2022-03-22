@@ -560,9 +560,9 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)))
+                        .addGap(23, 23, 23)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -789,11 +789,15 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIcon1MouseClicked
 
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        dialogue.setVisible(false);
+    }//GEN-LAST:event_jButton2MouseClicked
+
     private void patientListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListeMouseClicked
         String patient = patientListe.getSelectedValue();
         String identite = professionnelLabel.getText();
         String IPP = patient.substring(0,9);
-        
+
         DMA dma;
         DM dm;
         Patient patient1;
@@ -808,15 +812,8 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
         } catch (SQLException | ParseException ex) {
             Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
-        
-    }//GEN-LAST:event_patientListeMouseClicked
 
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        dialogue.setVisible(false);
-    }//GEN-LAST:event_jButton2MouseClicked
+    }//GEN-LAST:event_patientListeMouseClicked
 
     /**
      * @param args the command line arguments

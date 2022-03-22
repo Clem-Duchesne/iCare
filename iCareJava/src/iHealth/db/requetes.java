@@ -5,6 +5,8 @@
  */
 package iHealth.db;
 
+import static Securite.Encryption.verifyPassword;
+import Securite.Salt;
 import iHealth.nf.Authentification;
 import iHealth.nf.Chambre;
 import iHealth.nf.Consultation;
@@ -54,25 +56,19 @@ public class requetes {
         
         boolean result = false;
         if (rs != null) {
-                        try {
-                            if (!rs.isBeforeFirst()) {
-                                result =false;
-                            }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        try {
+       
+            
                             while (rs.next()) {
-                                if (rs.getString("numP").equals(id) && rs.getString("mdp").equals(password)) {
+                               
+                                if (rs.getString("numP").equals(id) && verifyPassword(password,rs.getString("mdp"), Salt.salt)==true) {
+                                    
                                     result = true;
                                 } else {
                                     //errorMessage.setVisible(true);
                                     result = false;
                                 }
                             }
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        
                     }
         rs.close();
         stmt.close();
