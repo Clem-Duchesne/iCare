@@ -15,6 +15,7 @@ import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -46,7 +47,13 @@ public class Visualisation_DM_SM_View extends javax.swing.JFrame {
     public Visualisation_DM_SM_View(Connection conn, String identite, Document document, Patient patient, DMA dma, DM dm) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         this.mydm=dm;
         this.patient = patient;
         this.dma = dma;

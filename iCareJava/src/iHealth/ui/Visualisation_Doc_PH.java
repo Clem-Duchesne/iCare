@@ -16,6 +16,7 @@ import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -45,7 +46,13 @@ public class Visualisation_Doc_PH extends javax.swing.JFrame {
         this.conn = conn;
         this.IPP = IPP;
         initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();

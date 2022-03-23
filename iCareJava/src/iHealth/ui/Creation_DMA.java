@@ -21,6 +21,7 @@ import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import iHealth.nf.toSexe;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -63,7 +64,13 @@ public class Creation_DMA extends javax.swing.JFrame {
     public Creation_DMA(Connection conn, String identite ) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
@@ -1346,6 +1353,8 @@ public class Creation_DMA extends javax.swing.JFrame {
             } catch (SQLException ex) {
                 message.setText("Il semblerait qu'il y ait eu un problème lors de la création du DMA");
                 dialogue.setVisible(true);
+                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
                 Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

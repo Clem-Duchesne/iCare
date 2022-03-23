@@ -18,6 +18,7 @@ import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import iHealth.nf.toDocument;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -58,6 +59,12 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         this.maConsultation = maConsultation;
         
         initComponents();
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");

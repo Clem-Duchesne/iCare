@@ -14,6 +14,7 @@ import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -46,7 +47,13 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
     public Liste_Patients_PH(Connection conn, String identite) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
@@ -259,7 +266,6 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(1920, 1080));
-        setPreferredSize(new java.awt.Dimension(1432, 947));
 
         jPanel1.setBackground(new java.awt.Color(247, 247, 247));
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -477,8 +483,8 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addComponent(numberOne)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -524,11 +530,11 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(21, 21, 21)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(246, 246, 246)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(searchTextfield, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(searchIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(13, 13, 13))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)

@@ -20,6 +20,7 @@ import iHealth.nf.toDate;
 import iHealth.nf.toDocument;
 import iHealth.nf.toSexe;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -52,11 +53,18 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
      * Creates new form Creation_DMA
      */
     public Visualisation_DM_PH(Connection conn, String identite, String IPP, Patient patient, DMA dma, DM dm) throws SQLException, ParseException {
+        
         this.conn = conn;
         this.IPP = IPP;
         this.mydm = dm;
         initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
         java.awt.Image img = icone.getImage();
@@ -134,9 +142,14 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
 
             int index =0;
             PH phLS;
+            
             for(Consultation c : sejoursPat){
-                phLS = new requetes().getPH(conn, c.getNumP());
-                tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Lettre de sortie" });
+                
+                if(c.getLettre().getLettre_text() != "null" & c.getLettre().getDate() != null){
+                    phLS = new requetes().getPH(conn, c.getNumP());
+                tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Voir" });
+                }
+                
             }
             for(Document d : documents){
                 PH ph1 = new requetes().getPH(conn, d.getNumP());

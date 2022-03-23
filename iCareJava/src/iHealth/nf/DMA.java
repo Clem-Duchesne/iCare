@@ -29,13 +29,6 @@ public class DMA {
     }
     
 
-
-    
-    public void addConsultation(Consultation consultation){
-        this.consultation.add(consultation);
-        
-    }
-    
     public java.sql.Date getDateCreation(){
         return dateCreation;
     }
@@ -46,10 +39,13 @@ public class DMA {
     public String getIPP(){
         return IPP;
     }
-    /*
-    public Consultation getConsultation(LocalDate dateConsultation){
-        
+    public void setPatient(Patient patient){
+        this.patient = patient;
     }
-*/
+    public void addConsultation(Consultation consultation){
+        this.consultation.add(consultation);
+    }
+   
+
 
 }

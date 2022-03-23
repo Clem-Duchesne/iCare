@@ -21,6 +21,7 @@ import iHealth.nf.Sexe;
 import iHealth.nf.toDate;
 import iHealth.nf.toSexe;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -61,7 +62,13 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     public Visualisation_DMA(Connection conn, String identite, String IPP) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         
         //Mise en place des images
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
@@ -132,8 +139,11 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         int index =0;
         for(Consultation c : consultations){
             PH ph = new requetes().getPH(conn, c.getNumP());
-            String lettre_check = "";
-            if(c.getLettre().getLettre_text() != ""){
+            String lettre_check;
+            if(c.getLettre().getDate() == null){
+                lettre_check = "";
+            }
+            else{
                 lettre_check = "Voir lettre de sortie";
             }
             
@@ -924,21 +934,28 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private void consultationTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultationTableMouseClicked
         int num_sejour = consultationTable.getSelectedRow();
         Consultation consultation_clicked = consultations.get(num_sejour);
-        String identite = professionnelLabel.getText();
-        
-        try {
-            Visualisation_DMA_View interfaceDMAView = new Visualisation_DMA_View(this.conn, identite,consultation_clicked);
-            this.setVisible(false);
-            interfaceDMAView.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Impossible de visualiser la lettre de sortie");
+        if(consultation_clicked.getDateFinSejour() == null){
+            message.setText("Il n'y a pas de lettre de sortie à visualiser pour le moment");
             dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Impossible de visualiser la lettre de sortie");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+             
+        }
+        else{
+            String identite = professionnelLabel.getText();
+
+            try {
+                Visualisation_DMA_View interfaceDMAView = new Visualisation_DMA_View(this.conn, identite,consultation_clicked);
+                this.setVisible(false);
+                interfaceDMAView.setVisible(true);
+            } catch (SQLException ex) {
+                message.setText("Impossible de visualiser la lettre de sortie");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Impossible de visualiser la lettre de sortie");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         
     }//GEN-LAST:event_consultationTableMouseClicked
 

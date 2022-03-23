@@ -18,11 +18,12 @@ public class LettreDeSortie {
         this.dateSortie = dateSortie;
         this.lettre = lettre;
     }
+    public java.sql.Date getDate(){
+        return dateSortie;
+    }
     
     public String getLettre_text(){
         return lettre;
     }
-    public java.sql.Date getDate(){
-        return dateSortie;
-    }
+    
 }

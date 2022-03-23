@@ -13,6 +13,7 @@ import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
 import iHealth.nf.Authentification;
 import iHealth.nf.Poste;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import oracle.net.aso.f;
 
 /**
  *
@@ -45,6 +47,8 @@ public class Connexion extends javax.swing.JFrame {
 
         
         initComponents();
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
         
         //this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
@@ -101,7 +105,6 @@ public class Connexion extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("iHealth - Connexion");
         setBackground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(785, 496));
 
         jPanel1.setBackground(new java.awt.Color(244, 244, 244));
         jPanel1.setDebugGraphicsOptions(javax.swing.DebugGraphics.NONE_OPTION);
@@ -170,7 +173,7 @@ public class Connexion extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(3, 3, 3)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(errorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(errorMessage)
                             .addComponent(connectButton, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(identifiantField, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 390, javax.swing.GroupLayout.PREFERRED_SIZE)

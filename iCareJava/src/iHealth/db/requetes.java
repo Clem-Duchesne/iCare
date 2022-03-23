@@ -46,8 +46,15 @@ import java.util.logging.Logger;
  * @author cleme
  */
 public class requetes {
-    
-    // requête d'authentification
+    /**
+     * Authentificion par identifiant et mot de passe avec utilisation d'une fonction de cryptage en SHA et génération d'une clé 
+     * 
+     * @param conn
+     * @param id
+     * @param password
+     * @return 
+     * @throws SQLException 
+     */
     public boolean connection(Connection conn, String id, String password) throws SQLException {
         
         // Get a statement from the connection
@@ -77,25 +84,24 @@ public class requetes {
         return result;
     }
     
-    //requête création patient
+    /**
+     * Ajout de patient dans la base de données 
+     * @param conn
+     * @param patient
+     * @throws SQLException 
+     */
     public void createPatient(Connection conn, Patient patient) throws SQLException{
         Statement stmt = conn.createStatement();
         String IPP = patient.getIPP();
-        
         String nom = patient.getNom();
         String prenom = patient.getPrenom();
         String adresse = patient.getAdresse();
         java.sql.Date dateNaissance = patient.getDateNaissance();
-        
         Sexe sexe = patient.getSexe();
         String sexeString = new toSexe().sexeToString(sexe);
         
-    
-        System.out.println(sexeString);
-        
         // Execute the query
 
-        
         ResultSet rs = stmt.executeQuery("INSERT INTO Patient VALUES ('" + IPP + "','"+ nom + "','" + prenom + "', to_date('" + dateNaissance + "', 'YYYY-MM-DD'),'" + sexeString + "','" + adresse + "')");
     
         // Close the result set, statement and the connection
@@ -103,7 +109,13 @@ public class requetes {
         stmt.close();
     }
     
-    //requête création séjour
+    /**
+     * Ajout d'un nouveau séjour ou consultation dans la base de données
+     * @param conn
+     * @param IPP
+     * @param consultation
+     * @throws SQLException 
+     */
     public void addSejour(Connection conn, String IPP, Consultation consultation) throws SQLException{
         Statement stmt = conn.createStatement();
         
@@ -124,7 +136,14 @@ public class requetes {
         rs.close();
         stmt.close();
     }
-    //requête création localisation
+    /**
+     * Ajout d'une localisation d'un patient par rapport à un séjour dans la base de données
+     * @param conn
+     * @param IPP
+     * @param lit
+     * @param consultation
+     * @throws SQLException 
+     */
     public void addLocalisation(Connection conn, String IPP, Lit lit, Consultation consultation) throws SQLException{
         Statement stmt = conn.createStatement();
         
@@ -142,7 +161,12 @@ public class requetes {
         stmt.close();
     }
     
-     //requête création DMA
+    /**
+     * Création d'un DMA pour un IPP de patient spécifique
+     * @param conn
+     * @param dma
+     * @throws SQLException 
+     */
     public void createDMA(Connection conn, DMA dma) throws SQLException{
         Statement stmt = conn.createStatement();
         
@@ -159,10 +183,13 @@ public class requetes {
         stmt.close();
     }
     
-    
-    
-    
-    //requête sélection nom, prénom personnel
+    /**
+     * Récupération du nom et prénom d'un personnel du SIH
+     * @param conn
+     * @param id
+     * @return
+     * @throws SQLException 
+     */
     public String getPersonnel(Connection conn, String id) throws SQLException{
         
         String identite = null;
@@ -186,7 +213,12 @@ public class requetes {
         return identite;
     }
     
-    //requête récup listes practiciens
+    /**
+     * Récupérer la liste des praticiens hospitaliers du SIH
+     * @param conn
+     * @return
+     * @throws SQLException 
+     */
     public List<PH> getPHs(Connection conn) throws SQLException{
         
         List<PH> PHs = new ArrayList<>();
@@ -216,7 +248,13 @@ public class requetes {
         
         return PHs;
     }
-    //by numP
+    /**
+     * Récupérer un praticien hospitalier à partir d'un numéro de professionnel
+     * @param conn
+     * @param numP
+     * @return
+     * @throws SQLException 
+     */
      public PH getPH(Connection conn, String numP) throws SQLException{
         
         PH ph = null;
@@ -238,7 +276,14 @@ public class requetes {
         
         return ph;
     }
-     //by name and surname
+    /**
+     * Récupérer le numéro d'un personnel du SIH à partir du nom et du prénom de la personne
+     * @param conn
+     * @param nom
+     * @param prenom
+     * @return
+     * @throws SQLException 
+     */
     public String getPHnumP(Connection conn, String nom, String prenom) throws SQLException{
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -252,13 +297,21 @@ public class requetes {
             numP = rs.getString("numP");
 
         }
-//        System.out.println(numP);
+
         // Close the result set, statement and the connection
         rs.close();
         stmt.close(); 
         
         return numP;
     }
+    /**
+     * Récupérer le service d'un praticien hospitalier à partir de son nom et de son prénom
+     * @param conn
+     * @param nom
+     * @param prenom
+     * @return
+     * @throws SQLException 
+     */
     public String getPHService(Connection conn, String nom, String prenom) throws SQLException{
          // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -275,6 +328,14 @@ public class requetes {
         
         return service_P;
     }
+    /**
+     * Récupérer la liste des patients à partir d'un service responsable
+     * @param conn
+     * @param service_resp
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public List<Patient> getPatientService(Connection conn, String service_resp)throws SQLException, ParseException{
         //Créer une liste de patient
         List<Patient> patients = new ArrayList<Patient>();
@@ -290,15 +351,12 @@ public class requetes {
             String adresse = rs.getString("adresse");
             java.sql.Date dateNaissance = rs.getDate("dateN");
             Sexe sexe = new toSexe().stringToSexe(rs.getString("sexe"));
-         
-            
             Patient patient = new Patient(IPP,nom,prenom,dateNaissance, sexe, adresse);
             patients.add(patient);
             
             
         }
 
-        
         // Close the result set, statement and the connection
         rs.close();
         stmt.close(); 
@@ -306,6 +364,47 @@ public class requetes {
         return patients;
         
     }
+    /**
+     * Récupérer un patient à partir de son IPP
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
+    public Patient getPatientByIPP(Connection conn, String IPP)throws SQLException, ParseException{
+        //Créer une liste de patient
+        Patient patient = null;
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+        // Execute the query
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient WHERE IPP ='" + IPP + "'");
+        
+        while(rs.next()){
+        
+            String nom = rs.getString("nom"); 
+            String prenom = rs.getString("prenom");
+            String adresse = rs.getString("adresse");
+            java.sql.Date dateNaissance = rs.getDate("dateN");
+            Sexe sexe = new toSexe().stringToSexe(rs.getString("sexe"));
+            patient = new Patient(IPP,nom,prenom,dateNaissance, sexe, adresse);
+        }
+        
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close(); 
+        
+        return patient;
+        
+    }
+    /**
+     * Récupérer une localisation/un lit d'un patient à partir de son IPP et du numéro de séjour qui lui est assigné
+     * @param conn
+     * @param IPP
+     * @param num_sejour
+     * @return
+     * @throws SQLException 
+     */
      public Lit getLoc(Connection conn, String IPP, String num_sejour) throws SQLException{
         
         Lit lit = null;
@@ -330,6 +429,14 @@ public class requetes {
         
         return lit;
     }
+     /**
+      * Récupérer une consultation/ un séjour à partir du numéro de séjour et de l'IPP
+      * @param conn
+      * @param numS
+      * @param IPP
+      * @return
+      * @throws SQLException 
+      */
      public Consultation getConsultationByNumS(Connection conn, String numS, String IPP) throws SQLException{
           // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -359,9 +466,17 @@ public class requetes {
         rs.close();
         stmt.close(); 
         
-        
         return sejour;
      }
+     /**
+      * Récupérer une consultation/ un séjour à partir d'une date d'entrée dans l'établissement, d'une nature de prestation et d'un IPP du patient
+      * @param conn
+      * @param date_entree
+      * @param nature
+      * @param IPP
+      * @return
+      * @throws SQLException 
+      */
      public Consultation getSejour(Connection conn, String date_entree, String nature,String IPP) throws SQLException{
          // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -389,9 +504,15 @@ public class requetes {
         
         return sejour;
     }
-    //requête sélection nom, prénom personnel
-    
-    public DMA getDMA_IPP(Connection conn, String IPP) throws SQLException{
+   /**
+    * Récupérer un DMA à partir de l'IPP d'un patient
+    * @param conn
+    * @param IPP
+    * @return
+    * @throws SQLException
+    * @throws ParseException 
+    */
+    public DMA getDMA_IPP(Connection conn, String IPP) throws SQLException, ParseException{
         
         
          Statement stmt = conn.createStatement();
@@ -406,12 +527,13 @@ public class requetes {
             dateCreation = rs.getDate("date_creation");
             dma = new DMA(IPP, dateCreation);
         }
-
+        Patient patient = this.getPatientByIPP(conn, IPP);
+                
+        dma.setPatient(patient);
         return dma;
     }
 
-    
-    //récupérer la liste des patients de tout l'hôpital
+    //Récupérer la liste de tous les patients du SIH
     public List<Patient> getPatients(Connection conn) throws SQLException, ParseException{
         
 //Créer une liste de patient
@@ -444,13 +566,21 @@ public class requetes {
         return patients;
     }
     
-    //Recherche de patient
+    /**
+     * Récupérer une liste de patient ayant un nom spécifique, utiliser pour la recherche de patient
+     * @param conn
+     * @param nom
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public List<Patient> getPatient(Connection conn, String nom) throws SQLException, ParseException{
         
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
+        String myname = nom.toUpperCase();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient WHERE nom = '" + nom + "'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Patient WHERE nom = '" + myname + "'");
         List<Patient> patients = new ArrayList<>();
         
         String prenom = null;
@@ -480,7 +610,14 @@ public class requetes {
         
         return patients;
     }
-    //Recherche de patient pour un ph
+    /**
+     * Récupérer la liste de patients pour un PH spécifique à partir de son numéro de Professionnel
+     * @param conn
+     * @param numP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public List<Patient> getPatientPH(Connection conn, String numP) throws SQLException, ParseException{
         
         // Get a statement from the connection
@@ -488,7 +625,6 @@ public class requetes {
         // Execute the query
         ResultSet rs = stmt.executeQuery("SELECT * FROM Patient NATURAL JOIN Sejour WHERE numP = '" + numP + "'");
         List<Patient> patients = new ArrayList<>();
-        
         String prenom = null;
         String nomPatient = null;
         String IPP = null;
@@ -504,14 +640,9 @@ public class requetes {
             sexe = rs.getString("sexe");
             format = new toSexe().stringToSexe("sexe");
             adresse = rs.getString("adresse");  
-            
             Patient patient = new Patient(IPP, nomPatient, prenom, dateNaissance, format, adresse);
             patients.add(patient);
         }
-        
-//        for (int i=0; i<patients.size();i++){
-//            System.out.println(patients.get(i).getNom() + patients.get(i).getPrenom() + "\n");
-//        }
         
         // Close the result set, statement and the connection
         rs.close();
@@ -519,7 +650,14 @@ public class requetes {
         
         return patients;
     }
-      //Recherche de patient
+    /**
+     * Récupérer un patient à partir de son IPP
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public Patient getPatientIPP(Connection conn, String IPP) throws SQLException, ParseException{
         
         // Get a statement from the connection
@@ -555,7 +693,14 @@ public class requetes {
     
     
     
-    //Retourner séjour
+    /**
+     * Récupérer la liste des consultations/séjours pour un patient à partir de son IPP
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public  List<Consultation> getSejours(Connection conn, String IPP) throws SQLException, ParseException{
         
         // Get a statement from the connection
@@ -593,9 +738,13 @@ public class requetes {
         return consultations;
     }
     
-    
-    
-    // Créer un Dossier Médical
+    /**
+     * Ajout d'un Dossier Médical unique d'un patient à la base 
+     * @param conn
+     * @param dm
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public void createDM(Connection conn, DM dm) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -615,7 +764,13 @@ public class requetes {
         stmt.close();
     }
 
-    // Créer un Dossier Médical
+    /**
+     * Mettre à jour un Dossier Médical lorsque le patient revient dans l'hôpital
+     * @param conn
+     * @param dm
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public void updateDM(Connection conn, DM dm) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -627,7 +782,7 @@ public class requetes {
 
         // Execute the query
      
-        ResultSet rs = stmt.executeQuery("UPDATE DM SET numS='" + numS + "'AND date_ouverture= to_date('" + date_ouverture + "','YYYY-MM-DD')'");
+        ResultSet rs = stmt.executeQuery("UPDATE DM SET numS='" + numS + "', date_ouverture= to_date('" + date_ouverture + "','YYYY-MM-DD')");
 
       
         // Close the result set, statement and the connection
@@ -635,7 +790,14 @@ public class requetes {
         stmt.close();
     }
     
-// Rechercher un Dossier Médical
+    /**
+     * Récupérer le Dossier Médical à partir du patient et de son IPP
+     * @param conn
+     * @param patient
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public DM getDM(Connection conn, Patient patient) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -664,7 +826,14 @@ public class requetes {
         return dm;
     }
 
-// Modifier un Dossier Médical
+    /**
+     * Modifier le Dossier Médical pour ajouter une correspondance pour la transmission du DM
+     * @param conn
+     * @param patient
+     * @param correspondance
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public void setDMCorrespondance(Connection conn, Patient patient, String correspondance) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -678,7 +847,14 @@ public class requetes {
         stmt.close();
     }
     
-    //Modifier séjour
+    /**
+     * Ajouter une lettre de sortie au Dossier Médical et fermer le séjour
+     * @param conn
+     * @param sejour
+     * @param lettre
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public void setLettreS(Connection conn, Consultation sejour, String lettre) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -696,7 +872,14 @@ public class requetes {
         stmt.close();
     }
     
-// Obtenir la date de séjour la plus récente dans le DM
+    /**
+     * Récupérer la date d'entrée du dernier séjour ouvert pour un patient
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public Date get_date_entree(Connection conn, String IPP) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -715,7 +898,15 @@ public class requetes {
 
         return date;
     }
-    
+    /**
+     * Récupérer la date de sortie pour une date d'entrée et un patient donné
+     * @param conn
+     * @param IPP
+     * @param date_entree
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public Date get_date_sortie(Connection conn, String IPP,String date_entree) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -735,7 +926,14 @@ public class requetes {
         return date;
     }
     
-// Obtenir le PH du séjour le plus récent
+    /**
+     * Récupérer un nom et prénom de PH pour un patient donné pour le dernier séjour ouvert pour le patient
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public String get_PH_sejour(Connection conn, String IPP) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -757,7 +955,14 @@ public class requetes {
         return "Dr. " + nom + " " + prenom;
     }
     
-// Obtenir le service du dernier séjour
+    /**
+     * Récupérer le service du dernier séjour ouvert pour un patient grâce à l'IPP
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public String get_service_sejour(Connection conn, String IPP) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -777,7 +982,14 @@ public class requetes {
         return service;
     }
     
-// Obtenir la nature du dernier séjour
+    /**
+     * Récupérer la nature de séjour du dernier séjour ouvert pour un patient donné grâce à l'IPP
+     * @param conn
+     * @param IPP
+     * @return
+     * @throws SQLException
+     * @throws ParseException 
+     */
     public String get_nature_sejour(Connection conn, String IPP) throws SQLException, ParseException {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
@@ -797,7 +1009,14 @@ public class requetes {
         return nature;
     }
     
-    
+    /**
+     * Récupérer la liste de documents d'un séjour d'un patient grâce à l'IPP et le numéro de séjour
+     * @param conn
+     * @param IPP
+     * @param numS
+     * @return
+     * @throws SQLException 
+     */
     public List<Document> getDocuments(Connection conn, String IPP, String numS) throws SQLException{
         
         List<Document> documents = new ArrayList<>();
@@ -829,7 +1048,12 @@ public class requetes {
         
     }
     
-       //requête ajout document
+    /**
+     * Ajouter un document à la base de données associé à un numéro de séjour et un IPP 
+     * @param conn
+     * @param doc
+     * @throws SQLException 
+     */
     public void addDocument(Connection conn, Document doc) throws SQLException{
         Statement stmt = conn.createStatement();
         
