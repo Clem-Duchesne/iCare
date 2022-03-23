@@ -761,6 +761,7 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_seeDMALabelMouseClicked
 
     private void seeDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIconMouseClicked
+    seeDMALabelMouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIconMouseClicked
 
@@ -778,6 +779,7 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_seeDMALabel1MouseClicked
 
     private void seeDMAIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIcon2MouseClicked
+    seeDMALabel1MouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIcon2MouseClicked
 
@@ -786,6 +788,7 @@ public class Mes_Patients_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_seeDMALabel2MouseClicked
 
     private void seeDMAIcon1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIcon1MouseClicked
+    seeDMALabel2MouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIcon1MouseClicked
 
