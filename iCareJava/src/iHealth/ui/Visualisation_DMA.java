@@ -845,6 +845,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_deconnexionIconButtonMouseClicked
 
     private void addDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMAIconMouseClicked
+    addDMALabelMouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_addDMAIconMouseClicked
 
@@ -866,6 +867,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_addDMALabelMouseClicked
 
     private void seeDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIconMouseClicked
+    seeDMALabelMouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIconMouseClicked
 
