@@ -81,12 +81,17 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         deconnexionIconButton.setIcon(icone4);
         deconnexionIcon2.setIcon(icone4);
         
-     
+        
+        ImageIcon icone7 = new ImageIcon("src/iHealth/img/fleche-gauche.png");
+        java.awt.Image img7 = icone7.getImage();
+        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
+        icone7=new ImageIcon(newImg7);
+        retour.setIcon(icone7);
         
         ImageIcon icone8 = new ImageIcon("src/iHealth/img/patient.png");
         java.awt.Image img8 = icone8.getImage();
         java.awt.Image newImg8 = img8.getScaledInstance(25,25,100);
-        icone8=new ImageIcon(newImg8);
+        icone7=new ImageIcon(newImg8);
         patientIcon2.setIcon(icone8);
         patientIcon.setIcon(icone8);
         
@@ -132,13 +137,22 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         icone4=new ImageIcon(newImg4);
         deconnexionIconButton.setIcon(icone4);
         deconnexionIcon2.setIcon(icone4);
-          
+        
+        ImageIcon icone5 = new ImageIcon("src/iHealth/img/fleche-gauche.png");
+        java.awt.Image img5 = icone5.getImage();
+        java.awt.Image newImg5 = img5.getScaledInstance(25,25,100);
+        icone5=new ImageIcon(newImg5);
+        retour.setIcon(icone5);
+        
         ImageIcon icone6 = new ImageIcon("src/iHealth/img/patient.png");
         java.awt.Image img6 = icone6.getImage();
         java.awt.Image newImg6 = img6.getScaledInstance(25,25,100);
         icone6=new ImageIcon(newImg6);
         patientIcon.setIcon(icone6);
         patientIcon2.setIcon(icone6);
+        
+        
+        
         
         jPanel3.setFocusable(true);
         
@@ -178,6 +192,7 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         professionnelLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         numberOne = new javax.swing.JLabel();
+        retour = new javax.swing.JLabel();
         documentTypeLabel = new javax.swing.JLabel();
         intituleLabel = new javax.swing.JTextField();
         addDoc = new javax.swing.JButton();
@@ -223,7 +238,6 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
             }
         });
 
-        scrollPane.setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setForeground(new java.awt.Color(51, 51, 51));
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -478,12 +492,6 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         documentTypeLabel.setFont(new java.awt.Font("Quicksand", 1, 24)); // NOI18N
         documentTypeLabel.setForeground(new java.awt.Color(37, 158, 185));
         documentTypeLabel.setText("Prescription");
-        documentTypeLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        documentTypeLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                documentTypeLabelMouseClicked(evt);
-            }
-        });
 
         intituleLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         intituleLabel.setForeground(new java.awt.Color(102, 102, 102));
@@ -500,6 +508,11 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         intituleLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 intituleLabelMouseClicked(evt);
+            }
+        });
+        intituleLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                intituleLabelActionPerformed(evt);
             }
         });
 
@@ -523,6 +536,14 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
 
         descriptionLabel.setFont(new java.awt.Font("Quicksand", 0, 14)); // NOI18N
         descriptionLabel.setForeground(new java.awt.Color(102, 102, 102));
+        descriptionLabel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                descriptionLabelFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                descriptionLabelFocusLost(evt);
+            }
+        });
         description.setViewportView(descriptionLabel);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -538,8 +559,10 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                         .addComponent(description, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addGap(18, 18, 18)
-                            .addComponent(documentTypeLabel))
+                            .addGap(9, 9, 9)
+                            .addComponent(retour, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(documentTypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel3Layout.createSequentialGroup()
                             .addGap(18, 18, 18)
                             .addComponent(intituleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -558,7 +581,9 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
                         .addComponent(numberOne, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(250, 250, 250))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(documentTypeLabel)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(retour, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(documentTypeLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(intituleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -1065,15 +1090,19 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_seeDMALabel2MouseClicked
 
     private void intituleLabelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_intituleLabelFocusGained
-        // TODO add your handling code here:
+        if(intituleLabel.getText().equals("Intitulé")){
+            intituleLabel.setText("");
+        }
     }//GEN-LAST:event_intituleLabelFocusGained
 
     private void intituleLabelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_intituleLabelFocusLost
-        // TODO add your handling code here:
+         if(intituleLabel.getText().equals("")){
+            intituleLabel.setText("Intitulé");
+        }
     }//GEN-LAST:event_intituleLabelFocusLost
 
     private void intituleLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_intituleLabelMouseClicked
-        // TODO add your handling code here:
+      
     }//GEN-LAST:event_intituleLabelMouseClicked
 
     private void addDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addDocActionPerformed
@@ -1170,13 +1199,25 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_resultatLabelMouseClicked
 
-    private void documentTypeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentTypeLabelMouseClicked
-       
-    }//GEN-LAST:event_documentTypeLabelMouseClicked
+    private void descriptionLabelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_descriptionLabelFocusGained
+        if(descriptionLabel.getText().equals("Description")){
+            descriptionLabel.setText("");
+            }
+    }//GEN-LAST:event_descriptionLabelFocusGained
+
+    private void descriptionLabelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_descriptionLabelFocusLost
+        if(descriptionLabel.getText().equals("")){
+           descriptionLabel.setText("Description");
+        }
+    }//GEN-LAST:event_descriptionLabelFocusLost
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         dialogue.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void intituleLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_intituleLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_intituleLabelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1287,6 +1328,7 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     private javax.swing.JLabel prescriptionLabel;
     private javax.swing.JLabel professionnelLabel;
     private javax.swing.JLabel resultatLabel;
+    private javax.swing.JLabel retour;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JLabel seeDMALabel;
     private javax.swing.JLabel seeDMALabel1;

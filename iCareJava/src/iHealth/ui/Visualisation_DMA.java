@@ -299,7 +299,6 @@ public class Visualisation_DMA extends javax.swing.JFrame {
             }
         });
 
-        scrollPane.setBackground(new java.awt.Color(255, 255, 255));
         scrollPane.setForeground(new java.awt.Color(51, 51, 51));
         scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -693,6 +692,14 @@ public class Visualisation_DMA extends javax.swing.JFrame {
 
         chambreLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
         chambreLabel.setText("Numéro de la chambre");
+        chambreLabel.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                chambreLabelFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                chambreLabelFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -755,9 +762,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(patientLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(patientLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -897,13 +902,13 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_deconnexionIcon2MouseClicked
 
     private void naturePrestationTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_naturePrestationTextFieldFocusGained
-       if(naturePrestationTextField.getText() == "Nature de la prestation"){
+       if(naturePrestationTextField.getText().equals("Nature de la prestation")){
            naturePrestationTextField.setText("");
        }
     }//GEN-LAST:event_naturePrestationTextFieldFocusGained
 
     private void naturePrestationTextFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_naturePrestationTextFieldFocusLost
-        if(naturePrestationTextField.getText() == ""){
+        if(naturePrestationTextField.getText().equals("")){
            naturePrestationTextField.setText("Nature de la prestation");
        }
     }//GEN-LAST:event_naturePrestationTextFieldFocusLost
@@ -997,6 +1002,18 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         dialogue.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void chambreLabelFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chambreLabelFocusGained
+        if(chambreLabel.getText().equals("Numéro de la chambre")){
+           chambreLabel.setText("");
+       }
+    }//GEN-LAST:event_chambreLabelFocusGained
+
+    private void chambreLabelFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_chambreLabelFocusLost
+        if(chambreLabel.getText().equals("")){
+           chambreLabel.setText("Numéro de la chambre");
+       }
+    }//GEN-LAST:event_chambreLabelFocusLost
 
     /**
      * @param args the command line arguments
