@@ -15,7 +15,14 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class Authentification {
     
+    /**
+     * Ça fonction permet de differencier un utilisateur entre Secretaire Administrative
+     * Secretaire Medical et Medicin.
+     * @param identifiant
+     * @return 
+     */
      public Poste definirPoste(String identifiant){
+         
         Poste poste = null;
         String posteStr = identifiant.substring(0,2);
 
@@ -37,6 +44,13 @@ public class Authentification {
                 }
         return poste;
     }
+     
+     /**
+      * Encryptage du mot de passe d'un utilisateur.
+      * @param password
+      * @param key
+      * @return 
+      */
     public String encrypt(String password,String key){
         try{
             Key clef = new SecretKeySpec(key.getBytes("ISO-8859-2"),"Blowfish");
@@ -48,6 +62,13 @@ public class Authentification {
             return null;
         }
     }
+    
+    /**
+     * Decryptage du mot de passe d'un utilisateur.
+     * @param password
+     * @param key
+     * @return 
+     */
     public String decrypt(String password,String key){
         try
         {

@@ -1007,6 +1007,7 @@ public class Creation_DMA extends javax.swing.JFrame {
 
     private void addDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMAIconMouseClicked
         // TODO add your handling code here:
+    addDMALabelMouseClicked(evt);
     }//GEN-LAST:event_addDMAIconMouseClicked
 
     private void addDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addDMALabelMouseClicked
@@ -1015,6 +1016,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     }//GEN-LAST:event_addDMALabelMouseClicked
 
     private void seeDMAIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMAIconMouseClicked
+    seeDMALabelMouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_seeDMAIconMouseClicked
 

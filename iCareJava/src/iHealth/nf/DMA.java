@@ -15,11 +15,17 @@ public class DMA {
     private Patient patient;
     private List<Consultation> consultation = new ArrayList<Consultation> ();
     
+    /**
+     * Constructor de la classe DMA - Dossier Medical Administrative.
+     * @param IPP
+     * @param dateCreation 
+     */
     public DMA(String IPP, java.sql.Date dateCreation){
        this.IPP = IPP;
        this.dateCreation = dateCreation;
         
     }
+    
     
     public DMA(Patient patient, java.sql.Date dateCreation){
         this.patient =patient;
@@ -28,24 +34,41 @@ public class DMA {
         
     }
     
-
+    /**
+     * Ajoute une Consultation dans la liste de consultations.
+     * @param consultation 
+     */
+    public void addConsultation(Consultation consultation){
+        this.consultation.add(consultation);
+        
+    }
+    
+    /**
+     * Renvoie la date de creation d'un DMA.
+     * @return 
+     */
     public java.sql.Date getDateCreation(){
         return dateCreation;
     }
     
+    /**
+     * Renvoie le Patient DMA actuel.
+     * @return 
+     */
     public Patient getPatient(){
         return patient;
     }
+    /**
+     * Renvoie l'identifiant patient.
+     * @return 
+     */
     public String getIPP(){
         return IPP;
     }
-    public void setPatient(Patient patient){
-        this.patient = patient;
+    /*
+    public Consultation getConsultation(LocalDate dateConsultation){
+        
     }
-    public void addConsultation(Consultation consultation){
-        this.consultation.add(consultation);
-    }
-   
-
+*/
 
 }

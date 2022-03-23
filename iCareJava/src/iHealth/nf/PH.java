@@ -12,7 +12,13 @@ public class PH {
     private String prenom;
     private Service service;
     
-    
+    /**
+     * Constructor de la class PH - Praticien Hospitalier.
+     * @param numP
+     * @param nom
+     * @param prenom
+     * @param service 
+     */
     public PH(String numP, String nom, String prenom, Service service){
         this.numP = numP;
         this.nom = nom;

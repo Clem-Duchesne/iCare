@@ -18,6 +18,16 @@ public class Document {
     private String titre;
     private String description;
 
+    /**
+     * Constructor de la classe Document.
+     * @param dateEcriture
+     * @param numS
+     * @param numP
+     * @param IPP
+     * @param type
+     * @param titre
+     * @param description 
+     */
     public Document(java.sql.Date dateEcriture, String numS, String numP, String IPP,  DocumentType type, String titre, String description) {
         this.date_ajout = dateEcriture;
         this.numS = numS;
@@ -43,35 +53,66 @@ public class Document {
         this.description = description;
     }
     
-
+    /**
+     * Renvoie la date de ecriture du document.
+     * @return 
+     */
     public java.sql.Date getDateEcriture() {
         return date_ajout;
     }
 
+    /**
+     * Renvoie le numero de sejour du document actuel.
+     * @return 
+     */
     public String getNumS() {
         return numS;
     }
 
+    /**
+     * Renvoie le numero du profissionel.
+     * @return 
+     */
     public String getNumP() {
         return numP;
     }
 
+    /**
+     * Renvoie le identifiant du patient.
+     * @return 
+     */
     public String getIPP() {
         return IPP;
     }
 
+    /**
+     * Renvoie l'identifiant du document.
+     * @return 
+     */
     public String getIdDoc() {
         return idDoc;
     }
 
+    /**
+     * Renvoie le type du document en format DocumentType.
+     * @return 
+     */
     public DocumentType getType() {
         return type;
     }
 
+    /**
+     * Renvoie le titre du document.
+     * @return 
+     */
     public String getTitre() {
         return titre;
     }
 
+    /**
+     * Renvoie la description du document.
+     * @return 
+     */
     public String getDescription() {
         return description;
     }
