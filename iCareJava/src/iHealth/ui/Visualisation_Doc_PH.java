@@ -8,6 +8,7 @@ package iHealth.ui;
 import java.sql.Connection;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
+import iHealth.nf.Consultation;
 import iHealth.nf.DM;
 import iHealth.nf.DMA;
 import iHealth.nf.Document;
@@ -94,6 +95,68 @@ public class Visualisation_Doc_PH extends javax.swing.JFrame {
         dateLabel.setText("Date : " + document.getDateEcriture());
         titreLabel.setText("Intitulé : " + document.getTitre());
         String doc = document.getDescription();
+        
+        descriptionLabel.setText(doc);
+        descriptionLabel.setEditable(false);
+        
+        
+        
+        
+    }
+    public Visualisation_Doc_PH(Connection conn, String identite, Consultation consult, String IPP) throws SQLException, ParseException {
+        this.conn = conn;
+        this.IPP = IPP;
+        initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
+        ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
+        java.awt.Image img = icone.getImage();
+        java.awt.Image newImg = img.getScaledInstance(106,80,100);
+        icone=new ImageIcon(newImg);
+        logo1.setIcon(icone);
+
+        
+        ImageIcon icone3 = new ImageIcon("src/iHealth/img/vue.png");
+        java.awt.Image img3 = icone3.getImage();
+        java.awt.Image newImg3 = img3.getScaledInstance(25,25,100);
+        icone3=new ImageIcon(newImg3);
+        seeDMIcon.setIcon(icone3);
+        
+        ImageIcon icone4 = new ImageIcon("src/iHealth/img/deconnexion.png");
+        java.awt.Image img4 = icone4.getImage();
+        java.awt.Image newImg4 = img4.getScaledInstance(25,25,100);
+        icone4=new ImageIcon(newImg4);
+        deconnexionIconButton.setIcon(icone4);
+        deconnexionIcon2.setIcon(icone4);
+        
+        
+        ImageIcon icone7 = new ImageIcon("src/iHealth/img/fleche-gauche.png");
+        java.awt.Image img7 = icone7.getImage();
+        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
+        icone7=new ImageIcon(newImg7);
+        retourIcon.setIcon(icone7);
+        
+        ImageIcon icone8 = new ImageIcon("src/iHealth/img/patient.png");
+        java.awt.Image img8 = icone8.getImage();
+        java.awt.Image newImg8 = img8.getScaledInstance(25,25,100);
+        icone8=new ImageIcon(newImg8);
+        patientSIcon.setIcon(icone8);
+        patientIcon.setIcon(icone8);
+        
+
+        // Récupérer le nom et prénom de la personne connectée
+        professionnelLabel.setText(identite);
+        
+
+        Patient patient = new requetes().getPatientIPP(this.conn, consult.getIPP());
+        
+        patientLabel.setText("Patient : " + patient.getNom() + " " + patient.getPrenom() + " - IPP : " + patient.getIPP());
+        
+        String ph = new requetes().getPersonnel(conn, consult.getNumP());
+        redactionLabel.setText("Rédigé par : " + ph);
+        dateLabel.setText("Date : " + consult.getDateFinSejour());
+        titreLabel.setText("Lettre de sortie");
+        String doc = consult.getLettre().getLettre_text();
         
         descriptionLabel.setText(doc);
         descriptionLabel.setEditable(false);

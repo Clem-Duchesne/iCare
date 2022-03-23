@@ -136,7 +136,7 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
             PH phLS;
             for(Consultation c : sejoursPat){
                 phLS = new requetes().getPH(conn, c.getNumP());
-                tableModel.insertRow(index, new Object[] {"LS",c.getLettre().getDate(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Lettre de sortie" });
+                tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Lettre de sortie" });
             }
             for(Document d : documents){
                 PH ph1 = new requetes().getPH(conn, d.getNumP());
@@ -1156,76 +1156,104 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
     private void operationLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_operationLabelMouseClicked
        String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
-        try {
+        if(maConsultation.getDateFinSejour()==null){
+            try {
             DocumentType type_doc = DocumentType.OPERATION;
+            
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Ajout de document impossible");
+            } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            message.setText("Il n'y a pas séjour ouvert");
             dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_operationLabelMouseClicked
 
     private void observationLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_observationLabelMouseClicked
         String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
-        try {
+        if(maConsultation.getDateFinSejour()==null){
+            try {
             DocumentType type_doc = DocumentType.OBSERVATION;
+            
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Ajout de document impossible");
+            } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            message.setText("Il n'y a pas séjour ouvert");
             dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_observationLabelMouseClicked
 
     private void commentaireLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commentaireLabelMouseClicked
         String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
-        try {
+        if(maConsultation.getDateFinSejour()==null){
+            try {
             DocumentType type_doc = DocumentType.COMMENTAIRE;
+            
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Ajout de document impossible");
+            } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            message.setText("Il n'y a pas séjour ouvert");
             dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_commentaireLabelMouseClicked
 
     private void resultatLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resultatLabelMouseClicked
         String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
-        try {
+        if(maConsultation.getDateFinSejour()==null){
+            try {
             DocumentType type_doc = DocumentType.RESULTAT;
+            
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Ajout de document impossible");
+            } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            message.setText("Il n'y a pas séjour ouvert");
             dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_resultatLabelMouseClicked
 
@@ -1261,45 +1289,61 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
 
     private void documentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentTableMouseClicked
         int num_doc = documentTable.getSelectedRow();
-        System.out.print(documentTable.getColumn("Lettre de sortie"));
         String numS = mydm.getNumS();
-        
-        List<Document> documents = new ArrayList<>();
+        String identite = professionnelLabel.getText();
         try {
+            List<Consultation> sejoursPat = new requetes().getSejours(this.conn, IPP);
+            List<Document> documents = new ArrayList<>();
             documents = new requetes().getDocuments(conn, IPP, numS);
-            Document document = documents.get(num_doc);
-            String identite = professionnelLabel.getText();
-            Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,document,IPP);
-            this.setVisible(false);
-            interfaceDMView.setVisible(true);
+            if(sejoursPat.size() == 0){
+                Document document = documents.get(num_doc);
+                
+                Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,document,IPP);
+                this.setVisible(false);
+                interfaceDMView.setVisible(true);
+               
+            }
+            else{
+                Consultation consult = sejoursPat.get(num_doc);
+                
+                Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,consult,IPP);
+                this.setVisible(false);
+                interfaceDMView.setVisible(true);
+            }
         } catch (SQLException ex) {
             message.setText("Visualisation document impossible");
-            dialogue.setVisible(true);
+                    dialogue.setVisible(true);
             Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            message.setText("Visualisation document impossible");
-            dialogue.setVisible(true);
             Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
+
 
     }//GEN-LAST:event_documentTableMouseClicked
 
     private void lettreSortieLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lettreSortieLabelMouseClicked
         String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
-        try {
+        if(maConsultation.getDateFinSejour()==null){
+            try {
             DocumentType type_doc = DocumentType.LETTRES;
+            
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Ajout de document impossible");
+            } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else{
+            message.setText("Il n'y a pas séjour ouvert");
             dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_lettreSortieLabelMouseClicked
 
