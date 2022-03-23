@@ -10,6 +10,10 @@ public class NumeroSejour {
     private String randomValue;
     private String numero;
     
+    /**
+     * Constructor de la classe NumeroSejour.
+     * @param current_date 
+     */
     public NumeroSejour(java.sql.Date current_date){
         this.annee = current_date.toString().substring(2,4);
         this.mois = current_date.toString().substring(5,7);
@@ -38,10 +42,19 @@ public class NumeroSejour {
       numero = annee + mois + randomValue;
  
     }
+    
+    /**
+     * Define le numero de sejour.
+     * @param numero_s 
+     */
     public NumeroSejour(String numero_s){
         this.numero = numero_s;
     }
     
+    /**
+     * Renvoie le numero de sejour.
+     * @return 
+     */
     public String getNumero(){
         return numero;
     }

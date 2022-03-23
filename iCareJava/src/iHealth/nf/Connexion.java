@@ -24,6 +24,14 @@ public class Connexion {
     public Connexion() throws SQLException{
     }
 
+    /**
+     * Essaie de connecter l'utilisateur. En cas de succès, renvoie true. En cas d'échec, renvoie false ou une exception.
+     * @param conn
+     * @param identifiant
+     * @param motdepasse
+     * @return
+     * @throws SQLException 
+     */
     public boolean seConnecter(Connection conn, String identifiant, String motdepasse) throws SQLException{
         Statement stmt = conn.createStatement();
         ResultSet rs = stmt.executeQuery("SELECT * FROM Comptes WHERE identifiant = '" + identifiant + "'");

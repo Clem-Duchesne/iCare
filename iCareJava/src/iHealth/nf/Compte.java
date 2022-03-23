@@ -17,6 +17,12 @@ public class Compte {
     private String motDePasse;
     private Poste poste;
     
+    /**
+     * Constructor de la classe Compte.
+     * @param identifiant
+     * @param motDePasse
+     * @param poste 
+     */
     public Compte (String identifiant, String motDePasse, Poste poste){
         //poste à spécifier dans les numéros d'identifiant
         this.identifiant = identifiant;
