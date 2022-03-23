@@ -935,7 +935,8 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_deconnexionIconButtonMouseClicked
 
     private void seeDMIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMIconMouseClicked
-        // TODO add your handling code here:
+seeDMALabelMouseClicked(evt);
+// TODO add your handling code here:
     }//GEN-LAST:event_seeDMIconMouseClicked
 
     private void seeDMALabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_seeDMALabelMouseClicked
@@ -1110,10 +1111,12 @@ public class Ajout_Doc_PH extends javax.swing.JFrame {
     }//GEN-LAST:event_addDocActionPerformed
 
     private void patientIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIconMouseClicked
+    seeDMALabel2MouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_patientIconMouseClicked
 
     private void patientIcon2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientIcon2MouseClicked
+    seeDMALabel1MouseClicked(evt);
         // TODO add your handling code here:
     }//GEN-LAST:event_patientIcon2MouseClicked
 
