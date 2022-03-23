@@ -57,5 +57,12 @@ public class DM {
     public void addDocument(Document document){
         documents.add(document);
     }
+    
+    public void setNumS(String numS){
+        this.numS = numS;
+    }
+    public void setDateO(java.sql.Date date){
+        this.dateE = date;
+    }
 
 }

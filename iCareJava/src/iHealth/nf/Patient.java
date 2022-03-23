@@ -34,6 +34,7 @@ public class Patient {
         this.dateNaissance = dateNaissance;
         this.sexe = sexe;
         this.adresse = adresse;
+        
 
     }
     public Patient(java.sql.Date annee_premiere_venue, String nom, String prenom, java.sql.Date dateNaissance, Sexe sexe, String adresse) throws ParseException{
@@ -87,6 +88,12 @@ public class Patient {
         return annee_premiere_venue;
     }
 
+    public void setIPP(String IPP){
+        this.IPP = IPP;
+    }
+    public void setAnneeEntree(java.sql.Date annee){
+        this.annee_premiere_venue = annee;
+    }
     
     
     

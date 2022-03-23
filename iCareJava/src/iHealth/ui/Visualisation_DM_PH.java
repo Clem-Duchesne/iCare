@@ -51,7 +51,7 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM_PH(Connection conn, String identite, String IPP, Patient patient, DMA dma, DM dm) throws SQLException {
+    public Visualisation_DM_PH(Connection conn, String identite, String IPP, Patient patient, DMA dma, DM dm) throws SQLException, ParseException {
         this.conn = conn;
         this.IPP = IPP;
         this.mydm = dm;
@@ -128,14 +128,25 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
             
             List<Document> documents = new ArrayList<>();
             documents = new requetes().getDocuments(this.conn, IPP, dm.getNumS());
+            
+            List<Consultation> sejoursPat = new ArrayList<>();
+            sejoursPat = new requetes().getSejours(this.conn, IPP);
 
             int index =0;
+            PH phLS;
+            for(Consultation c : sejoursPat){
+                phLS = new requetes().getPH(conn, c.getNumP());
+                tableModel.insertRow(index, new Object[] {"LS",c.getLettre().getDate(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Lettre de sortie" });
+            }
             for(Document d : documents){
                 PH ph1 = new requetes().getPH(conn, d.getNumP());
-                System.out.println(d.getDateEcriture());
+                //System.out.println(d.getDateEcriture());
+                
+                
                 tableModel.insertRow(index, new Object[] { d.getIdDoc(), d.getDateEcriture(),new toDocument().DocToString(d.getType()),"Dr." + ph1.getNom()+ " " + ph1.getPrenom(), d.getTitre()});
                 index++; 
             } 
+            
             
 
             documentTable.setModel(tableModel);
@@ -711,15 +722,15 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
                             .addComponent(jLabel8)
                             .addComponent(numeroDeux, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(12, 12, 12)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dateDebutLabel)
-                            .addComponent(serviceRLabel))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(serviceRLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(dateDebutLabel))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(serviceGLabel)
                             .addComponent(PHLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(nChambreLabel)
                             .addComponent(natureLabel))
                         .addGap(28, 28, 28)
@@ -1117,20 +1128,28 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
     private void prescriptionLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_prescriptionLabelMouseClicked
         String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
-        try {
+        if(maConsultation.getDateFinSejour()==null){
+            try {
             DocumentType type_doc = DocumentType.PRESCRIPTION;
+            
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
-        } catch (SQLException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParseException ex) {
-            message.setText("Ajout de document impossible");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ParseException ex) {
+                message.setText("Ajout de document impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        else{
+            message.setText("Il n'y a pas séjour ouvert");
+            dialogue.setVisible(true);
+        }
+        
         
     }//GEN-LAST:event_prescriptionLabelMouseClicked
 
@@ -1157,7 +1176,7 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
         String identite = professionnelLabel.getText();
         Ajout_Doc_PH ajoutDocInterface;
         try {
-            DocumentType type_doc = DocumentType.OPERATION;
+            DocumentType type_doc = DocumentType.OBSERVATION;
             ajoutDocInterface = new Ajout_Doc_PH(this.conn, identite, IPP, mydm, maConsultation, type_doc);
             this.setVisible(false);
             ajoutDocInterface.setVisible(true);
@@ -1242,7 +1261,9 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
 
     private void documentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentTableMouseClicked
         int num_doc = documentTable.getSelectedRow();
+        System.out.print(documentTable.getColumn("Lettre de sortie"));
         String numS = mydm.getNumS();
+        
         List<Document> documents = new ArrayList<>();
         try {
             documents = new requetes().getDocuments(conn, IPP, numS);

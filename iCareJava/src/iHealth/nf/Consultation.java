@@ -64,6 +64,9 @@ public class Consultation {
     public String getIPP(){
         return IPP;
     }
+    public void setDateS(java.sql.Date date){
+        this.dateFinSejour = date;
+    }
     
     
 

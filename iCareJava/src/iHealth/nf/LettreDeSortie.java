@@ -22,4 +22,7 @@ public class LettreDeSortie {
     public String getLettre_text(){
         return lettre;
     }
+    public java.sql.Date getDate(){
+        return dateSortie;
+    }
 }

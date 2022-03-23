@@ -357,9 +357,8 @@ public class Connexion extends javax.swing.JFrame {
             boolean reponse = false;
 
             try {
-                String key = hashPassword(password, Salt.salt).get();
                 
-                reponse = new requetes().connection(this.conn, id, key);
+                reponse = new requetes().connection(this.conn, id, password);
             } catch (SQLException ex) {
                  errorMessage.setText("Connexion au serveur impossible");
                  errorMessage.setVisible(true);

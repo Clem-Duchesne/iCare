@@ -14,6 +14,7 @@ import iHealth.nf.DMA;
 import iHealth.nf.DM;
 import iHealth.nf.Document;
 import iHealth.nf.DocumentType;
+import iHealth.nf.LettreDeSortie;
 import iHealth.nf.Lit;
 import iHealth.nf.Localisation;
 import iHealth.nf.NumeroSejour;
@@ -79,7 +80,7 @@ public class requetes {
     //requête création patient
     public void createPatient(Connection conn, Patient patient) throws SQLException{
         Statement stmt = conn.createStatement();
-        String IPP = patient.getPremiereVenue().toString().substring(8,10) + patient.getPremiereVenue().toString().substring(2, 4) + (10000 + (int)(Math.random() * ((99999 - 10000) + 1)));;
+        String IPP = patient.getIPP();
         
         String nom = patient.getNom();
         String prenom = patient.getPrenom();
@@ -348,6 +349,10 @@ public class requetes {
             lit = this.getLoc(conn, IPP, numS);
             java.sql.Date date_entree2 = rs.getDate("date_entree");
             sejour = new Consultation(numS2, IPP, date_entree2, numP,nature,lit);
+            if(rs.getDate("date_sortie")!=null){
+                sejour.setDateS(rs.getDate("date_sortie"));
+                sejour.setLettreDeSortie(new LettreDeSortie(rs.getDate("date_sortie"), rs.getString("lettreS")));
+            }
 
         }
         // Close the result set, statement and the connection
@@ -461,10 +466,11 @@ public class requetes {
             prenom = rs.getString("prenom");
             dateNaissance = rs.getDate("dateN");
             sexe = rs.getString("sexe");
-            format = new toSexe().stringToSexe("sexe");
+            format = new toSexe().stringToSexe(sexe);
             adresse = rs.getString("adresse");  
             
             Patient patient = new Patient(IPP, nomPatient, prenom, dateNaissance, format, adresse);
+            //patient.setAnneeEntree(this.getDMA_IPP(conn, IPP).getDateCreation());
             patients.add(patient);
         }
         
@@ -600,7 +606,8 @@ public class requetes {
       
 
         // Execute the query
-        ResultSet rs = stmt.executeQuery("INSERT INTO DM VALUES ('" + IPP + "','" + numS + "'" + date_ouverture + "'" + null + "'')");
+        //System.out.println("INSERT INTO DM VALUES ('" + IPP + "','" + numS + "',to_date('" + date_ouverture + "','YYYY-MM-DD'),'" + null + "')");
+        ResultSet rs = stmt.executeQuery("INSERT INTO DM VALUES ('" + IPP + "','" + numS + "',to_date('" + date_ouverture + "','YYYY-MM-DD'),'" + null + "')");
 
         
         // Close the result set, statement and the connection
@@ -608,6 +615,26 @@ public class requetes {
         stmt.close();
     }
 
+    // Créer un Dossier Médical
+    public void updateDM(Connection conn, DM dm) throws SQLException, ParseException {
+        // Get a statement from the connection
+        Statement stmt = conn.createStatement();
+
+        String IPP = dm.getPatient().getIPP();
+        String numS = dm.getNumS();
+        java.sql.Date date_ouverture = dm.getDateE();
+      
+
+        // Execute the query
+     
+        ResultSet rs = stmt.executeQuery("UPDATE DM SET numS='" + numS + "'AND date_ouverture= to_date('" + date_ouverture + "','YYYY-MM-DD')'");
+
+      
+        // Close the result set, statement and the connection
+        rs.close();
+        stmt.close();
+    }
+    
 // Rechercher un Dossier Médical
     public DM getDM(Connection conn, Patient patient) throws SQLException, ParseException {
         // Get a statement from the connection

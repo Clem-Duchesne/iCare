@@ -73,7 +73,7 @@ public class toDocument {
                 type_doc = "Opération";
                 break;
             case RESULTAT:
-                type_doc = "Résultat&";
+                type_doc = "Résultat";
                 break;
         }
         

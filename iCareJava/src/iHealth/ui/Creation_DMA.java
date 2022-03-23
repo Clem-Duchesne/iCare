@@ -1182,22 +1182,33 @@ public class Creation_DMA extends javax.swing.JFrame {
                 java.sql.Date premiere_venue = java.sql.Date.valueOf(LocalDate.now());
                 LocalDate dateNaissance2 = new toDate().sqlDateToLocalDate(date_sql);
                 java.sql.Date dateNaissance_sql = java.sql.Date.valueOf(dateNaissance2);
-                System.out.println(dateNaissance_sql);
+                //System.out.println(dateNaissance_sql);
         
                 Patient patient = null;    
                 try {
+                    
                     patient = new Patient(premiere_venue,nom.toUpperCase(),prenom,dateNaissance_sql,sexe,adresse);
-                    patientsModel.addElement( "" + patient.getNom() + " " + patient.getPrenom() + "");
-                    patientList.setModel(patientsModel);
+                    //System.out.println(patient.getPremiereVenue());
+                    //System.out.println(patient.getPremiereVenue().toString().substring(8,10) + " - " + patient.getPremiereVenue().toString().substring(2, 4));
+                    String IPP = patient.getPremiereVenue().toString().substring(8,10) + patient.getPremiereVenue().toString().substring(2, 4) + (10000 + (int)(Math.random() * ((99999 - 10000) + 1)));;
+                    patient.setIPP(IPP);
+                    
                     List<Patient> patientTest = new requetes().getPatient(conn, patient.getNom());
                     if(patientTest.size() == 0){
                         new requetes().createPatient(this.conn, patient);
                         dateErrorMessage.setText("Un nouveau patient a été créé");
+                        patientsModel.addElement( patient.getIPP() + " - " + patient.getNom() + " " + patient.getPrenom() );
+                        patientList.setModel(patientsModel);
                     }
                     else{
+                        
                         boolean res = false;
                         for(Patient p : patientTest){
-                            if(p.getNom() == patient.getNom() && p.getPrenom() == patient.getPrenom() && p.getDateNaissance()==patient.getDateNaissance() && p.getSexe() == patient.getSexe()){
+                            System.out.println(p.getNom() + " - " + patient.getNom());
+                            System.out.println(p.getPrenom() + " - " + patient.getPrenom());
+                            System.out.println(p.getDateNaissance() + " - " + patient.getDateNaissance());
+                            System.out.println(p.getSexe() + " - " + patient.getSexe());
+                            if(p.getNom().equals(patient.getNom()) & p.getPrenom().equals(patient.getPrenom()) & p.getDateNaissance().equals(patient.getDateNaissance()) & p.getSexe().equals(patient.getSexe()) ){
                                 message.setText("Ce patient est déjà enregistré dans la base");
                                 dialogue.setVisible(true); 
                                 res =true;
@@ -1206,6 +1217,8 @@ public class Creation_DMA extends javax.swing.JFrame {
                         if(res == false){
                             new requetes().createPatient(this.conn, patient);
                             dateErrorMessage.setText("Un nouveau patient a été créé");
+                            patientsModel.addElement( patient.getIPP() + " - " + patient.getNom() + " " + patient.getPrenom() );
+                            patientList.setModel(patientsModel);
                         }
                        
                     }

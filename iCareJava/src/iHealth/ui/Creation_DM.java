@@ -1075,11 +1075,12 @@ public class Creation_DM extends javax.swing.JFrame {
             java.sql.Date dateE = new java.sql.Date(System.currentTimeMillis());
             String correspondance = null;
             DM dm = new DM(patient, numS, dateE, correspondance);
+            
             DMA dma = new requetes().getDMA_IPP(conn, IPP);
             
                 try {
                     DM dm2 = new requetes().getDM(this.conn,patient);
-                    if(dm2== null){
+                    if(dm2.getNumS() == null & dm2.getPatient() == null){
                         new requetes().createDM(this.conn, dm);
                         Visualisation_DM_SM interfaceSM = new Visualisation_DM_SM(this.conn, identite, patient, dma, dm);
                         this.setVisible(false);
@@ -1087,6 +1088,9 @@ public class Creation_DM extends javax.swing.JFrame {
 
                     }
                     else{
+                        dm2.setNumS(sejour.getNumeroSejour().getNumero());
+                        dm2.setDateO(dateE);
+                        new requetes().updateDM(this.conn,dm2);
                         Visualisation_DM_SM interfaceSM = new Visualisation_DM_SM(this.conn, identite, patient, dma, dm2);
                         this.setVisible(false);
                         interfaceSM.setVisible(true);

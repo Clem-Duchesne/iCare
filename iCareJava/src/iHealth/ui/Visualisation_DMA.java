@@ -133,9 +133,10 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         for(Consultation c : consultations){
             PH ph = new requetes().getPH(conn, c.getNumP());
             String lettre_check = "";
-            if(c.getLettre().getLettre_text() != null){
+            if(c.getLettre().getLettre_text() != ""){
                 lettre_check = "Voir lettre de sortie";
             }
+            
             tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
             index++; 
         }
