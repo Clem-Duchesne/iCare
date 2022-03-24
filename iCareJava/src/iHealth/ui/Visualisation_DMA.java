@@ -146,8 +146,14 @@ public class Visualisation_DMA extends javax.swing.JFrame {
             else{
                 lettre_check = "Voir lettre de sortie";
             }
+            if(c.getLit()==null){
+                tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"Consultation" + " - " + c.getService(), c.getNaturePrestation(), lettre_check});
+            }
+            else{
+                 tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
+            }
             
-            tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
+           
             index++; 
         }
         
@@ -285,6 +291,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         serviceGeographiqueComboBox = new javax.swing.JComboBox<>();
         locComboBox = new javax.swing.JComboBox<>();
         chambreLabel = new javax.swing.JTextField();
+        consultationCheckBox = new javax.swing.JCheckBox();
         patientLabel = new javax.swing.JLabel();
 
         dialogue.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -643,13 +650,13 @@ public class Visualisation_DMA extends javax.swing.JFrame {
                 .addGap(66, 66, 66)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE))
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(64, 64, 64))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
@@ -701,7 +708,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
         locComboBox.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
 
         chambreLabel.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
-        chambreLabel.setText("Numéro de la chambre");
+        chambreLabel.setText("Numéro Chambre");
         chambreLabel.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 chambreLabelFocusGained(evt);
@@ -710,26 +717,44 @@ public class Visualisation_DMA extends javax.swing.JFrame {
                 chambreLabelFocusLost(evt);
             }
         });
+        chambreLabel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chambreLabelActionPerformed(evt);
+            }
+        });
+
+        consultationCheckBox.setBackground(new java.awt.Color(255, 255, 255));
+        consultationCheckBox.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        consultationCheckBox.setText("Consultation simple");
+        consultationCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                consultationCheckBoxMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
         jPanel8Layout.setHorizontalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
-                .addGap(0, 117, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(addPatientButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(147, 147, 147))
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(praticienComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(naturePrestationTextField)
+                    .addComponent(serviceResponsableComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(locComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(chambreLabel))
                     .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(praticienComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(naturePrestationTextField)
-                    .addComponent(serviceResponsableComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(consultationCheckBox)
+                        .addGap(136, 136, 136)))
                 .addContainerGap())
         );
         jPanel8Layout.setVerticalGroup(
@@ -741,15 +766,17 @@ public class Visualisation_DMA extends javax.swing.JFrame {
                 .addComponent(naturePrestationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addComponent(consultationCheckBox)
+                .addGap(18, 18, 18)
                 .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(locComboBox)
-                    .addComponent(chambreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE))
-                .addGap(95, 95, 95)
+                    .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(42, 42, 42)
                 .addComponent(addPatientButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(163, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         patientLabel.setFont(new java.awt.Font("Quicksand", 0, 24)); // NOI18N
@@ -772,7 +799,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(patientLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 855, Short.MAX_VALUE)
+                            .addComponent(patientLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 860, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -800,15 +827,14 @@ public class Visualisation_DMA extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(patientLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap(30, Short.MAX_VALUE))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(66, Short.MAX_VALUE))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -978,39 +1004,90 @@ public class Visualisation_DMA extends javax.swing.JFrame {
 
             java.sql.Date current_date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
             DMA dma = null;    
-            NumeroSejour numeroSejour = new NumeroSejour(current_date);    
-            Chambre chambre = new Chambre(Service.valueOf(service_geo),Service.valueOf(service_responsable), num_chambre);
-            Lit lit = new Lit(Localisation.valueOf(loc), chambre);
-            Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
-            dma = new DMA(IPP,current_date);
-            try {
-                    new requetes().addSejour(this.conn, IPP, consultation);
-                    new requetes().addLocalisation(conn, IPP, lit, consultation);
-                    message.setText("Le nouveau séjour a bien été créé");
-                    dialogue.setVisible(true);
-                     consultations = new requetes().getSejours(this.conn, IPP);
-                    int index =0;
-                    for(Consultation c : consultations){
-                        PH ph = new requetes().getPH(conn, c.getNumP());
-                        String lettre_check = "";
-                        if(c.getLettre().getLettre_text() != null){
-                            lettre_check = "Voir lettre de sortie";
+            NumeroSejour numeroSejour = new NumeroSejour(current_date);
+            String numChambre = chambreLabel.getText();
+            if("Numéro Chambre".equals(numChambre)){
+                Chambre chambre = new Chambre(Service.valueOf(service_responsable),Service.valueOf(service_responsable), num_chambre);
+                Lit lit = new Lit(Localisation.valueOf(loc), chambre);
+                Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
+                dma = new DMA(IPP,current_date);
+                try {
+                        new requetes().addSejour(this.conn, IPP, consultation);
+                        //new requetes().addLocalisation(conn, IPP, lit, consultation);
+                        consultations = new requetes().getSejours(this.conn, IPP);
+                        int index =0;
+                        
+                        for(int j=0;j<tableModel.getRowCount();j++){
+                            tableModel.removeRow(j);
                         }
-                        tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
-                        index++; 
-                    }
+                        consultationTable.setModel(tableModel);
 
-                    consultationTable.setModel(tableModel);
 
-            } catch (SQLException ex) {
-                message.setText("Il semblerait qu'il y ait eu un problème lors de l'ajout du séjour");
-                dialogue.setVisible(true);
-                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                message.setText("Il semblerait qu'il y ait eu un problème lors de l'ajout du séjour");
-                dialogue.setVisible(true);
-                Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                        for(Consultation c : consultations){
+                            PH ph = new requetes().getPH(conn, c.getNumP());
+                            String lettre_check = "";
+                            if(c.getLettre().getLettre_text() != null){
+                                lettre_check = "Voir lettre de sortie"; 
+                            }
+                            tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"Consultation" + " - " + c.getService(), c.getNaturePrestation(), lettre_check});
+                            index++; 
+                        }
+
+                        consultationTable.setModel(tableModel);
+                       
+
+                } catch (SQLException ex) {
+                    message.setText("Il semblerait qu'il y ait eu un problème lors de la création du DMA");
+                    dialogue.setVisible(true);
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
+            else{
+                Chambre chambre = new Chambre(Service.valueOf(service_geo),Service.valueOf(service_responsable), num_chambre);
+                Lit lit = new Lit(Localisation.valueOf(loc), chambre);
+                Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
+                dma = new DMA(IPP,current_date);
+                try {
+                        new requetes().addSejour(this.conn, IPP, consultation);
+                        new requetes().addLocalisation(conn, IPP, lit, consultation);
+                        
+                        consultations = new requetes().getSejours(this.conn, IPP);
+                        int index =0;
+                        
+                        for(int j=0;j<tableModel.getRowCount();j++){
+                            tableModel.removeRow(j);
+                        }
+                        consultationTable.setModel(tableModel);
+
+
+                        for(Consultation c : consultations){
+                            PH ph = new requetes().getPH(conn, c.getNumP());
+                            String lettre_check;
+                            if(c.getLettre().getLettre_text() == null){
+                                lettre_check = ""; 
+                            }
+                            else{
+                                lettre_check = "Voir lettre de sortie";
+                            }
+                            tableModel.insertRow(index, new Object[] { c.getNumeroSejour().getNumero(),c.getDateDebutSejour(), c.getDateFinSejour(), ph.getNom() + " " + ph.getPrenom(),"N° : " + c.getLit().getChambre().getNumeroChambre() + " - " + c.getLit().getChambre().getServiceGeographique() , c.getNaturePrestation(), lettre_check});
+                            index++; 
+                        }
+
+                        consultationTable.setModel(tableModel);
+
+                } catch (SQLException ex) {
+                    message.setText("Il semblerait qu'il y ait eu un problème lors de l'ajout du séjour");
+                    dialogue.setVisible(true);
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    message.setText("Il semblerait qu'il y ait eu un problème lors de l'ajout du séjour");
+                    dialogue.setVisible(true);
+                    Logger.getLogger(Visualisation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
         }
         else{
             message.setText("Veuillez remplir la totalité des champs avant de valider");
@@ -1033,6 +1110,23 @@ public class Visualisation_DMA extends javax.swing.JFrame {
            chambreLabel.setText("Numéro de la chambre");
        }
     }//GEN-LAST:event_chambreLabelFocusLost
+
+    private void consultationCheckBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultationCheckBoxMouseClicked
+        if(consultationCheckBox.isSelected()){
+            serviceGeographiqueComboBox.setVisible(false);
+            chambreLabel.setVisible(false);
+            locComboBox.setVisible(false);
+        }
+        else{
+            serviceGeographiqueComboBox.setVisible(true);
+            chambreLabel.setVisible(true);
+            locComboBox.setVisible(true);
+        }
+    }//GEN-LAST:event_consultationCheckBoxMouseClicked
+
+    private void chambreLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chambreLabelActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chambreLabelActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1076,6 +1170,7 @@ public class Visualisation_DMA extends javax.swing.JFrame {
     private javax.swing.JButton addPatientButton1;
     private javax.swing.JLabel adresseLabel;
     private javax.swing.JTextField chambreLabel;
+    private javax.swing.JCheckBox consultationCheckBox;
     private javax.swing.JTable consultationTable;
     private javax.swing.JLabel dateNaissanceLabel;
     private javax.swing.JLabel deconnexionIcon2;

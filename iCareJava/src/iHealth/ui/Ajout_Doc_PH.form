@@ -266,8 +266,8 @@
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="2" attributes="0">
                           <Component id="seeDMIcon" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="patientIcon2" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
-                          <Component id="patientIcon" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="seeDMAIcon1" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
+                          <Component id="seeDMAIcon2" alignment="2" min="-2" pref="25" max="-2" attributes="0"/>
                           <Component id="seeDMALabel2" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="seeDMALabel1" alignment="2" min="-2" max="-2" attributes="0"/>
                           <Component id="seeDMALabel" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -285,11 +285,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="logo" min="-2" pref="94" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="patientIcon" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="seeDMAIcon2" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                       <Component id="seeDMALabel2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="patientIcon2" min="-2" pref="25" max="-2" attributes="0"/>
+                      <Component id="seeDMAIcon1" min="-2" pref="25" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
                       <Component id="seeDMALabel1" min="-2" pref="18" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -407,7 +407,7 @@
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="seeDMALabel2MouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="patientIcon">
+            <Component class="javax.swing.JLabel" name="seeDMAIcon2">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -417,10 +417,10 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="patientIconMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="seeDMAIcon2MouseClicked"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JLabel" name="patientIcon2">
+            <Component class="javax.swing.JLabel" name="seeDMAIcon1">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -430,7 +430,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="patientIcon2MouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="seeDMAIcon1MouseClicked"/>
               </Events>
             </Component>
           </SubComponents>
@@ -577,23 +577,21 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="numberOne" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="description" alignment="1" min="-2" pref="823" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="documentTypeLabel" min="-2" max="-2" attributes="0"/>
-                              <Component id="intituleLabel" alignment="0" min="-2" pref="823" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace min="0" pref="47" max="32767" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="addDoc" min="-2" pref="201" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="325" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="documentTypeLabel1" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="description" alignment="1" min="-2" pref="823" max="-2" attributes="0"/>
+                              <Component id="intituleLabel" min="-2" pref="823" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="0" pref="47" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -601,30 +599,20 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="numberOne" max="32767" attributes="0"/>
-                              <EmptySpace min="-2" pref="250" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <Component id="documentTypeLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                              <Component id="intituleLabel" min="-2" pref="53" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="description" min="-2" pref="445" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="addDoc" min="-2" pref="43" max="-2" attributes="0"/>
-                              <EmptySpace pref="26" max="32767" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <Component id="documentTypeLabel1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
+                      <Component id="intituleLabel" min="-2" pref="53" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="description" min="-2" pref="445" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="addDoc" min="-2" pref="43" max="-2" attributes="0"/>
+                      <EmptySpace pref="26" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="numberOne">
-            </Component>
-            <Component class="javax.swing.JLabel" name="documentTypeLabel">
+            <Component class="javax.swing.JLabel" name="documentTypeLabel1">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Quicksand" size="24" style="1"/>
@@ -638,7 +626,7 @@
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="documentTypeLabelMouseClicked"/>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="documentTypeLabel1MouseClicked"/>
               </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="intituleLabel">

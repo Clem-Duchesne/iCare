@@ -659,6 +659,8 @@ public class Visualisation_DM_SM_View extends javax.swing.JFrame {
             Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
             message.setText("Erreur serveur");
                 dialogue.setVisible(true);
+        } catch (ParseException ex) {
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_seeDMALabelMouseClicked
 
@@ -697,6 +699,8 @@ public class Visualisation_DM_SM_View extends javax.swing.JFrame {
             this.setVisible(false);
             interfaceDMSM.setVisible(true);
         } catch (SQLException ex) {
+            Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(Visualisation_DM_SM_View.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel6MouseClicked

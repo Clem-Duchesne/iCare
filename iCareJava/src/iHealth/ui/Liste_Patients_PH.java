@@ -8,6 +8,7 @@ package iHealth.ui;
 import java.sql.Connection;
 import iHealth.db.SQLWarningsExceptions;
 import iHealth.db.requetes;
+import iHealth.nf.Consultation;
 import iHealth.nf.DM;
 import iHealth.nf.DMA;
 import iHealth.nf.Patient;
@@ -75,6 +76,12 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
         deconnexionIconButton.setIcon(icone4);
         deconnexionIcon2.setIcon(icone4);
         
+        ImageIcon icone7 = new ImageIcon("src/iHealth/img/loupe.png");
+        java.awt.Image img7 = icone7.getImage();
+        java.awt.Image newImg7 = img7.getScaledInstance(25,25,100);
+        icone7=new ImageIcon(newImg7);
+        searchIcon.setIcon(icone7);
+        
         
         ImageIcon icone6 = new ImageIcon("src/iHealth/img/patient.png");
         java.awt.Image img6 = icone6.getImage();
@@ -97,9 +104,18 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
 
         List<Patient> patients = new requetes().getPatientService(conn, service_resp);
  
+        
+        DMA patient_dma;
+        DM patient_dm;
         for(int i=0;i<patients.size();i++){
-            patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
-            patientListe.setModel(patientsModel);   
+            patient_dma = new requetes().getDMA_IPP(conn, patients.get(i).getIPP());
+            patient_dm = new requetes().getDM(conn, patients.get(i));
+            Consultation sejour = new requetes().getConsultationByNumS(conn, patient_dm.getNumS(), patients.get(i).getIPP());
+            if(sejour != null){
+                patientsModel.addElement(patients.get(i).getIPP() + " - " + patients.get(i).getNom() + " " + patients.get(i).getPrenom() + "");
+                patientListe.setModel(patientsModel); 
+            }
+              
           
         }
     }
@@ -473,6 +489,11 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
 
         patientListe.setFont(new java.awt.Font("Quicksand", 0, 12)); // NOI18N
         patientListe.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        patientListe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                patientListeMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(patientListe);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -652,7 +673,7 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
             dialogue.setVisible(true);
          }
          else{
-             String identite = professionnelLabel.getText();
+            String identite = professionnelLabel.getText();
             String IPP = patient.substring(0,9);
 
             DMA dma;
@@ -663,9 +684,16 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
                 patient1 = new requetes().getPatientIPP(conn, IPP);
                 dma = new requetes().getDMA_IPP(conn, IPP);
                 dm = new requetes().getDM(conn, patient1);
-                Visualisation_DM_PH interfaceVuePH = new Visualisation_DM_PH(this.conn, identite, IPP,patient1, dma, dm);
-                this.setVisible(false);
-                interfaceVuePH.setVisible(true);
+                if(dm == null){
+                    message.setText("Le DM de ce patient n'a pas été créé");
+                    dialogue.setVisible(true);
+                }
+                else{
+                   Visualisation_DM_PH interfaceVuePH = new Visualisation_DM_PH(this.conn, identite, IPP,patient1, dma, dm);
+                    this.setVisible(false);
+                    interfaceVuePH.setVisible(true); 
+                }
+                
             } catch (SQLException | ParseException ex) {
                 message.setText("Visualisation du DM impossible");
                 dialogue.setVisible(true);
@@ -768,6 +796,42 @@ public class Liste_Patients_PH extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         dialogue.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
+
+    private void patientListeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patientListeMouseClicked
+        String patient = patientListe.getSelectedValue();
+         if(patient == "" || patient == " " || patient == null){
+             message.setText("Veuillez sélectionner un patient pour visualiser son DM");
+            dialogue.setVisible(true);
+         }
+         else{
+             String identite = professionnelLabel.getText();
+            String IPP = patient.substring(0,9);
+
+            DMA dma;
+            DM dm;
+            Patient patient1;
+
+            try {
+                patient1 = new requetes().getPatientIPP(conn, IPP);
+                dma = new requetes().getDMA_IPP(conn, IPP);
+                dm = new requetes().getDM(conn, patient1);
+               if(dm == null){
+                    message.setText("Le DM de ce patient n'a pas été créé");
+                    dialogue.setVisible(true);
+                }
+                else{
+                   int indicator = 1;
+                   Visualisation_DM_PH interfaceVuePH = new Visualisation_DM_PH(this.conn, identite, IPP,patient1, dma, dm, indicator);
+                    this.setVisible(false);
+                    interfaceVuePH.setVisible(true); 
+                }
+            } catch (SQLException | ParseException ex) {
+                message.setText("Visualisation du DM impossible");
+                dialogue.setVisible(true);
+                Logger.getLogger(Mes_Patients_PH.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         }
+    }//GEN-LAST:event_patientListeMouseClicked
 
     /**
      * @param args the command line arguments

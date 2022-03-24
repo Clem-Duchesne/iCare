@@ -53,7 +53,7 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
     /**
      * Creates new form Creation_DMA
      */
-    public Visualisation_DM_SM(Connection conn, String identite, Patient patient, DMA dma, DM dm) throws SQLException {
+    public Visualisation_DM_SM(Connection conn, String identite, Patient patient, DMA dma, DM dm) throws SQLException, ParseException {
         this.conn = conn;
         initComponents();
         Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
@@ -145,8 +145,23 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
             
             List<Document> documents = new ArrayList<>();
             documents = new requetes().getDocuments(this.conn, IPP, dm.getNumS());
+            
+            List<Consultation> sejoursPat = new ArrayList<>();
+            sejoursPat = new requetes().getSejours(this.conn, IPP);
 
             int index =0;
+            PH phLS;
+            
+            for(Consultation c : sejoursPat){
+                
+                if(c.getLettre().getLettre_text() != "null" & c.getLettre().getDate() != null){
+                    phLS = new requetes().getPH(conn, c.getNumP());
+                tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Voir" });
+                }
+                
+            }
+
+         
             for(Document d : documents){
                 PH ph1 = new requetes().getPH(conn, d.getNumP());
                 

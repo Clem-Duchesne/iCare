@@ -288,6 +288,7 @@ public class Creation_DMA extends javax.swing.JFrame {
         serviceResponsableComboBox = new javax.swing.JComboBox<>();
         locComboBox = new javax.swing.JComboBox<>();
         chambreLabel = new javax.swing.JTextField();
+        consultationCheckBox = new javax.swing.JCheckBox();
         jPanel7 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
@@ -708,6 +709,20 @@ public class Creation_DMA extends javax.swing.JFrame {
             }
         });
 
+        consultationCheckBox.setBackground(new java.awt.Color(255, 255, 255));
+        consultationCheckBox.setFont(new java.awt.Font("Quicksand", 0, 18)); // NOI18N
+        consultationCheckBox.setText("Consultation simple");
+        consultationCheckBox.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                consultationCheckBoxMouseClicked(evt);
+            }
+        });
+        consultationCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                consultationCheckBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -738,22 +753,8 @@ public class Creation_DMA extends javax.swing.JFrame {
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(286, 286, 286)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(naturePrestationTextfield)
-                                        .addComponent(praticienComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(349, 349, 349)
                                 .addComponent(addConsultation, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addGap(163, 163, 163)
-                                .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(locComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(281, 281, 281)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -761,9 +762,29 @@ public class Creation_DMA extends javax.swing.JFrame {
                                     .addComponent(dateErrorMessage)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
-                                        .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 94, Short.MAX_VALUE)))
+                                        .addComponent(addPatientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(286, 286, 286)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(naturePrestationTextfield)
+                                        .addComponent(praticienComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(locComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(107, 107, 107))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(consultationCheckBox)
+                        .addGap(329, 329, 329))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -779,9 +800,9 @@ public class Creation_DMA extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sexeTextfield)
-                    .addComponent(adresseTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
+                    .addComponent(adresseTextfield, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(dateNiassanceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                .addComponent(dateNiassanceTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(dateErrorMessage, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -797,12 +818,14 @@ public class Creation_DMA extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(serviceResponsableComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(consultationCheckBox)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(chambreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(locComboBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(serviceGeographiqueComboBox))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                    .addComponent(serviceGeographiqueComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(addConsultation, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -925,7 +948,7 @@ public class Creation_DMA extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 154, Short.MAX_VALUE)
                                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -948,12 +971,13 @@ public class Creation_DMA extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(82, 82, 82))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(82, 82, 82))
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 59, Short.MAX_VALUE))))
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
@@ -1326,38 +1350,65 @@ public class Creation_DMA extends javax.swing.JFrame {
         if(praticien!=null & naturePrestation!=null & !naturePrestation.equals(" ") & !naturePrestation.equals("Nature de la prestation") & (service_responsable!="Service responsable") & service_geo != "Service géographique" & num_chambre != "Numéro chambre" & num_chambre != " " & num_chambre != null){
 
             java.sql.Date current_date = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
-            
-            
             DMA dma = null;    
             
             NumeroSejour numeroSejour = new NumeroSejour(current_date);
-            
-            
-            Chambre chambre = new Chambre(Service.valueOf(service_geo),Service.valueOf(service_responsable), num_chambre);
-            Lit lit = new Lit(Localisation.valueOf(loc), chambre);
-            Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
-            dma = new DMA(IPP,current_date);
-            try {
-                if(new requetes().getDMA_IPP(this.conn, IPP)!=null){
-                    new requetes().addSejour(this.conn, IPP, consultation);
-                    new requetes().addLocalisation(conn, IPP, lit, consultation);
-                    message.setText("Le nouveau séjour a bien été créé");
+            String numChambre = chambreLabel.getText();
+            if("Numéro Chambre".equals(numChambre)){
+                Chambre chambre = new Chambre(Service.valueOf(service_responsable),Service.valueOf(service_responsable), num_chambre);
+                Lit lit = new Lit(Localisation.valueOf(loc), chambre);
+                Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
+                dma = new DMA(IPP,current_date);
+                try {
+                    if(new requetes().getDMA_IPP(this.conn, IPP)!=null){
+                        new requetes().addSejour(this.conn, IPP, consultation);
+                        //new requetes().addLocalisation(conn, IPP, lit, consultation);
+                        message.setText("La consultation a bien été créée");
+                        dialogue.setVisible(true);
+
+                    }
+                    else{
+                        new requetes().createDMA(this.conn, dma);
+                        new requetes().addSejour(this.conn, IPP, consultation);
+                        //new requetes().addLocalisation(conn, IPP, lit, consultation);
+                        message.setText("Le DMA a bien été créé");
+                        dialogue.setVisible(true);
+                    }
+                } catch (SQLException ex) {
+                    message.setText("Il semblerait qu'il y ait eu un problème lors de la création du DMA");
                     dialogue.setVisible(true);
-                    
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                else{
-                    new requetes().createDMA(this.conn, dma);
-                    new requetes().addSejour(this.conn, IPP, consultation);
-                    new requetes().addLocalisation(conn, IPP, lit, consultation);
-                    message.setText("Le DMA a bien été créé");
+            }
+            else{
+                Chambre chambre = new Chambre(Service.valueOf(service_geo),Service.valueOf(service_responsable), num_chambre);
+                Lit lit = new Lit(Localisation.valueOf(loc), chambre);
+                Consultation consultation = new Consultation(numeroSejour, IPP, current_date, numP, naturePrestation, lit);
+                dma = new DMA(IPP,current_date);
+                try {
+                    if(new requetes().getDMA_IPP(this.conn, IPP)!=null){
+                        new requetes().addSejour(this.conn, IPP, consultation);
+                        new requetes().addLocalisation(conn, IPP, lit, consultation);
+                        message.setText("Le nouveau séjour a bien été créé");
+                        dialogue.setVisible(true);
+
+                    }
+                    else{
+                        new requetes().createDMA(this.conn, dma);
+                        new requetes().addSejour(this.conn, IPP, consultation);
+                        new requetes().addLocalisation(conn, IPP, lit, consultation);
+                        message.setText("Le DMA a bien été créé");
+                        dialogue.setVisible(true);
+                    }
+                } catch (SQLException ex) {
+                    message.setText("Il semblerait qu'il y ait eu un problème lors de la création du DMA");
                     dialogue.setVisible(true);
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (SQLException ex) {
-                message.setText("Il semblerait qu'il y ait eu un problème lors de la création du DMA");
-                dialogue.setVisible(true);
-                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ParseException ex) {
-                Logger.getLogger(Creation_DMA.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         else{
@@ -1394,6 +1445,24 @@ public class Creation_DMA extends javax.swing.JFrame {
             chambreLabel.setText("Numéro Chambre");
         }
     }//GEN-LAST:event_chambreLabelFocusLost
+
+    private void consultationCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_consultationCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_consultationCheckBoxActionPerformed
+
+    private void consultationCheckBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consultationCheckBoxMouseClicked
+        if(consultationCheckBox.isSelected()){
+            serviceGeographiqueComboBox.setVisible(false);
+            chambreLabel.setVisible(false);
+            locComboBox.setVisible(false);
+        }
+        else{
+            serviceGeographiqueComboBox.setVisible(true);
+            chambreLabel.setVisible(true);
+            locComboBox.setVisible(true);
+        }
+        
+    }//GEN-LAST:event_consultationCheckBoxMouseClicked
 
     /**
      * @param args the command line arguments
@@ -1441,6 +1510,7 @@ public class Creation_DMA extends javax.swing.JFrame {
     private javax.swing.JButton addPatientButton;
     private javax.swing.JTextField adresseTextfield;
     private javax.swing.JTextField chambreLabel;
+    private javax.swing.JCheckBox consultationCheckBox;
     private javax.swing.JLabel dateErrorMessage;
     private javax.swing.JTextField dateNiassanceTextField;
     private javax.swing.JLabel deconnexionIcon2;

@@ -111,15 +111,24 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
             sexLabel.setText("Sexe : " + new toSexe().sexeToString(patient.getSexe()));
             adressLabel.setText("Adresse : " + patient.getAdresse());
             dateNLabel.setText("Date de naissance : " + patient.getDateNaissance().toString());
+            //System.out.print("NumS : " + dm.getNumS());
             
             Consultation sejour = new requetes().getConsultationByNumS(conn, dm.getNumS(), IPP);
+            
             maConsultation = sejour;
             PH ph = new requetes().getPH(conn, sejour.getNumP());
             PHLabel1.setText("Praticien responsable : " + ph.getNom() + " " + ph.getPrenom());
             dateDebutLabel.setText("Date de début de séjour : " + sejour.getDateDebutSejour());
-            serviceRLabel.setText("Service responsable : " + sejour.getLit().getChambre().getServiceResponsable());
-            serviceGLabel.setText("Service géographique : " + sejour.getLit().getChambre().getServiceGeographique());
-            nChambreLabel.setText("N° chambre : " + sejour.getLit().getChambre().getNumeroChambre());
+            serviceRLabel.setText("Service responsable : " + sejour.getService());
+            if(sejour.getLit()==null){
+                serviceGLabel.setVisible(false);
+                nChambreLabel.setVisible(false);
+            }
+            else{
+                serviceGLabel.setText("Service géographique : " + sejour.getLit().getChambre().getServiceGeographique());
+                nChambreLabel.setText("N° chambre : " + sejour.getLit().getChambre().getNumeroChambre());
+            }
+            
             natureLabel.setText("Nature de la prestation : " + sejour.getNaturePrestation());
             
             dateOLabel.setText("Date d'ouverture : " + dm.getDateE());
@@ -163,6 +172,133 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
             
 
             documentTable.setModel(tableModel);
+        
+
+    }
+     public Visualisation_DM_PH(Connection conn, String identite, String IPP, Patient patient, DMA dma, DM dm, int indicator) throws SQLException, ParseException {
+        
+        this.conn = conn;
+        this.IPP = IPP;
+        this.mydm = dm;
+        initComponents();
+        Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
+        int longueur = tailleEcran.height;
+        int largeur = tailleEcran.width;
+        this.setSize(longueur, largeur);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/iHealth/img/icare.png");  
+        this.setIconImage(icon); 
+        
+        ImageIcon icone = new ImageIcon("src/iHealth/img/hospital.png");
+        java.awt.Image img = icone.getImage();
+        java.awt.Image newImg = img.getScaledInstance(106,80,100);
+        icone=new ImageIcon(newImg);
+        logo.setIcon(icone);
+        
+        ImageIcon icone2 = new ImageIcon("src/iHealth/img/plus (1).png");
+        java.awt.Image img2 = icone2.getImage();
+        java.awt.Image newImg2 = img2.getScaledInstance(25,25,100);
+        icone2=new ImageIcon(newImg2);
+       
+        
+        ImageIcon icone3 = new ImageIcon("src/iHealth/img/vue.png");
+        java.awt.Image img3 = icone3.getImage();
+        java.awt.Image newImg3 = img3.getScaledInstance(25,25,100);
+        icone3=new ImageIcon(newImg3);
+        seeDMAIcon.setIcon(icone3);
+        
+        ImageIcon icone4 = new ImageIcon("src/iHealth/img/deconnexion.png");
+        java.awt.Image img4 = icone4.getImage();
+        java.awt.Image newImg4 = img4.getScaledInstance(25,25,100);
+        icone4=new ImageIcon(newImg4);
+        deconnexionIconButton.setIcon(icone4);
+        deconnexionIcon2.setIcon(icone4);
+        
+        
+        ImageIcon icone6 = new ImageIcon("src/iHealth/img/patient.png");
+        java.awt.Image img6 = icone6.getImage();
+        java.awt.Image newImg6 = img6.getScaledInstance(25,25,100);
+        icone6=new ImageIcon(newImg6);
+        seeDMAIcon1.setIcon(icone6);
+        seeDMAIcon2.setIcon(icone6); 
+        
+// Récupérer le nom et prénom de la personne connectée
+        professionnelLabel.setText(identite);
+       
+        IPP = patient.getIPP();
+        
+        patientLabel.setText("Patient : " + patient.getNom() + " " + patient.getPrenom() + " - IPP : " + patient.getIPP());
+        
+         ippLabel.setText("IPP : " + IPP);
+            nomPrenomLabel1.setText("Nom & prénom : " + patient.getNom() + " " + patient.getPrenom());
+            sexLabel.setText("Sexe : " + new toSexe().sexeToString(patient.getSexe()));
+            adressLabel.setText("Adresse : " + patient.getAdresse());
+            dateNLabel.setText("Date de naissance : " + patient.getDateNaissance().toString());
+            //System.out.print("NumS : " + dm.getNumS());
+            
+            Consultation sejour = new requetes().getConsultationByNumS(conn, dm.getNumS(), IPP);
+            
+            maConsultation = sejour;
+            PH ph = new requetes().getPH(conn, sejour.getNumP());
+            PHLabel1.setText("Praticien responsable : " + ph.getNom() + " " + ph.getPrenom());
+            dateDebutLabel.setText("Date de début de séjour : " + sejour.getDateDebutSejour());
+            serviceRLabel.setText("Service responsable : " + sejour.getService());
+            if(sejour.getLit()==null){
+                serviceGLabel.setVisible(false);
+                nChambreLabel.setVisible(false);
+            }
+            else{
+                serviceGLabel.setText("Service géographique : " + sejour.getLit().getChambre().getServiceGeographique());
+                nChambreLabel.setText("N° chambre : " + sejour.getLit().getChambre().getNumeroChambre());
+            }
+            
+            natureLabel.setText("Nature de la prestation : " + sejour.getNaturePrestation());
+            
+            dateOLabel.setText("Date d'ouverture : " + dm.getDateE());
+
+            //Liste consultations et hospitalisations
+            tableModel.addColumn("N°");
+            tableModel.addColumn("Date d'ajout");
+            tableModel.addColumn("Type");
+            tableModel.addColumn("PH");
+            tableModel.addColumn("Titre");
+
+
+            this.IPP = IPP;
+            
+            List<Document> documents = new ArrayList<>();
+            documents = new requetes().getDocuments(this.conn, IPP, dm.getNumS());
+            
+            List<Consultation> sejoursPat = new ArrayList<>();
+            sejoursPat = new requetes().getSejours(this.conn, IPP);
+
+            int index =0;
+            PH phLS;
+            
+            for(Consultation c : sejoursPat){
+                
+                if(c.getLettre().getLettre_text() != "null" & c.getLettre().getDate() != null){
+                    phLS = new requetes().getPH(conn, c.getNumP());
+                tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Voir" });
+                }
+                
+            }
+            for(Document d : documents){
+                PH ph1 = new requetes().getPH(conn, d.getNumP());
+                //System.out.println(d.getDateEcriture());
+                
+                
+                tableModel.insertRow(index, new Object[] { d.getIdDoc(), d.getDateEcriture(),new toDocument().DocToString(d.getType()),"Dr." + ph1.getNom()+ " " + ph1.getPrenom(), d.getTitre()});
+                index++; 
+            } 
+            
+            
+
+            documentTable.setModel(tableModel);
+            
+            if(indicator == 1){
+                jPanel7.setVisible(false);
+            }
         
 
     }
@@ -1304,20 +1440,35 @@ seeDMALabel2MouseClicked(evt);
 
     private void documentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentTableMouseClicked
         int num_doc = documentTable.getSelectedRow();
+       
         String numS = mydm.getNumS();
         String identite = professionnelLabel.getText();
         try {
             List<Consultation> sejoursPat = new requetes().getSejours(this.conn, IPP);
             List<Document> documents = new ArrayList<>();
-            documents = new requetes().getDocuments(conn, IPP, numS);
-            if(sejoursPat.size() == 0){
-                Document document = documents.get(num_doc);
+            Document document = null;
+            for(Consultation s : sejoursPat){
                 
-                Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,document,IPP);
+                if(s.getLettre().getDate() != null){
+                    document = new Document(s.getLettre().getDate(), s.getNumeroSejour().getNumero(), s.getNumP(), s.getIPP(),  DocumentType.LETTRES, "Lettre de sortie", s.getLettre().getLettre_text());
+                    documents.add(document);
+                }
+                
+                
+            }
+            List<Document> doc_sejour =  new ArrayList<>();
+            doc_sejour = new requetes().getDocuments(conn, IPP, numS);
+            for(Document d: doc_sejour){
+                documents.add(d);
+            }
+            //if(sejoursPat.size() == 0){
+                Document mydoc = documents.get(num_doc);
+                
+                Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,mydoc,IPP);
                 this.setVisible(false);
                 interfaceDMView.setVisible(true);
-               
-            }
+            
+            /*}
             else{
                 Consultation consult = sejoursPat.get(num_doc);
                 
@@ -1325,6 +1476,7 @@ seeDMALabel2MouseClicked(evt);
                 this.setVisible(false);
                 interfaceDMView.setVisible(true);
             }
+                */
         } catch (SQLException ex) {
             message.setText("Visualisation document impossible");
                     dialogue.setVisible(true);

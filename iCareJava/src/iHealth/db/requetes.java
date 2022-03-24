@@ -102,7 +102,7 @@ public class requetes {
         
         // Execute the query
 
-        ResultSet rs = stmt.executeQuery("INSERT INTO Patient VALUES ('" + IPP + "','"+ nom + "','" + prenom + "', to_date('" + dateNaissance + "', 'YYYY-MM-DD'),'" + sexeString + "','" + adresse + "')");
+        ResultSet rs = stmt.executeQuery("INSERT INTO Patient VALUES ('" + IPP + "','"+ new Syntaxe().gestionApostrophe(nom) + "','" + prenom + "', to_date('" + dateNaissance + "', 'YYYY-MM-DD'),'" + sexeString + "','" + new Syntaxe().gestionApostrophe(adresse) + "')");
     
         // Close the result set, statement and the connection
         rs.close();
@@ -130,7 +130,7 @@ public class requetes {
         String service_resp = consultation.getLit().getChambre().getServiceResponsable().toString();
         
         // Execute the query
-        ResultSet rs = stmt.executeQuery("INSERT INTO Sejour VALUES ('" + numS + "','" + IPP + "','" + numP + "', to_date('" + date_sql_e + "', 'YYYY-MM-DD'), NULL ,'"+ nature + "','" + service_resp + "','" + lettreS + "')");
+        ResultSet rs = stmt.executeQuery("INSERT INTO Sejour VALUES ('" + numS + "','" + IPP + "','" + numP + "', to_date('" + date_sql_e + "', 'YYYY-MM-DD'), NULL ,'"+ new Syntaxe().gestionApostrophe(nature) + "','" + service_resp + "','" + new Syntaxe().gestionApostrophe(lettreS) + "')");
     
         // Close the result set, statement and the connection
         rs.close();
@@ -441,7 +441,7 @@ public class requetes {
           // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("SELECT * FROM Sejour WHERE numS = '" + numS + "' AND IPP = '" + IPP + "'");
+        ResultSet rs = stmt.executeQuery("SELECT * FROM Sejour WHERE IPP = '" + IPP + "' AND numS = '" + numS + "'");
         String service_P = null;
         String numP =null;
         String nature = null;
@@ -456,6 +456,7 @@ public class requetes {
             lit = this.getLoc(conn, IPP, numS);
             java.sql.Date date_entree2 = rs.getDate("date_entree");
             sejour = new Consultation(numS2, IPP, date_entree2, numP,nature,lit);
+            sejour.setService(service_P);
             if(rs.getDate("date_sortie")!=null){
                 sejour.setDateS(rs.getDate("date_sortie"));
                 sejour.setLettreDeSortie(new LettreDeSortie(rs.getDate("date_sortie"), rs.getString("lettreS")));
@@ -527,9 +528,10 @@ public class requetes {
             dateCreation = rs.getDate("date_creation");
             dma = new DMA(IPP, dateCreation);
         }
+        
         Patient patient = this.getPatientByIPP(conn, IPP);
                 
-        dma.setPatient(patient);
+        //dma.setPatient(patient);
         return dma;
     }
 
@@ -728,6 +730,7 @@ public class requetes {
             lit = this.getLoc(conn, IPP, numero_sejour);
             NumeroSejour numeroSejour = new NumeroSejour(numero_sejour);
             Consultation consultation = new Consultation(numeroSejour, IPP, dateEntree, dateSortie, numP, nature, lit, lettreSortie);
+            consultation.setService(service_r);
             consultations.add(consultation);
         }
 
@@ -838,7 +841,7 @@ public class requetes {
         // Get a statement from the connection
         Statement stmt = conn.createStatement();
         // Execute the query
-        ResultSet rs = stmt.executeQuery("UPDATE DM SET corres='" + correspondance + "' WHERE IPP = '" + patient.getIPP() + "'");
+        ResultSet rs = stmt.executeQuery("UPDATE DM SET corres='" + new Syntaxe().gestionApostrophe(correspondance) + "' WHERE IPP = '" + patient.getIPP() + "'");
 
         stmt.executeUpdate("commit");
 
@@ -862,8 +865,8 @@ public class requetes {
         String date_sql = dateS.toString();
         
         // Execute the query
-        System.out.print("UPDATE SEJOUR SET date_sortie = to_date('" + date_sql + "','YYYY-MM-DD') ,lettreS = '" + lettre + "' WHERE numS = '" + sejour.getNumeroSejour().getNumero() + "'");
-        ResultSet rs = stmt.executeQuery("UPDATE SEJOUR SET date_sortie = to_date('" + date_sql + "','YYYY-MM-DD'), lettreS = '" + lettre + "' WHERE numS = '" + sejour.getNumeroSejour().getNumero() + "'");
+        //System.out.print("UPDATE SEJOUR SET date_sortie = to_date('" + date_sql + "','YYYY-MM-DD') ,lettreS = '" + new Syntaxe().gestionApostrophe(lettre) + "' WHERE numS = '" + sejour.getNumeroSejour().getNumero() + "'");
+        ResultSet rs = stmt.executeQuery("UPDATE SEJOUR SET date_sortie = to_date('" + date_sql + "','YYYY-MM-DD'), lettreS = '" + new Syntaxe().gestionApostrophe(lettre) + "' WHERE numS = '" + sejour.getNumeroSejour().getNumero() + "'");
 
         stmt.executeUpdate("commit");
 
@@ -1064,12 +1067,14 @@ public class requetes {
         // Execute the query
        
 	//System.out.print("INSERT INTO DOCUMENT VALUES ('" + doc.getIdDoc() + "','" + doc.getIPP() + "','" + doc.getNumS() + "', to_date('" + date_sql + "','YYYY-MM-DD'),'" + new toDocument().DocToStringUpperCase(doc.getType()) + "','" + doc.getNumP() + "','" + doc.getTitre() + "','" + doc.getDescription() + "')'");
-        ResultSet rs = stmt.executeQuery("INSERT INTO DOCUMENT VALUES ('" + doc.getIdDoc() + "','" + doc.getIPP() + "','" + doc.getNumS() + "', to_date('" + date_sql + "','YYYY-MM-DD'),'" + new toDocument().DocToStringUpperCase(doc.getType()) + "','" + doc.getNumP() + "','" + doc.getTitre() + "','" + doc.getDescription() + "')" );
+        ResultSet rs = stmt.executeQuery("INSERT INTO DOCUMENT VALUES ('" + doc.getIdDoc() + "','" + doc.getIPP() + "','" + doc.getNumS() + "', to_date('" + date_sql + "','YYYY-MM-DD'),'" + new toDocument().DocToStringUpperCase(doc.getType()) + "','" + doc.getNumP() + "','" + new Syntaxe().gestionApostrophe(doc.getTitre()) + "','" + new Syntaxe().gestionApostrophe(doc.getDescription()) + "')" );
     
         // Close the result set, statement and the connection
         rs.close();
         stmt.close();
     }
+    
+    
     
     
 }

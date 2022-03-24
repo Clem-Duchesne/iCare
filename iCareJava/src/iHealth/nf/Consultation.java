@@ -14,6 +14,7 @@ public class Consultation {
     private LettreDeSortie lettreDeSortie;
     private NumeroSejour numeroSejour;
     private Lit lit;
+    private String service;
     
     /**
      * Constructor simple de la classe Consultation.
@@ -138,6 +139,12 @@ public class Consultation {
         this.dateFinSejour = date;
     }
     
+    public void setService(String service){
+        this.service =  service;
+    }
+    public String getService(){
+        return service;
+    }
     
 
 }
