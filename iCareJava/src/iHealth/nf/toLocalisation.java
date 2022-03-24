@@ -14,6 +14,11 @@ public class toLocalisation {
         
     }
     
+    /**
+     * Renvoie la localisation enum en format string.
+     * @param loc
+     * @return 
+     */
     public String LocalisationtoString(Localisation loc){
         String loc_s = null;
             
@@ -30,6 +35,11 @@ public class toLocalisation {
         return loc_s;
     }
     
+    /**
+     * Renvoie la string en format enum
+     * @param loc
+     * @return 
+     */
     public Localisation StringToLocalisation(String loc){
         Localisation loc_s = null;
             

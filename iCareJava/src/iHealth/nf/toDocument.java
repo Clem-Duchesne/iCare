@@ -45,6 +45,11 @@ public class toDocument {
         return type_doc;
     }
      
+     /**
+      * Renvoie l'enum en format de type_doc en string
+      * @param type
+      * @return 
+      */
      public String DocToString(DocumentType type){
         String type_doc = null;
             
@@ -79,6 +84,12 @@ public class toDocument {
         
         return type_doc;
      }
+     
+     /**
+      * Renvoie l'enum en format de string en majuscule
+      * @param type
+      * @return 
+      */
      public String DocToStringUpperCase(DocumentType type){
         String type_doc = null;
             

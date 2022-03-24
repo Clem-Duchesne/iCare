@@ -18,6 +18,16 @@ public class Patient {
     private java.sql.Date annee_premiere_venue;
     private String adresse;
     //private DPI dPI;
+    /**
+     * Constructor de la classe Patient
+     * @param IPP
+     * @param nom
+     * @param prenom
+     * @param dateNaissance
+     * @param sexe
+     * @param adresse
+     * @throws ParseException 
+     */
     public Patient(String IPP, String nom, String prenom, String dateNaissance, Sexe sexe, String adresse) throws ParseException{
         this.IPP = IPP;
         this.nom = nom;
@@ -27,6 +37,7 @@ public class Patient {
         this.adresse = adresse;
 
     }
+    
      public Patient(String IPP, String nom, String prenom, java.sql.Date dateNaissance, Sexe sexe, String adresse) throws ParseException{
         this.IPP = IPP;
         this.nom = nom;
@@ -60,37 +71,74 @@ public class Patient {
 
     }
     
+    /**
+     * Renvoie l'indentifiant du Patient
+     * @return 
+     */
     public String getIPP(){
         return IPP;
     }
     
+    /**
+     * Renvoie le nom du Patient
+     * @return 
+     */
     public String getNom(){
         return nom;
     }
     
+    /**
+     * Renvoie le prenom du Patient
+     * @return 
+     */
     public String getPrenom(){
         return prenom;
     }
     
+    /**
+     * Renvoie la date de naissance du Patient
+     * @return 
+     */
     public java.sql.Date getDateNaissance(){
         return dateNaissance;
     }
     
+    /**
+     * Renvoie le sexe du Patient
+     * @return 
+     */
     public Sexe getSexe(){
         return sexe;
     }
     
+    /**
+     * Renvoie l'adresse du Patient
+     * @return 
+     */
     public String getAdresse(){
         return adresse;
     }
     
+    /**
+     * Renvoie la date de premiere venue du Patient
+     * @return 
+     */
     public java.sql.Date getPremiereVenue(){
         return annee_premiere_venue;
     }
 
+    /**
+     * Define l'identifiant du Patient
+     * @param IPP 
+     */
     public void setIPP(String IPP){
         this.IPP = IPP;
     }
+    
+    /**
+     * Define l'année d'entrée du Patient
+     * @param annee 
+     */
     public void setAnneeEntree(java.sql.Date annee){
         this.annee_premiere_venue = annee;
     }

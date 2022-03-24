@@ -25,6 +25,12 @@ public class toDate {
     public toDate(){
     }
     
+    /**
+     * Renvoie la string en format de date
+     * @param date
+     * @return
+     * @throws ParseException 
+     */
     public java.sql.Date stringToDate(String date) throws ParseException{
         
         java.sql.Date date_sql_format = null;
@@ -52,6 +58,12 @@ public class toDate {
         return date_sql_format;
     }
     
+    /**
+     * Renvoie la date en format de string
+     * @param date
+     * @return
+     * @throws ParseException 
+     */
     public java.sql.Date todate(String date) throws ParseException{
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
             java.util.Date parsed = format.parse(date);
@@ -60,12 +72,22 @@ public class toDate {
             return date_sql_format;
     }
     
+    /**
+     * Renvoie la date sql en format locale 
+     * @param date
+     * @return 
+     */
     public LocalDate sqlDateToLocalDate(java.sql.Date date){
         LocalDate localDate = java.sql.Date.valueOf(""+date+"").toLocalDate();
         
         return localDate;
     }
     
+    /**
+     * Renvoie la date local relative à zone locale
+     * @param dateToConvert
+     * @return 
+     */
      public LocalDate convertToLocalDateViaInstant(Date dateToConvert) {
         return dateToConvert.toInstant()
           .atZone(ZoneId.systemDefault())

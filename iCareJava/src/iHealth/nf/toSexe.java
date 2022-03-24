@@ -15,6 +15,11 @@ public class toSexe {
         
     }
     
+    /**
+     * Renvoie la string en format d'enum.
+     * @param sexe
+     * @return 
+     */
     public Sexe stringToSexe(String sexe){
         Sexe sexe_S = null;
             
@@ -36,6 +41,11 @@ public class toSexe {
         return sexe_S;
     }
     
+    /**
+     * Renvoie l'enum en format de string.
+     * @param sexe
+     * @return 
+     */
     public String sexeToString(Sexe sexe){
         String sexe_S = null;
             
