@@ -12,7 +12,7 @@ public class LettreDeSortie {
     
     /**
      * Define la Lettre de Sortie et sa date de sortie.
-     * @param lettre 
+     * 
      */
     public LettreDeSortie(String lettre){
         this.dateSortie = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
@@ -21,7 +21,7 @@ public class LettreDeSortie {
     
     /**
      * Define la Lettre de Sortie et sa date de sortie.
-     * @param lettre 
+     * 
      */
     public LettreDeSortie(java.sql.Date dateSortie, String lettre){
         this.dateSortie = dateSortie;
@@ -30,7 +30,7 @@ public class LettreDeSortie {
      
     /**
      * Renvoie la lettre.
-     * @param lettre 
+     * 
      */
     public String getLettre_text(){
         return lettre;
@@ -38,7 +38,7 @@ public class LettreDeSortie {
      
     /**
      * Renvoie la date sorte de la lettre.
-     * @param lettre 
+     * 
      */
     public java.sql.Date getDate(){
         return dateSortie;

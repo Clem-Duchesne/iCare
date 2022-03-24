@@ -12,6 +12,7 @@ import iHealth.nf.Consultation;
 import iHealth.nf.DM;
 import iHealth.nf.DMA;
 import iHealth.nf.Document;
+import iHealth.nf.DocumentType;
 import iHealth.nf.PH;
 import iHealth.nf.Patient;
 import iHealth.nf.Sexe;
@@ -807,40 +808,39 @@ public class Visualisation_DM_SM extends javax.swing.JFrame {
 
     private void documentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentTableMouseClicked
        int num_doc = documentTable.getSelectedRow();
+        
+        
         String numS = mydm.getNumS();
-        List<Document> documents = new ArrayList<>();
+        String identite = professionnelLabel.getText();
         try {
-            documents = new requetes().getDocuments(conn, IPP, numS);
-            if(documents.size() == 0 ){
-                message.setText("Erreur serveur");
-                dialogue.setVisible(true);
+            List<Consultation> sejoursPat = new requetes().getSejours(this.conn, IPP);
+            List<Document> documents = new ArrayList<>();
+            Document document = null;
+            List<Document> doc_sejour =  new ArrayList<>();
+            doc_sejour = new requetes().getDocuments(conn, IPP, numS);
+            for(Document d: doc_sejour){
+                documents.add(d);
             }
-            else{
-                    
-                Document document = documents.get(num_doc);
-                if(document != null){
-
-                    String identite = professionnelLabel.getText();
-                    Visualisation_DM_SM_View interfaceDMView = new Visualisation_DM_SM_View(this.conn, identite,document,patient,dma,mydm);
-                    this.setVisible(false);
-                    interfaceDMView.setVisible(true);
-                    
-                }
-                else{
-                    message.setText("Il semblerait qu'il y ait un problème avec la lecture du document");
-                    dialogue.setVisible(true);
-                }
+            for(Consultation s : sejoursPat){
+                
+                if(s.getLettre().getDate() != null){
+                    document = new Document(s.getLettre().getDate(), s.getNumeroSejour().getNumero(), s.getNumP(), s.getIPP(),  DocumentType.LETTRES, "Lettre de sortie", s.getLettre().getLettre_text());
+                    documents.add(document);
+                } 
                 
             }
-            
+                Document mydoc = documents.get(num_doc);
+                
+                Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,mydoc,IPP);
+                this.setVisible(false);
+                interfaceDMView.setVisible(true);
+         
         } catch (SQLException ex) {
-            message.setText("Erreur serveur");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_SM.class.getName()).log(Level.SEVERE, null, ex);
+            message.setText("Visualisation document impossible");
+                    dialogue.setVisible(true);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
-            message.setText("Erreur serveur");
-            dialogue.setVisible(true);
-            Logger.getLogger(Visualisation_DM_SM.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Visualisation_DM_PH.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_documentTableMouseClicked
 

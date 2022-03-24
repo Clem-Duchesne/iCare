@@ -156,7 +156,7 @@ public class Visualisation_DM_PH extends javax.swing.JFrame {
                 
                 if(c.getLettre().getLettre_text() != "null" & c.getLettre().getDate() != null){
                     phLS = new requetes().getPH(conn, c.getNumP());
-                tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Voir" });
+                    tableModel.insertRow(index, new Object[] {"LS",c.getDateFinSejour(), "Lettre de sortie", "Dr." + phLS.getNom() + " " + phLS.getPrenom(), "Voir" });
                 }
                 
             }
@@ -1440,43 +1440,33 @@ seeDMALabel2MouseClicked(evt);
 
     private void documentTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_documentTableMouseClicked
         int num_doc = documentTable.getSelectedRow();
-       
+        
+        
         String numS = mydm.getNumS();
         String identite = professionnelLabel.getText();
         try {
             List<Consultation> sejoursPat = new requetes().getSejours(this.conn, IPP);
             List<Document> documents = new ArrayList<>();
             Document document = null;
-            for(Consultation s : sejoursPat){
-                
-                if(s.getLettre().getDate() != null){
-                    document = new Document(s.getLettre().getDate(), s.getNumeroSejour().getNumero(), s.getNumP(), s.getIPP(),  DocumentType.LETTRES, "Lettre de sortie", s.getLettre().getLettre_text());
-                    documents.add(document);
-                }
-                
-                
-            }
             List<Document> doc_sejour =  new ArrayList<>();
             doc_sejour = new requetes().getDocuments(conn, IPP, numS);
             for(Document d: doc_sejour){
                 documents.add(d);
             }
-            //if(sejoursPat.size() == 0){
+            for(Consultation s : sejoursPat){
+                
+                if(s.getLettre().getDate() != null){
+                    document = new Document(s.getLettre().getDate(), s.getNumeroSejour().getNumero(), s.getNumP(), s.getIPP(),  DocumentType.LETTRES, "Lettre de sortie", s.getLettre().getLettre_text());
+                    documents.add(document);
+                } 
+                
+            }
                 Document mydoc = documents.get(num_doc);
                 
                 Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,mydoc,IPP);
                 this.setVisible(false);
                 interfaceDMView.setVisible(true);
-            
-            /*}
-            else{
-                Consultation consult = sejoursPat.get(num_doc);
-                
-                Visualisation_Doc_PH interfaceDMView = new Visualisation_Doc_PH(this.conn, identite,consult,IPP);
-                this.setVisible(false);
-                interfaceDMView.setVisible(true);
-            }
-                */
+         
         } catch (SQLException ex) {
             message.setText("Visualisation document impossible");
                     dialogue.setVisible(true);

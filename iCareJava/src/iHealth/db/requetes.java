@@ -49,7 +49,7 @@ public class requetes {
     /**
      * Authentificion par identifiant et mot de passe avec utilisation d'une fonction de cryptage en SHA et génération d'une clé 
      * 
-     * @param conn
+     * 
      * @param id
      * @param password
      * @return 
@@ -86,7 +86,7 @@ public class requetes {
     
     /**
      * Ajout de patient dans la base de données 
-     * @param conn
+     * 
      * @param patient
      * @throws SQLException 
      */
@@ -111,7 +111,7 @@ public class requetes {
     
     /**
      * Ajout d'un nouveau séjour ou consultation dans la base de données
-     * @param conn
+     * 
      * @param IPP
      * @param consultation
      * @throws SQLException 
@@ -130,7 +130,7 @@ public class requetes {
         String service_resp = consultation.getLit().getChambre().getServiceResponsable().toString();
         
         // Execute the query
-        ResultSet rs = stmt.executeQuery("INSERT INTO Sejour VALUES ('" + numS + "','" + IPP + "','" + numP + "', to_date('" + date_sql_e + "', 'YYYY-MM-DD'), NULL ,'"+ new Syntaxe().gestionApostrophe(nature) + "','" + service_resp + "','" + new Syntaxe().gestionApostrophe(lettreS) + "')");
+        ResultSet rs = stmt.executeQuery("INSERT INTO Sejour VALUES ('" + numS + "','" + IPP + "','" + numP + "', to_date('" + date_sql_e + "', 'YYYY-MM-DD'), NULL ,'"+ new Syntaxe().gestionApostrophe(nature) + "','" + service_resp + "','" + lettreS + "')");
     
         // Close the result set, statement and the connection
         rs.close();
@@ -138,7 +138,7 @@ public class requetes {
     }
     /**
      * Ajout d'une localisation d'un patient par rapport à un séjour dans la base de données
-     * @param conn
+     * 
      * @param IPP
      * @param lit
      * @param consultation
@@ -163,7 +163,7 @@ public class requetes {
     
     /**
      * Création d'un DMA pour un IPP de patient spécifique
-     * @param conn
+     * 
      * @param dma
      * @throws SQLException 
      */
@@ -185,7 +185,7 @@ public class requetes {
     
     /**
      * Récupération du nom et prénom d'un personnel du SIH
-     * @param conn
+     * 
      * @param id
      * @return
      * @throws SQLException 
@@ -215,7 +215,7 @@ public class requetes {
     
     /**
      * Récupérer la liste des praticiens hospitaliers du SIH
-     * @param conn
+     * 
      * @return
      * @throws SQLException 
      */
@@ -250,7 +250,7 @@ public class requetes {
     }
     /**
      * Récupérer un praticien hospitalier à partir d'un numéro de professionnel
-     * @param conn
+     * 
      * @param numP
      * @return
      * @throws SQLException 
@@ -278,7 +278,7 @@ public class requetes {
     }
     /**
      * Récupérer le numéro d'un personnel du SIH à partir du nom et du prénom de la personne
-     * @param conn
+     * 
      * @param nom
      * @param prenom
      * @return
@@ -306,7 +306,7 @@ public class requetes {
     }
     /**
      * Récupérer le service d'un praticien hospitalier à partir de son nom et de son prénom
-     * @param conn
+     * 
      * @param nom
      * @param prenom
      * @return
@@ -330,7 +330,7 @@ public class requetes {
     }
     /**
      * Récupérer la liste des patients à partir d'un service responsable
-     * @param conn
+     * 
      * @param service_resp
      * @return
      * @throws SQLException
@@ -366,7 +366,7 @@ public class requetes {
     }
     /**
      * Récupérer un patient à partir de son IPP
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -399,7 +399,7 @@ public class requetes {
     }
     /**
      * Récupérer une localisation/un lit d'un patient à partir de son IPP et du numéro de séjour qui lui est assigné
-     * @param conn
+     * 
      * @param IPP
      * @param num_sejour
      * @return
@@ -431,7 +431,7 @@ public class requetes {
     }
      /**
       * Récupérer une consultation/ un séjour à partir du numéro de séjour et de l'IPP
-      * @param conn
+      * 
       * @param numS
       * @param IPP
       * @return
@@ -471,7 +471,7 @@ public class requetes {
      }
      /**
       * Récupérer une consultation/ un séjour à partir d'une date d'entrée dans l'établissement, d'une nature de prestation et d'un IPP du patient
-      * @param conn
+      * 
       * @param date_entree
       * @param nature
       * @param IPP
@@ -507,7 +507,7 @@ public class requetes {
     }
    /**
     * Récupérer un DMA à partir de l'IPP d'un patient
-    * @param conn
+    * 
     * @param IPP
     * @return
     * @throws SQLException
@@ -570,7 +570,7 @@ public class requetes {
     
     /**
      * Récupérer une liste de patient ayant un nom spécifique, utiliser pour la recherche de patient
-     * @param conn
+     * 
      * @param nom
      * @return
      * @throws SQLException
@@ -614,7 +614,7 @@ public class requetes {
     }
     /**
      * Récupérer la liste de patients pour un PH spécifique à partir de son numéro de Professionnel
-     * @param conn
+     * 
      * @param numP
      * @return
      * @throws SQLException
@@ -654,7 +654,7 @@ public class requetes {
     }
     /**
      * Récupérer un patient à partir de son IPP
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -697,7 +697,7 @@ public class requetes {
     
     /**
      * Récupérer la liste des consultations/séjours pour un patient à partir de son IPP
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -743,7 +743,7 @@ public class requetes {
     
     /**
      * Ajout d'un Dossier Médical unique d'un patient à la base 
-     * @param conn
+     * 
      * @param dm
      * @throws SQLException
      * @throws ParseException 
@@ -769,7 +769,7 @@ public class requetes {
 
     /**
      * Mettre à jour un Dossier Médical lorsque le patient revient dans l'hôpital
-     * @param conn
+     * 
      * @param dm
      * @throws SQLException
      * @throws ParseException 
@@ -795,7 +795,7 @@ public class requetes {
     
     /**
      * Récupérer le Dossier Médical à partir du patient et de son IPP
-     * @param conn
+     * 
      * @param patient
      * @return
      * @throws SQLException
@@ -831,7 +831,7 @@ public class requetes {
 
     /**
      * Modifier le Dossier Médical pour ajouter une correspondance pour la transmission du DM
-     * @param conn
+     * 
      * @param patient
      * @param correspondance
      * @throws SQLException
@@ -852,7 +852,7 @@ public class requetes {
     
     /**
      * Ajouter une lettre de sortie au Dossier Médical et fermer le séjour
-     * @param conn
+     * 
      * @param sejour
      * @param lettre
      * @throws SQLException
@@ -877,7 +877,7 @@ public class requetes {
     
     /**
      * Récupérer la date d'entrée du dernier séjour ouvert pour un patient
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -903,7 +903,7 @@ public class requetes {
     }
     /**
      * Récupérer la date de sortie pour une date d'entrée et un patient donné
-     * @param conn
+     * 
      * @param IPP
      * @param date_entree
      * @return
@@ -931,7 +931,7 @@ public class requetes {
     
     /**
      * Récupérer un nom et prénom de PH pour un patient donné pour le dernier séjour ouvert pour le patient
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -960,7 +960,7 @@ public class requetes {
     
     /**
      * Récupérer le service du dernier séjour ouvert pour un patient grâce à l'IPP
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -987,7 +987,7 @@ public class requetes {
     
     /**
      * Récupérer la nature de séjour du dernier séjour ouvert pour un patient donné grâce à l'IPP
-     * @param conn
+     * 
      * @param IPP
      * @return
      * @throws SQLException
@@ -1014,7 +1014,7 @@ public class requetes {
     
     /**
      * Récupérer la liste de documents d'un séjour d'un patient grâce à l'IPP et le numéro de séjour
-     * @param conn
+     * 
      * @param IPP
      * @param numS
      * @return
@@ -1053,7 +1053,7 @@ public class requetes {
     
     /**
      * Ajouter un document à la base de données associé à un numéro de séjour et un IPP 
-     * @param conn
+     * 
      * @param doc
      * @throws SQLException 
      */
